@@ -1,0 +1,14 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .home-link {
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .home-link:hover {
+        box-shadow: inset 0 -4px 0 rgba(242,242,242,.4);
+    }
+}
