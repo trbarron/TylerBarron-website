@@ -11,13 +11,13 @@ return (
                         <h3 className="text-4xl font-semibold leading-normal text-gray-dark ">
                             {props.title}
                         </h3>
-                        <h2 className="pl-4 text-2xl text-red-clear pb-2">
+                        <h2 className="text-2xl text-red-clear pb-2">
                             {props.subtitle}
                         </h2>
                     </div>
                     {props.children}
                 </div>
-            </div>  
+            </div>
         </section>
     </>
   );

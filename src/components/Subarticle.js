@@ -32,8 +32,8 @@ export default function Subarticle(props) {
   return (
     <>
         <section className="mt-2 py-4 border-t border-gray">
-            <div className="pl-10 pb-8 mb-2">
-                <div className="text-gray text-2xl text-red ">
+            <div className="pl-2 pb-4">
+                <div className="text-3xl text-red ">
                     {props.subtitle}
                 </div>
             </div>
