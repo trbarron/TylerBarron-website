@@ -1,5 +1,4 @@
 import React from "react";
-import ig from '../assets/img/ig.svg';
 import email from '../assets/img/email.svg';
 import git from '../assets/img/git.svg';
 import lin from '../assets/img/in.svg';
@@ -7,7 +6,7 @@ import lin from '../assets/img/in.svg';
 export default function Footer() {
   return (
     <>
-      <footer className="relative bg-red pb-12">
+      <footer className="relative bg-red pb-12 pt-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap">
             <div className="w-full lg:w-6/12 px-4">
@@ -48,15 +47,6 @@ export default function Footer() {
                     style={{backgroundSize: "cover"}}
                   />
                 </button>
-                {/* <button
-                  className="bg-white shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
-                  type="button">
-                  <img
-                    src={ig}
-                    style={{backgroundSize: "cover"}}
-                  />
-                  <i className="flex fab"></i>
-                </button> */}
               </div>
 
 
