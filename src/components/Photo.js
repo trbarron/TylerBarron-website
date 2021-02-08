@@ -17,13 +17,11 @@ export default function Photo(props) {
 
     return (
     <>
-        <section className="mt-2 py-4">
-            <div className="flex flex-wrap justify-center">
-                <div className="p-2 bg-gray-dark w-1/2 rounded shadow-md	">
-                    <img src={props.src} alt={props.alt} class=" h-auto hmax-16 rounded"/>
-                    <div className={caption.className}>
-                        {caption.text}
-                    </div>
+        <section className="flex flex-wrap justify-center mx-auto">
+            <div className="p-2 bg-gray w-1/2 rounded shadow-md">
+                <img src={props.src} alt={props.alt} class="h-auto hmax-16 rounded"/>
+                <div className={caption.className}>
+                    {caption.text}
                 </div>
             </div>
         </section>
