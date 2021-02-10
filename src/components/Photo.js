@@ -1,7 +1,10 @@
 
-import React from "react";
+import React, { useState } from "react";
+import Modal from 'react-modal';
 
 export default function Photo(props) {
+
+    const [photoOpen,setPhotoOpen] = useState(false);
   
     let caption = {}
 
@@ -14,11 +17,33 @@ export default function Photo(props) {
         caption.className = "text-center text-gray-light text-sm pt-1"
     }
 
+    function onPhotoClick() {
+        setPhotoOpen(true);
+    }
+
+    function handleRequestCloseFunc() {
+        setPhotoOpen(false);
+    }
 
     return (
+
+
+
     <>
-        <section className="flex flex-wrap justify-center mx-auto">
-            <div className="p-2 bg-gray w-1/2 rounded shadow-md">
+        <Modal
+            isOpen={photoOpen}
+            onRequestClose={handleRequestCloseFunc}
+            preventScroll={true}
+            shouldFocusAfterRender={false}
+            className={"inset-y-0 inset-x-0 flex fixed h-full w-full m-auto justify-center lg:w-3/4 lg:h-3/4"}
+        >
+            <button className={"h-screen w-screen bg-opacity-100 absolute z-10"} onClick={handleRequestCloseFunc}></button>
+            <img src={props.src} alt={props.alt} class="rounded object-contain" onClick={handleRequestCloseFunc}/>
+        
+        </Modal>
+
+        <section className="flex flex-wrap justify-center mx-auto w-full">
+            <div className="p-2 bg-gray w-3/4 rounded shadow-md lg:w-1/2" onClick={onPhotoClick}>
                 <img src={props.src} alt={props.alt} class="h-auto hmax-16 rounded"/>
                 <div className={caption.className}>
                     {caption.text}

@@ -38,7 +38,7 @@ export default function Riddler(props) {
   
     return (
     <>
-        <section className="flex flex-wrap justify-center w-3/4 bg-gray mx-auto rounded shadow-md">
+        <section className="flex flex-wrap justify-center w-full bg-gray mx-auto rounded shadow-md lg:w-3/4">
             {formatChildren(props.children)}
         </section>
     </>

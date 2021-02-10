@@ -8,7 +8,7 @@ return (
             <div className={"relative flex flex-col min-w-0 break-words bg-gray-light w-full shadow-md rounded-lg lg:w-8/12 xl:w-6/12 lg:mx-auto"}>
                 <div className="px-6">                
                     <div className="mt-8">
-                        <h3 className="text-4xl font-semibold leading-normal text-gray-dark ">
+                        <h3 className="text-4xl leading-normal text-gray-dark ">
                             {props.title}
                         </h3>
                         <h2 className="text-2xl text-red-clear pb-2">

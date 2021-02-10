@@ -12,9 +12,9 @@ export default function Navbar() {
               <div className={"text-3xl text-gray-light"}>
                 Barron Wasteland
               </div>
-              <p className={"text-md text-red-light"}>
+              <div className={"text-md text-red-light"}>
                 Food for thought // Ideas for eating
-              </p>
+              </div>
             </div>
           </div>
         </a>

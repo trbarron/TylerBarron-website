@@ -6,6 +6,7 @@ import './index.scss';
 import Profile from "./views/Profile.js";
 import Home from "./views/Home.js";
 import TheRiddler from "./views/TheRiddler.js";
+import CamelUpCup from "./views/CamelUpCup.js";
 
 
 ReactDOM.render(
@@ -16,6 +17,9 @@ ReactDOM.render(
       </Route>
       <Route path="/TheRiddler">
         <TheRiddler />
+      </Route>
+      <Route path="/CamelUpCup">
+        <CamelUpCup />
       </Route>
       <Route path="/">
         <Home />
