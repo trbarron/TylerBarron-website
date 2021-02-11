@@ -43,7 +43,7 @@ export default function Photo(props) {
         </Modal>
 
         <section className="flex flex-wrap justify-center mx-auto w-full">
-            <div className="p-2 bg-gray w-3/4 rounded shadow-md lg:w-1/2" onClick={onPhotoClick}>
+            <div className="p-2 bg-gray max-w-3/4 rounded shadow-md lg:w-1/2" onClick={onPhotoClick}>
                 <img src={props.src} alt={props.alt} class="h-auto hmax-16 rounded"/>
                 <div className={caption.className}>
                     {caption.text}

@@ -88,30 +88,32 @@ export default function CamelUpCup() {
         <Subarticle
             subtitle="How the bots work"
         >
-            <p>Note: This requires knowledge of the board game itself</p>
+            <p className="italic">Note: This requires knowledge of the board game itself</p>
 
-            <p>Both bots work in a similar fashon. First, they look at all the possible configurations that the camels could end up at the end of the round. Then they determine the expected value of betting on a camel winning the round using</p>
+            <p>Then they move camels randomly until a camel wins. After doing this a few thousand times you can estimate the chance each camel will win and lose. Again, we get the expected value of these using</p>
 
-            <p className="pl-8 italic">uhhh</p>
+            <p className="pl-8 italic">EV_roundwin = (chance_1st)*(payout) + (chance_2nd)*(payout) - (chance_3rd_or_worse)*(cost)</p>
 
-          <Photo
-            src={eventTwo}
-            alt="Event itself"
-            caption="The event itself (bots not pictured)"
-          />
+            <p>Then they move camels randomly until a camel wins. After doing this a few thousand times you can estimate the chance each camel will win and lose. Again, we get the expected value of these using</p>
 
-          <p>Initially the game was accidentally in a debugging mode that resulted in "trashbot", one of the joke bots, absolutely crushing the other bots.</p>
+            <p className="pl-8 italic">EV_gamewin = (chance_1st)*(payout) - (chance_2nd_or_worse)*(cost)</p>
 
-          <p>The bug was correct and we found the two competative bots <a href="https://github.com/DingusaurusRex/TimeCamel">TimeCamel [made by Libby and Jack]</a> and <a href="https://github.com/trbarron/Camel_Up_Cup_2K18">Sir_Humpfree_Bogart [made by myself]</a> well ahead of trashbot [made by Charles] and randobot [made by Sean]. TimeCamel took the first game but Sir_Humpfree_Bogart took the next three games to pull home the win.</p>
 
-          <Photo
-            src={eventOne}
-            alt="Event itself"
-            caption="Sir_Humpfree_Bogart's owner (me)"
-          />
+            <p>The only other options are moving a camel (which always yields one coin, so its expected value is one) and placing a trap. Both teams felt placing a trap was a weak enough option to ignore it entirely. With this information the bots chose the option with the highest expected value.</p>
+
+            <p>Since our tournament viewed a second place finish the same as a last place finish if you are behind you should take chances to get into first place. SBH used <b>distance_from_first_place</b> and <b>nearness_to_end</b> to determine how risky the bot should be. If the risk tolerance was low the bot would decide on an action with a high expected value and a high risk tolerance yielded the option with a high upshot.</p>
 
         </Subarticle>
 
+
+        <Subarticle
+            subtitle="The Aftermath"
+        >
+            <p>Thanks for reading! It was a quirky experiment that led to a fun day with buddies -- can't ask for much more. <a href="https://github.com/trbarron/Camel_Up_Cup_2K18">See my github for the game and my bot</a> and <a href="https://github.com/DingusaurusRex/TimeCamel">here for TimeBot's code.</a></p>
+
+            <p> <a href="https://codegolf.stackexchange.com/questions/167101/camel-up-cup-an-ai-board-game-tournament">Check here for how you can make a bot and interface with the competition</a></p>
+
+        </Subarticle>
 
         </Article>
 

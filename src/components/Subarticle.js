@@ -38,7 +38,7 @@ export default function Subarticle(props) {
                 </div>
             </div>
 
-            <div className="flex flex-wrap">
+            <div className="">
                 {formatChildren(props.children)}
             </div>
 

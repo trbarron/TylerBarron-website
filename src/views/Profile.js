@@ -61,25 +61,18 @@ export default function Profile() {
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-gray-dark mb-2 ">
                     Tyler Barron
                   </h3>
-                  <div className="mb-2 text-gray">
-                    <i className="fas fa-briefcase mr-2 text-lg text-gray-dark"></i>
-                    Frontend Web Developer
-                  </div>
                 </div>
                 <div className="mt-10 py-10 border-t border-gray">
-                  <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg:w-9/12 px-4">
+                    <div className="w-full px-4">
                       <p className="mb-4 text-lg leading-relaxed text-gray">
-                      I'm Tyler, a west coaster who lives in the Cambridge/Boston area working as a Controls Engineer
-                       for a robotics startup. I spend my free time exercising (bouldering, running, yoga), creating 
-                       various art (photography / generative art) and playing video and board games.
+                      I'm Tyler, a Seattlite working as a Frontend Web Developer for a consulting company. I've worked for a robotics companies in the past. I spend my free time exercising (bouldering, running, yoga), creating 
+                      various art (photography / generative art), working on projects shown on this website and playing various video and board games.
                       </p>
                       <p className="mb-4 text-lg leading-relaxed text-gray">
                       Feel free to contact me using any of the methods below
                       </p>
                       
                     </div>
-                  </div>
                 </div>
               </div>
             </div>

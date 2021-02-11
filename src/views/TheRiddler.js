@@ -9,12 +9,12 @@ import Video from "../components/Video.js";
 
 import Riddler from "../components/Riddler.js";
 
-import riddlerLogo from "../assets/img/riddlerlogo.gif"
-import pizzaPath from "../assets/img/pizza_path.jpg"
-import barronSquareFour from "../assets/img/barronSquareFour.jpg"
-import barronSquareEight from "../assets/img/barronSquareEight.jpg"
-import sixPuzzle from "../assets/img/sixPuzzle.jpg"
-import uniqueTileSnips from "../assets/img/unique_tile_snips.png"
+import riddlerLogo from "../assets/img/Riddler/riddlerlogo.gif"
+import pizzaPath from "../assets/img/Riddler/pizza_path.jpg"
+import barronSquareFour from "../assets/img/Riddler/barronSquareFour.jpg"
+import barronSquareEight from "../assets/img/Riddler/barronSquareEight.jpg"
+import sixPuzzle from "../assets/img/Riddler/sixPuzzle.jpg"
+import uniqueTileSnips from "../assets/img/Riddler/unique_tile_snips.png"
 import sevenSegDisplay from "../assets/img/Riddler/sevenSegDisplay.jpg"
 import setBoard from "../assets/img/Riddler/setBoard.png"
 import neutColorado from "../assets/img/Riddler/neutColorado.png"
@@ -192,6 +192,8 @@ export default function TheRiddler() {
               {"Below is a rough approximation of Colorado’s voter preferences, based on county-level results from the 2012 presidential election, in a 14-by-10 grid. Colorado has seven districts, so each would have 20 voters in this model. What is the most districts that the Red Party could win if you get to draw the districts with the same rules as above? What about the Blue Party? (Assume ties within a district are considered wins for the party of your choice.)"}
             </Riddler>            
 
+            <p className="w-screen"></p>
+
             <Photo src={neutColorado} alt="neutColorado" caption="Initial map without districts drawn"/>
 
             <p>We used a randomized search that would try to slightly move districts, check continuity and then check the voting results. The method resulted in uniquely shaped maps that optimized each side's winningness.</p>
@@ -203,10 +205,6 @@ export default function TheRiddler() {
           <Photo src={blueColorado} alt="blueColorado" caption="Map with districts drawn optimized for blue. Blue wins 5/7 districts after 100,000 iterative flips"/>
           <p></p>
           <Video src={"https://www.youtube.com/embed/V-VWRII179E"} caption="Districts move their boundaries each iteration"/>
-
-          <div class="tweet-container"><blockquote class="twitter-tweet" data-cards="hidden" data-lang="en"><p lang="en" dir="ltr">a cool programmatic approach to last week&#39;s gerrymandering Riddler, from <a href="https://twitter.com/BuildABarr?ref_src=twsrc%5Etfw">@BuildABarr</a>. <a href="https://t.co/GuDdYOMYmU">https://t.co/GuDdYOMYmU</a> <a href="https://t.co/0Abt8jp6gr">pic.twitter.com/0Abt8jp6gr</a></p>&mdash; Oliver Roeder (@ollie) <a href="https://twitter.com/ollie/status/796735396398899200?ref_src=twsrc%5Etfw">November 10, 2016</a></blockquote>
-			      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-			    </div>
 
           </Subarticle>
 
@@ -226,7 +224,7 @@ export default function TheRiddler() {
             <p></p>
             <Photo src={crosswordOne} alt="crosswordOne"/>
 
-            <p>While I didn't find them all I was able to generate a few thousand. Turns out none of the entrants were able to find them all</p>
+            <p>While I didn't find them all (no one was able to) I was able to generate a few thousand.</p>
 
             <Photo src={crosswordTwo} alt="crosswordTwo"/>
 
