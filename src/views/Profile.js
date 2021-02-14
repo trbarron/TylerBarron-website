@@ -19,6 +19,7 @@ export default function Profile() {
             <img
               src={bckgrndImg}
               style={{maxWidth: "200%"}}
+              alt=""
             />
           </div>
           <div
@@ -52,6 +53,7 @@ export default function Profile() {
                         src={usrImag}
                         className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-40 w-auto"
                         style={{ maxWidth: "20rem"}}
+                        alt=""
                       />
                     </div>
                   </div>

@@ -13,6 +13,7 @@ export default function Profile() {
             <img
               src={bckgrndImg}
               style={{maxWidth: "400%"}}
+              alt=""
             />
 
         
@@ -29,13 +30,14 @@ export default function Profile() {
             <ul className="mx-auto text-gray-light h-5/6 text-xl leading-normal lg:leading-relaxed md:text-2xl lg:text-3xl" style={{width: "fit-content", height: "fit-content"}}>
                 <li><a href="/TheRiddler" className="py-1 home-link">FiveThirtyEight's The Riddler</a></li>
                 <li><a href="/CamelUpCup" className="py-1 home-link">Camel Up Cup</a></li>
-                <li><a href="/GenerativeArt" className="py-1 home-link">Generative Art</a></li>
+                <li><a href="/ChessOpenings" className="py-1 home-link">Chess Openings Flashcards</a></li>
                 <li><a href="/Set" className="py-1 home-link">Set</a></li>
                 <li><a href="/BoulderingTracker" className="py-1 home-link">Bouldering Tracker</a></li>
                 <li><a href="/HueLights" className="py-1 home-link">Custom Hue Lights Setup</a></li>
                 <li><a href="/SSBM" className="py-1 home-link">Super Smash Bros. Melee Mods</a></li>
                 <li><a href="/BedFrame" className="py-1 home-link">Bed Frame</a></li>
                 <li><a href="/SwiftneyGame" className="py-1 home-link">The Swiftney Game</a></li>
+                <li><a href="/GenerativeArt" className="py-1 home-link">Chess Opening Explorer</a></li>
             </ul>
         </section>
 
