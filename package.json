@@ -33,6 +33,9 @@
       "react-app/jest"
     ]
   },
+  "resolutions": {
+    "react-scripts": "^4.0.2"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
