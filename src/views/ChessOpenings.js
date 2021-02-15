@@ -20,41 +20,34 @@ export default function ChessOpenings() {
   const [histPerc, setHistPerc] = useState([])
   const [boardOrientation, setBoardOrientation] = useState("white")
   const [correctionArrow, setCorrectionArrow] = useState([])
-  const [occuranceStyle, setOccuranceStyle] = useState("border-2 border-black rounded-md");
-  const [openingName, setOpeningName] = useState("")
-  const [showMore, setShowMore] = useState(false);
+  // const [hasMessedUp, setHasMessedUp] = useState(false);
 
-  const resetButtonValue = (lockedSaveState) ? 
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-  </svg> : 
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-  </svg>
+
+  const resetButtonValue = (lockedSaveState) ? "Reload Save State" : "Reset Board"
+  let hasMessedUp = false;
 
   async function onMove(from, to) {
+
     
     const oldFEN = chess.fen();
+    await checkMove(from,to);
 
     chess.move({from,to, promotion: "x"});
     setLastMove([from,to]);
     setFen(chess.fen());
+    //clever way to delete arrows
 
     const newFEN = chess.fen();
 
     //tests to see if a move was made
     if (oldFEN !== newFEN) { 
-      
+      if (lockedSaveState && !hasMessedUp) {
+        setCorrectionArrow(
+          [{brush: 'red', dest: "m4", orig: "m3",}]
+        );
+        
 
-      if (lockedSaveState) {
-        const hasMessedUp = await checkMove(from,to);
-        if (!hasMessedUp) {
-          //clever way to delete arrows
-          setCorrectionArrow(
-            [{brush: 'red', dest: "m4", orig: "m3",}]
-          );
-          setTimeout(() => getNextMove(chess,histPerc),500);
-        }
+        getNextMove(chess);
       }
     }
   }
@@ -64,39 +57,42 @@ export default function ChessOpenings() {
     if (!lockedSaveState) {
       const chessFEN = chess.fen()
       setSavedFEN(chessFEN);
-      getNextMove(chess,histPerc);
+      getNextMove(chess);
     }
     setLockedSaveState(!lockedSaveState);
     
   };
 
+  // function copyFEN() {
+  //   setSavedFEN(chess.fen());
+  //   setLockedSaveState(true);
+  // };
+
+  // function turnColor() {
+  //   return chess.turn() === "w" ? "white" : "black"
+  // }
+
   async function checkMove(from,to) {
-    const {repMoves,openingName} = await getRepMoves(fen);
+    const repMoves = await getRepMoves(fen);
     const selMove = selectOptimalMove(repMoves);
     const optFrom = selMove.uci.substring(0,2);
     const optTo = selMove.uci.substring(2,4);
-    setOpeningName(openingName);
-    
-    let hasMessedUp = false
-
     if (from === optFrom && to === optTo) {
-    
-      setOccuranceStyle("border-2 rounded-md transition duration-100 ease-in-out border-green-400	")
-      setTimeout(() => setOccuranceStyle("border-2 border-black rounded-md transition duration-1000 ease-in-out"), 200)
+      console.log("Nice! Most popular move played")
     }
     else {
+      // setHasMessedUp(true);
       hasMessedUp = true;
       setCorrectionArrow([{
         brush: 'red',
         dest: optTo,
         orig: optFrom,
       }]);
-
-      setOccuranceStyle("border-2 rounded-md transition duration-100 ease-in-out border-red-400	")
-      setTimeout(() => setOccuranceStyle("border-2 border-black rounded-md transition duration-1000 ease-in-out"), 200)
     }
+
+
     
-    return hasMessedUp
+    return
   }
 
   function flipBoard() {
@@ -109,41 +105,44 @@ export default function ChessOpenings() {
     setCorrectionArrow(
       [{brush: 'red', dest: "m4", orig: "m3",}]
     );
-
     const c = new Chess();
     if (lockedSaveState) {
       c.load(savedFEN)
-      setTimeout(() => getNextMove(c,[]),500);
     }
+    setChess(c);
+    setFen(c.fen());
+    setHistPerc([]);
+    hasMessedUp = false;
 
 
-    else {
-      setChess(c);
-      setFen(c.fen());
-      setHistPerc([]);
+
+    if (lockedSaveState) {
+      setTimeout(() => getNextMove(c),500);
     }
-
+    
     return
   }
 
-  async function getNextMove(c,aHistPerc) {
-    const {repMoves,openingName} = await getRepMoves(c.fen());
+  async function getNextMove(c) {
+    const repMoves = await getRepMoves(c.fen());
     const selMove = selectRandomMove(repMoves);
-    
 
     if (selMove !== null) {
-      c.move(selMove.san);
+      chess.move(selMove.san);
 
-      aHistPerc.push(selMove.perc);
-      setChess(c);
-      setFen(c.fen());
-      setHistPerc(aHistPerc);
+      histPerc.push(selMove.perc);
+      setHistPerc(histPerc);
+      setFen(chess.fen());
       setLastMove([selMove.uci.substring(0,2), selMove.uci.substring(2,4)]);
-      setOpeningName(openingName);
+  
+      console.log("-----------")
+      console.log("%: " + selMove.perc)
+      console.log("move: " + selMove.san)
+      console.log("-----------")
     }
     
     else {
-      setOpeningName("Bro you went so off script we don't know what to do");
+      console.log("Bro you went so off script we don't know what to do")
     }
 
   }
@@ -158,8 +157,11 @@ export default function ChessOpenings() {
     
 
     
-    const {repMoves,openingName} = handleData(response)
-    return {repMoves,openingName};
+    const repMoves = handleData(response)
+    return repMoves;
+    // .then(response => response.json())
+    // .then(response => )
+    // .catch(err => { console.log("errrrr:" + err);})
   }
 
   function handleData(response) {
@@ -170,15 +172,8 @@ export default function ChessOpenings() {
       repMoves.push({san: entry.san, games, uci: entry.uci, perc: games/repGames})
       return repMoves
     });
-    
-    let openingName = "";
-    try {
-      openingName = response.opening.name;
-    } catch (error) {
-      console.log(error);
-    }
 
-    return {repMoves,openingName}
+    return repMoves
 
   }
 
@@ -202,6 +197,8 @@ export default function ChessOpenings() {
   }
 
   function selectOptimalMove(repMoves) {
+    // const maxPerc = Math.max(...repMoves.map(move => move.perc));
+    // console.log(repMoves[0]);
     return repMoves[0]
   }
 
@@ -229,123 +226,60 @@ export default function ChessOpenings() {
 
   }
 
-  function onShowMore() {
-    setShowMore(!showMore);
-  }
 
-
-  const lockedSaveStateClassName = (lockedSaveState) ? "h-20 bg-blue-200" : "h-20"
-  const lockedSaveStateValue = (lockedSaveState) ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-</svg>
-
- :   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
- <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-</svg>
+  const lockedSaveStateClassName = (lockedSaveState) ? "w-full h-8 mx-auto border-blue bg-green" : " w-full h-8 mx-auto border border-black"
+  const lockedSaveStateValue = (lockedSaveState) ? "Save State Locked" : "Save State Unlocked"
 
 
   return (
-    <div className="bg-background bg-fixed min-h-screen">
+    <div className="bg-background bg-fixed">
       <Navbar/>
       <main>
 
           
         <Article
-          title="Chess Opening Flashcards" 
+          title="Anything Chess Related :)" 
           subtitle=""
         >
 
         <Subarticle
-            subtitle="20XX for Chess"
+            subtitle="20 {pawn} {pawn}"
         >
           <div className="mx-auto grid" style={{gridTemplateColumns: "3fr 2fr"}}>
-            <div className="w-100%">
+            <div className="w-max">
               <Chessground
                 fen={fen}
+                // turnColor={turnColor()}
                 lastMove={lastMove}
                 onMove={onMove}
                 orientation={boardOrientation}
                 animation={{enabled: false}}
                 drawable={{autoShapes: correctionArrow}}
-                
+                // width="40vw"
+                // height="40vw"
                 />
             </div>
-            <div className="justify-center text-center grid gap-y-3 h-full">
-              <div className={occuranceStyle + " h-40"}>
-                <p className="w-min h-8 mb-0 pb-0 text-sm">Opening:</p>
-                <p className="w-min align-center text-xs px-0 mx-auto">{openingName}</p>
-              </div>
-              <div className={occuranceStyle} style={{height: "min-content"}}>
-                <p className="w-min h-8 text-sm">% Occurance:</p>
-                <p className="w-min h-8 text-lg">{findCurrPerc(histPerc)}</p>
-              </div>
-              <button className={occuranceStyle + " " + lockedSaveStateClassName} onClick={lockSaveState}>{lockedSaveStateValue}</button>
-              <button className={occuranceStyle + " h-12"} onClick={resetBoard}>{resetButtonValue}</button>
-              <button className={occuranceStyle + " h-12"} onClick={flipBoard}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                </svg>
-              </button>
+            <div className="justify-center text-center">
+              <p className="w-min h-8 text-sm">% Occurance:</p>
+              <p className="w-min h-8 text-lg">{findCurrPerc(histPerc)}</p>
             </div>
-
 
           </div>
           <div className="pb-8"></div>
-          <div className="text-center w-full" onClick={onShowMore}><a href="#">FAQ, todo list, contact</a></div>
-
 
           {/* <button className="w-full h-8 mx-auto border border-black" onClick={copyFEN}>Copy current FEN state</button>
           <input className="w-full h-8 px-auto" onChange={handleInput} placeholder={savedFEN} />
           <div className="w-full h-8"></div>            */}
-
+          <button className={lockedSaveStateClassName} onClick={lockSaveState}>{lockedSaveStateValue}</button>
+          <div className="w-full h-4"></div>           
+          <button className="w-full h-8 mx-auto border border-black" onClick={resetBoard}>{resetButtonValue}</button>
+          <div className="w-full h-4"></div>           
+          <button className="w-full h-8 mx-auto border border-black" onClick={flipBoard}>Flip Board</button>
+          <div className="pb-8"></div>
+          <div className="hidden">{fen}</div>
         </Subarticle>
 
         </Article>
-
-        <div className={showMore ? "visible" : "hidden"}>
-        <Article
-          title="FAQ"
-        >
-          <Subarticle
-            subtitle="Questions / Notes"
-          >
-
-          <p>
-            This is an attempt to get you to play the most common move given an opening that you set up
-          </p>
-          <p>
-            Play a game as both sides then lock in the position. After its locked in the computer will make moves at the same proportion as the lichess opening database
-          </p>
-          <p>
-            Continue to play the opening until you break the book (get to the end of the opening explorer) or mess up. If you mess up press the back arrow to try again
-          </p>          
-          </Subarticle>
-
-          <Subarticle
-            subtitle="todo list"
-          >
-
-            <ul className="w-full px-4 mb-4 text-md leading-relaxed pl-8">
-              <li>• Adequate screen size behavior</li>
-              <li>• Better metric for doing well... streak score?</li>
-              <li>• Wrapping things in try/catch so you can't actually break it</li>
-              <li>• Styling / colors</li>
-              <li>• _maybe_ accepting two answers if they are close</li>
-            </ul>   
-            <div></div>    
-          </Subarticle>
-
-          <Subarticle
-            subtitle="Contact"
-          >
-
-          <p>
-            Contact me through twitter (@BuildABarr) if you have ideas, questions, comments, etc.
-          </p>
-          <div></div>
-          </Subarticle>
-        </Article>
-        </div>
 
       </main>
       <Footer />
