@@ -29,7 +29,6 @@ export default function Profile() {
             <ul className="mx-auto text-gray-light h-5/6 text-xl leading-normal lg:leading-relaxed md:text-2xl lg:text-3xl" style={{width: "fit-content", height: "fit-content"}}>
                 <li><a href="/TheRiddler" className="py-1 home-link">FiveThirtyEight's The Riddler</a></li>
                 <li><a href="/CamelUpCup" className="py-1 home-link">Camel Up Cup</a></li>
-                <li><a href="/ChessOpenings" className="py-1 home-link">Chess Openings</a></li>
                 <li><a href="/GenerativeArt" className="py-1 home-link">Generative Art</a></li>
                 <li><a href="/Set" className="py-1 home-link">Set</a></li>
                 <li><a href="/BoulderingTracker" className="py-1 home-link">Bouldering Tracker</a></li>

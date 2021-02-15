@@ -14,7 +14,7 @@ import HueLights from "./views/HueLights.js"
 import SSBM from "./views/SSBM.js"
 import BedFrame from "./views/BedFrame.js"
 import SwiftneyGame from "./views/SwiftneyGame.js"
-import ChessOpenings from "./views/ChessOpenings.js"
+
 
 ReactDOM.render(
   <BrowserRouter>
@@ -57,10 +57,6 @@ ReactDOM.render(
 
       <Route path="/SwiftneyGame">
         <SwiftneyGame />
-      </Route>
-
-      <Route path="/ChessOpenings">
-        <ChessOpenings />
       </Route>
 
       <Route path="/">
