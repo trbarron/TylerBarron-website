@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
+import Photo from "../components/Photo.js";
+import Riddler from "../components/Riddler.js";
 import Video from "../components/Video.js";
 
 export default function BoulderingTracker() {
@@ -63,7 +65,7 @@ export default function BoulderingTracker() {
             <p>This is where it highlights the holds, showing in the first few seconds of the video. It uses color and depth to determine if the hold is contiguous</p>
             <p className="font-bold text-gray-dark">Tracking People: </p>
             <p>This is where it highlights the holds, showing in the first few seconds of the video. It uses color and depth to determine if the hold is contiguous</p>
-            <p className="font-bold text-gray-dark">Detecting Human to Hold Collisions: </p>
+            <p className="font-bold text-gray-dark">Detecting Human -> Hold Collisions: </p>
             <p>This is done by tracking the human hand and checking it against the distance (one threshold) and depth (another threshold). If each are met, the hold is marked as “reached” and the color is changed.</p>
             <p className="w-screen py-4"></p>
             <p><a href="https://github.com/trbarron/bouldering-sensing">Check out the code here</a></p>

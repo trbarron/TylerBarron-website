@@ -28,7 +28,6 @@ export default function Footer() {
                   <img
                     src={email}
                     style={{backgroundSize: "cover"}}
-                    alt=""
                   />
                 </button>
 
@@ -39,7 +38,6 @@ export default function Footer() {
                   <img
                     src={git}
                     style={{backgroundSize: "cover"}}
-                    alt=""
                   />
                 </button>
                 <button
@@ -49,7 +47,6 @@ export default function Footer() {
                   <img
                     src={lin}
                     style={{backgroundSize: "cover"}}
-                    alt=""
                   />
                 </button>
               </div>
