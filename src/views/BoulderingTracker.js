@@ -4,8 +4,6 @@ import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
-import Photo from "../components/Photo.js";
-import Riddler from "../components/Riddler.js";
 import Video from "../components/Video.js";
 
 export default function BoulderingTracker() {
