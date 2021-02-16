@@ -251,14 +251,14 @@ export default function ChessOpenings() {
 
           
         <Article
-          title="Chess Opening Flashcards" 
+          title="Chess Opening Practice" 
           subtitle=""
         >
 
         <Subarticle
             subtitle="20XX for Chess"
         >
-          <div className="mx-auto grid" style={{gridTemplateColumns: "3fr 2fr"}}>
+          <div className="mx-auto grid" style={{gridTemplateColumns: "4fr 1fr"}}>
             <div className="w-100%">
               <Chessground
                 fen={fen}
@@ -267,7 +267,6 @@ export default function ChessOpenings() {
                 orientation={boardOrientation}
                 animation={{enabled: false}}
                 drawable={{autoShapes: correctionArrow}}
-                
                 />
             </div>
             <div className="justify-center text-center grid gap-y-3 h-full">
@@ -279,7 +278,7 @@ export default function ChessOpenings() {
                 <p className="w-min h-8 text-sm">% Occurance:</p>
                 <p className="w-min h-8 text-lg">{findCurrPerc(histPerc)}</p>
               </div>
-              <button className={occuranceStyle + " " + lockedSaveStateClassName} onClick={lockSaveState}>{lockedSaveStateValue}</button>
+              <button className={occuranceStyle + " " + lockedSaveStateClassName} onClick={lockSaveState}>Analyze: {lockedSaveStateValue}</button>
               <button className={occuranceStyle + " h-12"} onClick={resetBoard}>{resetButtonValue}</button>
               <button className={occuranceStyle + " h-12"} onClick={flipBoard}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
@@ -292,11 +291,6 @@ export default function ChessOpenings() {
           </div>
           <div className="pb-8"></div>
           <div className="text-center w-full" onClick={onShowMore}><a href="#">FAQ, todo list, contact</a></div>
-
-
-          {/* <button className="w-full h-8 mx-auto border border-black" onClick={copyFEN}>Copy current FEN state</button>
-          <input className="w-full h-8 px-auto" onChange={handleInput} placeholder={savedFEN} />
-          <div className="w-full h-8"></div>            */}
 
         </Subarticle>
 
@@ -314,7 +308,7 @@ export default function ChessOpenings() {
             This is an attempt to get you to play the most common move given an opening that you set up
           </p>
           <p>
-            Play a game as both sides then lock in the position. After its locked in the computer will make moves at the same proportion as the lichess opening database
+            Play a game as both sides then lock in the position. After its locked in the computer will make moves at the same proportion as the lichess opening database. The chance that you get to that position in a game is shown in the [% Occurance] display
           </p>
           <p>
             Continue to play the opening until you break the book (get to the end of the opening explorer) or mess up. If you mess up press the back arrow to try again
