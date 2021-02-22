@@ -20,7 +20,7 @@ export default function ChessOpenings() {
   const [histPerc, setHistPerc] = useState([])
   const [boardOrientation, setBoardOrientation] = useState("white")
   const [correctionArrow, setCorrectionArrow] = useState([])
-  const [occuranceStyle, setOccuranceStyle] = useState("border-2 border-black rounded-md");
+  const [occuranceStyle, setOccuranceStyle] = useState("");
   const [openingName, setOpeningName] = useState("")
   const [showMore, setShowMore] = useState(false);
 
@@ -79,10 +79,10 @@ export default function ChessOpenings() {
     
     let hasMessedUp = false
 
-    if (from === optFrom && to === optTo) {
+    if ((from === optFrom && to === optTo) || (from === optFrom && to === "g1" && optTo === "h1")) {
     
-      setOccuranceStyle("border-2 rounded-md transition duration-100 ease-in-out border-green-400	")
-      setTimeout(() => setOccuranceStyle("border-2 border-black rounded-md transition duration-1000 ease-in-out"), 200)
+      setOccuranceStyle(" transition duration-400 ease-in-out bg-green-100")
+      setTimeout(() => setOccuranceStyle("  transition duration-1000 ease-in-out bg-auto"), 400)
     }
     else {
       hasMessedUp = true;
@@ -92,8 +92,8 @@ export default function ChessOpenings() {
         orig: optFrom,
       }]);
 
-      setOccuranceStyle("border-2 rounded-md transition duration-100 ease-in-out border-red-400	")
-      setTimeout(() => setOccuranceStyle("border-2 border-black rounded-md transition duration-1000 ease-in-out"), 200)
+      setOccuranceStyle(" transition duration-400 ease-in-out bg-red-100")
+      setTimeout(() => setOccuranceStyle("  transition duration-1000 ease-in-out bg-auto"), 400)
     }
     
     return hasMessedUp
@@ -224,7 +224,7 @@ export default function ChessOpenings() {
       perc = (numPerc * 100).toString()
     }
 
-    perc = perc.substring(0,3) + "%";
+    perc = perc.substring(0,4) + "%";
     return perc
 
   }
@@ -234,14 +234,14 @@ export default function ChessOpenings() {
   }
 
 
-  const lockedSaveStateClassName = (lockedSaveState) ? "h-20 bg-blue-200" : "h-20"
+  const lockedSaveStateClassName = (lockedSaveState) ? " bg-red-300" : ""
   const lockedSaveStateValue = (lockedSaveState) ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-</svg>
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+  </svg>
 
  :   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
- <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-</svg>
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+  </svg>
 
 
   return (
@@ -253,13 +253,12 @@ export default function ChessOpenings() {
         <Article
           title="Chess Opening Practice" 
           subtitle=""
+          styleModifier={occuranceStyle}
         >
 
-        <Subarticle
-            subtitle="20XX for Chess"
-        >
-          <div className="mx-auto grid" style={{gridTemplateColumns: "4fr 1fr"}}>
-            <div className="w-100%">
+        <Subarticle>
+          <div className="mx-auto grid gap-x-4 grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{gridTemplateColumns: "80% 20%", marginLeft: "-0.5rem", marginRight: "0.5rem"}}>
+            <div className="w-100% col-span-2 md:col-span-1">
               <Chessground
                 fen={fen}
                 lastMove={lastMove}
@@ -267,26 +266,54 @@ export default function ChessOpenings() {
                 orientation={boardOrientation}
                 animation={{enabled: false}}
                 drawable={{autoShapes: correctionArrow}}
+
+                width={"100%"}
+                height={"0"}
+                style={{paddingTop: "100%"}}
                 />
             </div>
-            <div className="justify-center text-center grid gap-y-3 h-full">
-              <div className={occuranceStyle + " h-40"}>
-                <p className="w-min h-8 mb-0 pb-0 text-sm">Opening:</p>
-                <p className="w-min align-center text-xs px-0 mx-auto">{openingName}</p>
-              </div>
-              <div className={occuranceStyle} style={{height: "min-content"}}>
-                <p className="w-min h-8 text-sm">% Occurance:</p>
-                <p className="w-min h-8 text-lg">{findCurrPerc(histPerc)}</p>
-              </div>
-              <button className={occuranceStyle + " " + lockedSaveStateClassName} onClick={lockSaveState}>Analyze: {lockedSaveStateValue}</button>
-              <button className={occuranceStyle + " h-12"} onClick={resetBoard}>{resetButtonValue}</button>
-              <button className={occuranceStyle + " h-12"} onClick={flipBoard}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                </svg>
-              </button>
-            </div>
 
+
+
+            <div className="justify-center text-center grid gap-y-3 h-full grid-cols-2 md:grid-cols-1 w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0">
+              
+              <div class="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
+                <div class="w-full  text-gray border-b-2 border-red-500 py-1 md:py-2 inline-flex items-center justify-center font-bold text-md md:text-lg">
+                  Opening:
+                </div>
+                <div class="flex items-center justify-between px-4 py-2 bg-gray text-gray-light text-md h-12 md:h-32 overflow-y-auto ">
+                  {openingName}
+                </div>
+              </div>
+
+              <div class="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
+                <div class="w-full text-gray border-b-2 border-red-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
+                  % Occurance:
+                </div>
+                <div class="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg h-8 md:h-12 overflow-y-hidden ">
+                  {findCurrPerc(histPerc)}
+                </div>
+              </div>
+
+              <button className={"w-full bg-white text-gray-800 rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-4 md:px-6 inline-flex items-center" + lockedSaveStateClassName} onClick={lockSaveState}>
+                <span class="mx-auto">
+                  Analyze: {lockedSaveStateValue}
+                </span>
+              </button>
+              
+              <button className="w-full bg-white text-gray-800 rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center" onClick={resetBoard}>
+                <span class="mx-auto">
+                  {resetButtonValue}
+                </span>
+              </button>
+
+              <button className="w-full bg-white text-gray-800 rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center " onClick={flipBoard}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+                  </svg>
+              </button>
+
+            </div>
 
           </div>
           <div className="pb-8"></div>
@@ -316,14 +343,12 @@ export default function ChessOpenings() {
           </Subarticle>
 
           <Subarticle
-            subtitle="todo list"
+            subtitle="To Do List"
           >
 
             <ul className="w-full px-4 mb-4 text-md leading-relaxed pl-8">
-              <li>• Adequate screen size behavior</li>
               <li>• Better metric for doing well... streak score?</li>
               <li>• Wrapping things in try/catch so you can't actually break it</li>
-              <li>• Styling / colors</li>
               <li>• _maybe_ accepting two answers if they are close</li>
             </ul>   
             <div></div>    
@@ -334,7 +359,7 @@ export default function ChessOpenings() {
           >
 
           <p>
-            Contact me through twitter (@BuildABarr) if you have ideas, questions, comments, etc.
+            Contact me through twitter <a href="https://twitter.com/BuildABarr/">@BuildABarr</a> if you have ideas, questions, comments, etc.
           </p>
           <div></div>
           </Subarticle>
