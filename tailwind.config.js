@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       spacing: {
         xl: "49rem",
-        iauto: "0 !important",
+        iauto: "0",
       },
 
       backgroundImage: theme => ({

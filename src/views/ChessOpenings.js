@@ -26,10 +26,10 @@ export default function ChessOpenings() {
 
   const resetButtonValue = (lockedSaveState) ? 
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
   </svg> : 
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
   </svg>
 
   async function onMove(from, to) {
@@ -236,11 +236,11 @@ export default function ChessOpenings() {
 
   const lockedSaveStateClassName = (lockedSaveState) ? " bg-red-300" : ""
   const lockedSaveStateValue = (lockedSaveState) ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
   </svg>
 
  :   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
   </svg>
 
 
@@ -277,39 +277,39 @@ export default function ChessOpenings() {
 
             <div className="justify-center text-center grid gap-y-3 h-full grid-cols-2 md:grid-cols-1 w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0">
               
-              <div class="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
-                <div class="w-full  text-gray border-b-2 border-red-500 py-1 md:py-2 inline-flex items-center justify-center font-bold text-md md:text-lg">
+              <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
+                <div className="w-full  text-gray border-b-2 border-red-500 py-1 md:py-2 inline-flex items-center justify-center font-bold text-md md:text-lg">
                   Opening:
                 </div>
-                <div class="flex items-center justify-between px-4 py-2 bg-gray text-gray-light text-md h-12 md:h-32 overflow-y-auto ">
+                <div className="flex items-center justify-between px-4 py-2 bg-gray text-gray-light text-md h-12 md:h-32 overflow-y-auto ">
                   {openingName}
                 </div>
               </div>
 
-              <div class="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
-                <div class="w-full text-gray border-b-2 border-red-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
+              <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
+                <div className="w-full text-gray border-b-2 border-red-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
                   % Occurance:
                 </div>
-                <div class="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg h-8 md:h-12 overflow-y-hidden ">
+                <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg h-8 md:h-12 overflow-y-hidden ">
                   {findCurrPerc(histPerc)}
                 </div>
               </div>
 
               <button className={"w-full bg-white text-gray-800 rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-4 md:px-6 inline-flex items-center" + lockedSaveStateClassName} onClick={lockSaveState}>
-                <span class="mx-auto">
+                <span className="mx-auto">
                   Analyze: {lockedSaveStateValue}
                 </span>
               </button>
               
               <button className="w-full bg-white text-gray-800 rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center" onClick={resetBoard}>
-                <span class="mx-auto">
+                <span className="mx-auto">
                   {resetButtonValue}
                 </span>
               </button>
 
               <button className="w-full bg-white text-gray-800 rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center " onClick={flipBoard}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
                   </svg>
               </button>
 
