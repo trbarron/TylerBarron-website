@@ -15,6 +15,8 @@ import SSBM from "./views/SSBM.js"
 import BedFrame from "./views/BedFrame.js"
 import SwiftneyGame from "./views/SwiftneyGame.js"
 import ChessOpenings from "./views/ChessOpenings.js"
+import SurvivorBracket from "./views/SurvivorBracket.js"
+import MarchMadnessFAQ from "./views/MarchMadnessFAQ.js"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -61,6 +63,14 @@ ReactDOM.render(
 
       <Route path="/ChessOpenings">
         <ChessOpenings />
+      </Route>
+
+      <Route path="/MarchMadness">
+        <SurvivorBracket />
+      </Route>
+
+      <Route path="/MarchMadnessFAQ">
+        <MarchMadnessFAQ />
       </Route>
 
       <Route path="/">
