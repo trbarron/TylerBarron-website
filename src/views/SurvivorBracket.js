@@ -28,28 +28,53 @@ export default function SurvivorBracket() {
   }, [])
 
   function buttonify(teams, selectable) {
-    let buttons = teams.map((entry) =>
-        <div key={entry.name + currentUser.selections} className={`w-1/6 ml-12 mb-4 rounded place-content-center h-min duration-300 transition ${selectable ? "cursor-pointer" : ""} ${(selections.includes(entry.id) && selectable)? "ring-4 p-2 ring-green-600 ring-opacity-60" : "p-2 "}`} onClick={() => teamSelectedHandle(entry.id, selectable)} style={{backgroundColor: entry.color}}>
-            <div className="w-full h-full text-center bg-gray-light mx-auto my-auto p-2 rounded">
-                <div className="absolute -mt-1 text-md font-bold">
-                    {entry.seed}
-                </div>
+    let buttons = teams.map((entry) => {
+        if (entry.filler === true) {
+            return (<div key={entry.name + currentUser.selections} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
 
-                <div className="text-lg">
-                    {entry.name}
-                </div>
-                <div className= "text-sm">
-                    ({entry.wlrecord})
+            <div className="w-full ">
+                <div className={`widget w-full p-4 rounded-lg bg-white border-l-8 duration-300 transition border-color-gray-dark ${(selections.includes(entry.id) && selectable)? "ring-4 ring-green-600 ring-opacity-60" : ""}`}>
+                    <div className="flex items-center">
+                        <div className="icon w-14 p-3.5 text-xl text-white rounded-full mr-3 flex justify-center bg-gray-300" >
+                            --
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <div className="text-md text-gray-dark"></div>
+                            <div className="text-sm text-gray-400"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        </div>)
+        }
+        else {
+            return (<div key={entry.name + currentUser.selections} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
+
+                <div className="w-full ">
+                    <div className={`widget w-full p-4 rounded-lg bg-white border-l-8 duration-300 transition ${(selections.includes(entry.id) && selectable)? "ring-4 ring-green-600 ring-opacity-60" : ""}`} style={{borderColor: entry.color}}>
+                        <div className="flex items-center">
+                            <div className="icon w-14 p-3.5 text-xl text-white rounded-full mr-3 flex justify-center bg-gray-300" >
+                                {entry.seed}
+                            </div>
+                            <div className="flex flex-col justify-center">
+                                <div className="text-md text-gray-dark">{entry.name}</div>
+                                <div className="text-sm text-gray-400">E{entry.seed}  ({entry.wlrecord})</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>)
+        }
+    })
     return buttons
   }
 
 
   async function getData() {
-      const [_round, _users, _teams] = await Promise.all([getRound(),getUsers(),getTeams()])
+      let [_round, _users, _teams] = await Promise.all([getRound(),getUsers(),getTeams()])
+
+
+      _users = parseUserTeamSelection(_users,_round,_teams);
 
       setRound(_round);
       setUsers(_users);
@@ -67,9 +92,7 @@ export default function SurvivorBracket() {
   }
 
   async function submitTeams() {
-      console.log("selections: ",selections);
       let formattedSelections = selections.join("o");
-      console.log(formattedSelections)
       await postSelections(currentUser.id,formattedSelections);
       setSelections([])
       await logOn();
@@ -90,6 +113,28 @@ function newTotalSeed(currSelTeams) {
     });
 
     return tempSum
+}
+
+function parseUserTeamSelection(_users,_round,_teams) {
+    
+    _users.forEach(_user => {
+        let data = `${_user.selections}`
+        data = data.replaceAll("[","");
+        data = data.replaceAll("]","");
+        data = data.split(",");
+        let allTeams = [];
+
+        for (let _i = 0; _i < parseInt(_round); _i++) {
+            let rData = data[_i].split("o");
+            rData = rData.map(entry => parseInt(entry));
+
+            allTeams.push(..._teams.filter((team) => rData.includes(parseInt(team.id))));
+        }
+        _user["visibleSelections"] = allTeams.map(a => a.name).join(", ");
+    });
+
+    
+    return _users
 }
 
   function teamSelectedHandle(name, selectable) {
@@ -227,6 +272,21 @@ function newTotalSeed(currSelTeams) {
             availTeams = availTeams.filter((m) => !rData.includes(parseInt(m.id)));
         }
 
+        let fillerTeams = 0
+        while (currSelTeams.length < 3) {
+            let blankTeam = {
+                id: fillerTeams,
+                name: fillerTeams,
+                seed: "-",
+                wlrecord: "",
+                color: "#222222",
+                filler: true
+            }
+            fillerTeams += 1;
+            currSelTeams.push(blankTeam)
+            //todo make this look right currSelTeams.push(...teams.filter((team) => rData.includes(parseInt(team.id))));
+        }
+
 
 
 
@@ -239,6 +299,7 @@ function newTotalSeed(currSelTeams) {
             <tr key={u.nickname}>
                 <td className="px-6 py-4 text-center">{u.nickname}</td>
                 <td className="px-6 py-4 text-center">{u.totalSeed}</td>
+                <td className="px-6 py-4 text-center">{u.visibleSelections}</td>
                 <td className="px-6 py-4 text-center">No</td>
             </tr>
         )
@@ -248,6 +309,7 @@ function newTotalSeed(currSelTeams) {
             <tr key={u.nickname}>
                 <td className="px-6 py-4 text-center">{u.nickname}</td>
                 <td className="px-6 py-4 text-center">{u.totalSeed}</td>
+                <td className="px-6 py-4 text-center">{u.visibleSelections}</td>
                 <td className="px-6 py-4 text-center">Yes</td>
             </tr>
         )
@@ -259,37 +321,53 @@ function newTotalSeed(currSelTeams) {
                 <h3 className="text-xl text-center pb-4">Total Seed Before Selections: {currentUser.totalSeed}</h3>
                 <h3 className="text-xl text-center pb-4">Total Seed After Selections: {newTotalSeed(currSelTeams)}</h3>
 
-                <h3 className="text-xl text-gray-dark pl-12 pb-4">Currently Selected Teams:</h3>
 
-                <div className="flex flex-wrap">
-                    {buttonify(currSelTeams, false)}
+                <div className="border-l-8 -ml-6 -mr-6 border-gray-600 border-opacity-50">
+
+                    <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-gray-600 bg-opacity-50 pt-3">Previously Selected Teams:</h3>
+
+                    <div className="flex flex-wrap mx-6">
+                        {buttonify(prevSelTeams, false)}
+                    </div>
                 </div>
 
-                <h3 className="text-xl text-gray-dark pl-12 pb-4">Previously Selected Teams:</h3>
 
-                <div className="flex flex-wrap">
-                    {buttonify(prevSelTeams, false)}
+                <div className="border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50">
+                <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-red-600 bg-opacity-50 pt-3">Eliminated Teams:</h3>
+
+                    <div className="flex flex-wrap mx-6">
+                        {buttonify(elimTeams, false)}
+                    </div>
                 </div>
 
-                <h3 className="text-xl text-gray-dark pl-12 pb-4">Eliminated Teams:</h3>
+                <div className="border-l-8 -ml-6 -mr-6 border-blue-600 border-opacity-50">
 
-                <div className="flex flex-wrap">
-                    {buttonify(elimTeams, false)}
+                    <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-blue-600 bg-opacity-50 pt-3">Currently Selected Teams:</h3>
+
+                    <div className="flex flex-wrap mx-6">
+                        {buttonify(currSelTeams, false)}
+                    </div>
                 </div>
 
-                <h3 className="text-xl text-gray-dark pl-12 pb-4">Available Teams:</h3>
+                <div className="border-l-8 -ml-6 -mr-6 border-green-400 border-opacity-50">
 
-                <div className="flex flex-wrap">
-                    {buttonify(availTeams, true)}
+                    <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-green-400 bg-opacity-50 pt-3">Available Teams:</h3>
+
+                    <div className="flex flex-wrap mx-6">
+                        {buttonify(availTeams, true)}
+                    </div>
                 </div>
 
-                <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={releaseTeams}>
-                    <div className="w-full h-full text-center text-lg place-self-center pt-2">Release Currently Selected Teams</div>
+                <div className="flex justify-between">
+                <div className="w-5/12 h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={releaseTeams}>
+                    <div className="w-full h-full text-center text-lg place-self-center pt-2">Release Teams</div>
                 </div>
 
-                <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={submitTeams}>
-                    <div className="w-full h-full text-center text-lg place-self-center pt-2">Submit</div>
+                <div className="w-5/12 h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={submitTeams}>
+                    <div className="w-full h-full text-center text-lg place-self-center pt-2">Submit Teams</div>
                 </div>
+                </div>
+
 
 
 
@@ -301,6 +379,7 @@ function newTotalSeed(currSelTeams) {
                         <tr>
                             <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Nickname</th>
                             <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Total Seed Score</th>
+                            <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Teams Selected</th>
                             <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Eliminated?</th>
                         </tr>
                         </thead>
@@ -312,6 +391,7 @@ function newTotalSeed(currSelTeams) {
                         <tr>
                             <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Nickname</th>
                             <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Total Seed Score</th>
+                            <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Teams Selected</th>
                             <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Eliminated?</th>
                         </tr>
                         </thead>
