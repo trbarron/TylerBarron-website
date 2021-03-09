@@ -33,14 +33,10 @@ export default function SurvivorBracket() {
             return (<div key={entry.name + currentUser.selections} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
 
             <div className="w-full ">
-                <div className={`widget w-full p-4 rounded-lg bg-white border-l-8 duration-300 transition border-color-gray-dark ${(selections.includes(entry.id) && selectable)? "ring-4 ring-green-600 ring-opacity-60" : ""}`}>
+                <div className={`widget w-full p-2 rounded-lg bg-white border-l-8 duration-300 transition border-color-gray-dark ${(selections.includes(entry.id) && selectable)? "ring-4 ring-green-600 ring-opacity-60" : ""}`}>
                     <div className="flex items-center">
-                        <div className="icon w-14 p-3.5 text-xl text-white rounded-full mr-3 flex justify-center bg-gray-300" >
+                        <div className="icon w-14 p-3.5 text-xl text-white rounded-full mr-3 flex justify-center bg-gray-200" >
                             --
-                        </div>
-                        <div className="flex flex-col justify-center">
-                            <div className="text-md text-gray-dark"></div>
-                            <div className="text-sm text-gray-400"></div>
                         </div>
                     </div>
                 </div>
@@ -51,9 +47,9 @@ export default function SurvivorBracket() {
             return (<div key={entry.name + currentUser.selections} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
 
                 <div className="w-full ">
-                    <div className={`widget w-full p-4 rounded-lg bg-white border-l-8 duration-300 transition ${(selections.includes(entry.id) && selectable)? "ring-4 ring-green-600 ring-opacity-60" : ""}`} style={{borderColor: entry.color}}>
+                    <div className={`widget w-full p-2 rounded-lg bg-white border-l-8 duration-300 transition ${(selections.includes(entry.id) && selectable)? "ring-4 ring-green-600 ring-opacity-60" : ""}`} style={{borderColor: entry.color}}>
                         <div className="flex items-center">
-                            <div className="icon w-14 p-3.5 text-xl text-white rounded-full mr-3 flex justify-center bg-gray-300" >
+                            <div className="icon w-14 p-3.5 text-lg text-white rounded-full mr-3 flex justify-center bg-gray-300" >
                                 {entry.seed}
                             </div>
                             <div className="flex flex-col justify-center">
@@ -87,7 +83,11 @@ export default function SurvivorBracket() {
     setLoggedIn(true);
   }
 
-  async function signUpHandle() {
+  async function signUp() {
+    //todo add sign up stuff
+  }
+
+  async function signUpToggleHandle() {
       setShowSignUp(!showSignUp);
   }
 
@@ -107,11 +107,13 @@ export default function SurvivorBracket() {
 }
 
 function newTotalSeed(currSelTeams) {
-    let tempSum = parseInt(currentUser.totalSeed)
+    let tempSum = parseInt(currentUser.totalSeed) || 0
     currSelTeams.forEach(element => {
-        tempSum += parseInt(element.seed);
+        tempSum += parseInt(element.seed) || 0;
     });
-
+    if (tempSum === NaN) {
+        tempSum = 0
+    }
     return tempSum
 }
 
@@ -176,7 +178,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
             </div>
 
             <p></p>
-            <p className="text-center">Need an account? <a onClick={signUpHandle} className="cursor-pointer">Sign Up</a></p>
+            <p className="text-center">Need an account? <a onClick={signUpToggleHandle} className="cursor-pointer">Sign Up</a></p>
 
             <p className="text-center">Have questions? <a href="/MarchMadnessFAQ">FAQ</a></p>
 
@@ -228,12 +230,12 @@ function parseUserTeamSelection(_users,_round,_teams) {
                 />
             </div>
 
-            <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={logOn}>
+            <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={signUp}>
                 <div className="w-full h-full text-center text-lg place-self-center pt-2">Sign Up</div>
             </div>
 
             <p></p>
-            <p className="text-center">Have an account? <a onClick={signUpHandle} className="cursor-pointer">Log In</a></p>
+            <p className="text-center">Have an account? <a onClick={signUpToggleHandle} className="cursor-pointer">Log In</a></p>
 
             <p className="text-center">Have questions? <a href="/MarchMadnessFAQ">FAQ</a></p>
 
