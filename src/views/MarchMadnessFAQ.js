@@ -124,42 +124,7 @@ export default function MarchMadnessFAQ() {
                 -70% payout to winner, 25% to second, 5% of proceeds will benefit Left Behind K-9 Rescue
             </p>
         </Subarticle>
-
-        <Subarticle
-            subtitle="My dream scenario would be:"
-        >
-            <p>
-                An interface where users can input their entry name (Jensacks), real name (Erik Jensen), email (jensenerikt@gmail.com), venmo handle, and first three picks for Round 1.
-            </p>
-
-            <p>
-                Based on the actual results of their first three picks, users get an email with either:
-            </p>
-
-            <p>
-                If they went 3/3, a link to choose their next two picks for Round 2
-            </p>
-
-            <p>
-                If they went less than 3/3, an ask if they want to buy back in to continue playing, and if so, a link to choose their next three picks for Round 2.
-            </p>
-
-
-            <p>
-                After Round 2, email notifications for winning entries to select their team for the next round.
-            </p>
-
-            <p>
-                A page on the site with live standings for each entry that shows their correct picks to date (but not their pending picks, because knowing an opponent's pending picks would give you an advantage in selecting your picks), and their total seed sum to date.
-            </p>
-
-            <p>
-                When users are making their picks, they would ideally not rely on the user to know what teams they have picked. So an account system that tracks their picks would be necessary so that if Jensacks logs into his account, for Round 2, he cannot select teams he picked in Round 1. And for Round 3 he cannot select any of the remaining teams that he selected in Rounds 1 and 2, etc.
-            </p>
-
-
-        </Subarticle>
-
+        
         <Subarticle
             subtitle="Schedule:"
         >

@@ -16,6 +16,7 @@ class Input extends React.Component {
   changeValue(event) {
     const value = event.target.value;
     this.setState({ value, error: "" });
+    this.props.handleChange(event.target.value);
   }
 
   handleKeyPress(event) {
@@ -24,9 +25,9 @@ class Input extends React.Component {
     }
   }
 
-  passwordify(value) {
-      return "•".repeat(value.length)
-  }
+  // passwordify(value) {
+  //     return "•".repeat(value.length)
+  // }
 
   render() {
     const { active, value, error, label } = this.state;
@@ -43,8 +44,8 @@ class Input extends React.Component {
           predicted.includes(value) && <p className="predicted">{predicted}</p>}
         <input
           id={1}
-          type="text"
-          value={this.props.isPassword ? this.passwordify(value) : value}
+          type={this.props.isPassword ? "password" : "text" }
+          value={value}
           placeholder={this.state.active ? "" : label}
           onChange={this.changeValue.bind(this)}
           onKeyPress={this.handleKeyPress.bind(this)}

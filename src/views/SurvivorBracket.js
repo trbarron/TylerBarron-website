@@ -6,7 +6,8 @@ import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Input from "../components/TextInput.js";
 
-import {getRound, getUsers, getUser, getTeams, postSelections} from "../components/SurvivorBracketAPI.js"
+import {getRound, getUsers, getUser, getTeams, postSelections, postCreateUser} from "../components/SurvivorBracketAPI.js"
+import {encryptPass, checkPass} from "../assets/tools/passwordHash.js"
 
 export default function SurvivorBracket() {
 
@@ -19,6 +20,14 @@ export default function SurvivorBracket() {
   const [round, setRound] = useState();
   const [users, setUsers] = useState();
   const [teams, setTeams] = useState();
+
+  const [entryName, setEntryName] = useState();
+  const [password, setPassword] = useState();
+  const [actualName, setActualName] = useState();
+  const [venmo, setVenmo] = useState();
+  const [commPassword, setCommPassword] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+
 
   let mainContent = undefined;
 
@@ -78,13 +87,41 @@ export default function SurvivorBracket() {
   }
 
   async function logOn() {
-    let user = await getUser(1);
-    setCurrentUser(user);
-    setLoggedIn(true);
+    let userID = users.filter((u) => u.entryName === entryName);
+    userID = userID[0].id;
+    let user = await getUser(userID);
+
+    if (checkPass(password,user.password)) {
+        setCurrentUser(user);
+        setLoggedIn(true);    
+    }
+    else {
+        alert("ayy whoa you got the password wrong")
+    }
+
   }
 
   async function signUp() {
-    //todo add sign up stuff
+    if (checkPass(commPassword,"$2a$04$Lnzgfev2RSknY3611TjxOuZt.F3gahg61aBakEWow1nS0KkJZxRfO")) { //hardcoded passwords are bad change ""
+        //display something to show that they did it correctly
+        
+        let userID = users.filter((u) => u.entryName === entryName);
+        if (userID.length > 0) {
+            alert("username already exists")
+            //show alert that shows that this username already exists
+        }
+
+        const encryptedPass = await encryptPass(password)
+        console.log("encrptedpass: ",encryptedPass);
+        await postCreateUser(entryName,encryptedPass,actualName,venmo,phoneNumber);
+        
+        getData()
+        setShowSignUp(false);
+    }
+
+    else {
+        alert("Commissioner Password was wrong");
+    }
   }
 
   async function signUpToggleHandle() {
@@ -160,16 +197,19 @@ function parseUserTeamSelection(_users,_round,_teams) {
 
             <div className="w-2/4 mx-auto h-16 pb-4">
                 <Input
-                    id = {"Username"}
-                    label = {"Username"}
+                    id = {"Entry Name"}
+                    label = {"Entry Name"}
+                    handleChange = {(e) => setEntryName(e)}
                 />
             </div>
 
             <div className="w-2/4 mx-auto h-16 pb-4">
                 <Input
-                    id = {"User Password"}
-                    label = {"User Password"}
+                    id = {"Password"}
+                    label = {"Password"}
                     isPassword = {true}
+                    handleChange = {(e) => setPassword(e)}
+
                 />
             </div>
 
@@ -194,8 +234,9 @@ function parseUserTeamSelection(_users,_round,_teams) {
 
             <div className="w-2/4 mx-auto h-16 pb-4">
                 <Input
-                    id = {"Username"}
-                    label = {"Username"}
+                    id = {"Entry Name"}
+                    label = {"Entry Name"}
+                    handleChange = {(e) => setEntryName(e)}
                 />
             </div>
 
@@ -204,7 +245,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
                     id = {"User Password"}
                     label = {"User Password"}
                     isPassword = {true}
-                    locked = {true}
+                    handleChange = {(e) => setPassword(e)}
                 />
             </div>
 
@@ -212,6 +253,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
                 <Input
                     id = {"Actual Name"}
                     label = {"Actual Name"}
+                    handleChange = {(e) => setActualName(e)}
                 />
             </div>
 
@@ -219,6 +261,15 @@ function parseUserTeamSelection(_users,_round,_teams) {
                 <Input
                     id = {"Venmo Name"}
                     label = {"Venmo Name"}
+                    handleChange = {(e) => setVenmo(e)}
+                />
+            </div>
+
+            <div className="w-2/4 mx-auto h-16 pb-4">
+                <Input
+                    id = {"Phone Number"}
+                    label = {"Phone Number"}
+                    handleChange = {(e) => setPhoneNumber(e)}
                 />
             </div>
 
@@ -227,6 +278,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
                     id = {"Commissioner Password"}
                     label = {"Commissioner Password"}
                     isPassword = {true}
+                    handleChange = {(e) => setCommPassword(e)}
                 />
             </div>
 
@@ -298,8 +350,8 @@ function parseUserTeamSelection(_users,_round,_teams) {
         
         let usersAlive = usersSorted.filter((u) => u.surv === "true");
         const formattedUsersAlive = usersAlive.map((u) => 
-            <tr key={u.nickname}>
-                <td className="px-6 py-4 text-center">{u.nickname}</td>
+            <tr key={u.entryName}>
+                <td className="px-6 py-4 text-center">{u.entryName}</td>
                 <td className="px-6 py-4 text-center">{u.totalSeed}</td>
                 <td className="px-6 py-4 text-center">{u.visibleSelections}</td>
                 <td className="px-6 py-4 text-center">No</td>
@@ -308,8 +360,8 @@ function parseUserTeamSelection(_users,_round,_teams) {
         
         let usersDead = usersSorted.filter((u) => u.surv === "false");
         const formattedUsersDead = usersDead.map((u) => 
-            <tr key={u.nickname}>
-                <td className="px-6 py-4 text-center">{u.nickname}</td>
+            <tr key={u.entryName}>
+                <td className="px-6 py-4 text-center">{u.entryName}</td>
                 <td className="px-6 py-4 text-center">{u.totalSeed}</td>
                 <td className="px-6 py-4 text-center">{u.visibleSelections}</td>
                 <td className="px-6 py-4 text-center">Yes</td>
@@ -319,7 +371,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
         mainContent = 
             <Subarticle>
 
-                <h3 className="text-xl text-center pb-4">Logged in: {currentUser.nickname}</h3>
+                <h3 className="text-xl text-center pb-4">Logged in: {currentUser.entryName}</h3>
                 <h3 className="text-xl text-center pb-4">Total Seed Before Selections: {currentUser.totalSeed}</h3>
                 <h3 className="text-xl text-center pb-4">Total Seed After Selections: {newTotalSeed(currSelTeams)}</h3>
 
@@ -379,7 +431,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
                     <table className="relative w-full border">
                         <thead>
                         <tr>
-                            <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Nickname</th>
+                            <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Entry Name</th>
                             <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Total Seed Score</th>
                             <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Teams Selected</th>
                             <th className="sticky top-0 px-6 py-3 text-green-900 bg-green-300">Eliminated?</th>
@@ -391,7 +443,7 @@ function parseUserTeamSelection(_users,_round,_teams) {
 
                     <thead>
                         <tr>
-                            <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Nickname</th>
+                            <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Entry Name</th>
                             <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Total Seed Score</th>
                             <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Teams Selected</th>
                             <th className="sticky top-0 px-6 py-3 text-red-900 bg-red-300">Eliminated?</th>

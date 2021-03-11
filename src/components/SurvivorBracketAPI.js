@@ -85,4 +85,40 @@ function postSelections(id,selections) {
     })
 }
 
-export {getRound, getUsers, getUser, getTeams, postSelections}
+function postCreateUser(entryName,password,actualName,venmo,phoneNumber) {
+
+    const data = {
+        entryName,
+        password,
+        actualName,
+        venmo,
+        phoneNumber,
+        "selections": "[[],[],[],[],[],[],[],[],[],[],[]]",
+        "surv": "true",
+        "totalSeed": "0",
+        "deathTeam": "0",
+        "broughtBack": "false",
+    }
+
+    return new Promise(resolve => {
+        try {
+            fetch('https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/user/post/createUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            }).then(response => {
+                    return response.json()
+                }).then(json => {
+                    console.log("Successfully created user");
+                    resolve(json)
+                });
+        } catch (error) {
+            console.log("Error 35: ",error)
+            throw error
+        }
+    })
+}
+
+export {getRound, getUsers, getUser, getTeams, postSelections, postCreateUser}
