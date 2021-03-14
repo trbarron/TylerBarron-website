@@ -10,10 +10,10 @@ export default function Navbar() {
           <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <div className={"leading-relaxed whitespace-no-wrap"}>
               <div className={"text-3xl text-gray-light"}>
-                Barron Wasteland
+                March Madness Survivor Bracket
               </div>
               <div className={"text-md text-red-light"}>
-                Food for thought // Ideas for eating
+                Supporting Left Behind K-9 Rescue
               </div>
             </div>
           </div>

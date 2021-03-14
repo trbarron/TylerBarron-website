@@ -17,7 +17,7 @@ export default function Footer() {
             <div className="w-full md:w-4/12 px-4 mx-auto text-center">
               <div className="text-sm text-gray-600">
               <div className="text-sm  pb-4">
-                  <a href="/Profile" className="text-gray-light text-md">about me</a>
+                  <a href="https://www.tylerbarron.com/" className="text-gray-light text-md">made by Tyler Barron</a>
               </div>
               <div className="mt-0">
 
