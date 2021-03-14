@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
@@ -24,6 +27,7 @@ export default function SurvivorBracket() {
     const [password, setPassword] = useState();
     const [actualName, setActualName] = useState();
     const [venmo, setVenmo] = useState();
+    const [email, setEmail] = useState();
     const [commPassword, setCommPassword] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
 
@@ -62,7 +66,7 @@ export default function SurvivorBracket() {
                                 </div>
                                 <div className="flex flex-col justify-center">
                                     <div className="text-md text-gray-dark">{entry.name}</div>
-                                    <div className="text-sm text-gray-400">E{entry.seed}  ({entry.wlrecord})</div>
+                                    <div className="text-sm text-gray-400">{entry.division}{entry.seed}  ({entry.wlrecord})</div>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +99,7 @@ export default function SurvivorBracket() {
             setLoggedIn(true);
         }
         else {
-            alert("ayy whoa you got the password wrong")
+            toast.error("Incorrect User Password Incorrect");
         }
 
     }
@@ -106,20 +110,19 @@ export default function SurvivorBracket() {
 
             let userID = users.filter((u) => u.entryName === entryName);
             if (userID.length > 0) {
-                alert("username already exists")
-                //show alert that shows that this username already exists
+                toast.error("Entry Name has already been used");
             }
 
             const encryptedPass = await encryptPass(password)
-            console.log("encrptedpass: ", encryptedPass);
-            await postCreateUser(entryName, encryptedPass, actualName, venmo, phoneNumber);
+            await postCreateUser(entryName, encryptedPass, actualName, venmo, email, phoneNumber);
 
             getData()
             setShowSignUp(false);
+            toast.success("Successfully Created User");
         }
 
         else {
-            alert("Commissioner Password was wrong");
+            toast.error("Commissioner Password Incorrect");
         }
     }
 
@@ -128,6 +131,7 @@ export default function SurvivorBracket() {
     }
 
     async function submitTeams() {
+        if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
         let formattedSelections = selections.join("o");
         await postSelections(currentUser.id, formattedSelections);
         setSelections([])
@@ -145,6 +149,7 @@ export default function SurvivorBracket() {
     async function logOut() {
         setCurrentUser(null);
         setLoggedIn(false);
+        toast.success("Successfully Logged Out");
     }
 
     function newTotalSeed(currSelTeams) {
@@ -428,6 +433,15 @@ export default function SurvivorBracket() {
 
                 <div className="w-2/4 mx-auto h-16 pb-4">
                     <Input
+                        id={"Email"}
+                        label={"Email"}
+                        handleChange={(e) => setEmail(e)}
+                    />
+                </div>
+
+
+                <div className="w-2/4 mx-auto h-16 pb-4">
+                    <Input
                         id={"Phone Number"}
                         label={"Phone Number"}
                         handleChange={(e) => setPhoneNumber(e)}
@@ -489,7 +503,11 @@ export default function SurvivorBracket() {
         }
 
         let fillerTeams = 0
-        while (currSelTeams.length < 3) {
+        var allowedTeams = 1
+        if (round === "0" || (round === "1" && currentUser.buyback)) {allowedTeams = 3}
+        if (round === "1" && !currentUser.buyback) {allowedTeams = 2}
+
+        while (currSelTeams.length < allowedTeams) {
             let blankTeam = {
                 id: fillerTeams,
                 name: fillerTeams,
@@ -537,11 +555,11 @@ export default function SurvivorBracket() {
                     subtitle={"Logged in: " + currentUser.entryName}
                 >
                     <Subarticle>
-                        <p className="font-2xl text-center">
-                            <a href="https://www.espn.com/mens-college-basketball/">
+                        <div className="text-center pb-8 ">
+                            <a className="text-3xl bg-white p-1" href="https://www.espn.com/mens-college-basketball/">
                                 Link to ESPN bracket
                             </a>
-                        </p>
+                        </div>
 
                         <div className="flex justify-left">
 
@@ -550,9 +568,9 @@ export default function SurvivorBracket() {
                         {/* <h3 className="text-xl text-center pb-4">Total Seed After Selections: {newTotalSeed(currSelTeams)}</h3> */}
 
 
-                        <div className="border-l-8 -ml-6 -mr-6 border-gray-600 border-opacity-50">
+                        <div className="border-l-8 -ml-6 -mr-6 border-gray-600 border-opacity-50 ">
 
-                            <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-gray-600 bg-opacity-50 pt-3">Previously Selected Teams:</h3>
+                            <h3 className= {`text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-gray-600 bg-opacity-50 pt-3  ${prevSelTeams.length > 0 ? "" : " hidden"} `}>Previously Selected Teams:</h3>
 
                             <div className="flex flex-wrap mx-6">
                                 {buttonify(prevSelTeams, false)}
@@ -560,7 +578,7 @@ export default function SurvivorBracket() {
                         </div>
 
 
-                        <div className="border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50">
+                        <div className= {`border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50  ${prevSelTeams.length > 0 ? "" : " hidden"} `}>
                             <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-red-600 bg-opacity-50 pt-3">Eliminated Teams:</h3>
 
                             <div className="flex flex-wrap mx-6">
@@ -653,6 +671,7 @@ export default function SurvivorBracket() {
     return (
         <div className="bg-background bg-fixed min-h-screen flex flex-col justify-evenly">
             <Navbar />
+            <ToastContainer />
             <main className="flex-grow">
 
                 {mainContent}

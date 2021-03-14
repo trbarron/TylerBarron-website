@@ -85,13 +85,14 @@ function postSelections(id,selections) {
     })
 }
 
-function postCreateUser(entryName,password,actualName,venmo,phoneNumber) {
+function postCreateUser(entryName,password,actualName,venmo,email,phoneNumber) {
 
     const data = {
         entryName,
         password,
         actualName,
         venmo,
+        email,
         phoneNumber,
         "selections": "[[],[],[],[],[],[],[],[],[],[],[]]",
         "surv": "true",
