@@ -537,6 +537,12 @@ export default function SurvivorBracket() {
                     subtitle={"Logged in: " + currentUser.entryName}
                 >
                     <Subarticle>
+                        <p className="font-2xl text-center">
+                            <a href="https://www.espn.com/mens-college-basketball/">
+                                Link to ESPN bracket
+                            </a>
+                        </p>
+
                         <div className="flex justify-left">
 
                         </div>
@@ -602,7 +608,7 @@ export default function SurvivorBracket() {
 
 
                 <Article
-                    title="Overall Standings"
+                    title="Standings"
                 >
                     <Subarticle>
 
