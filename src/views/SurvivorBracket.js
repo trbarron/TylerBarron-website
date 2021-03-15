@@ -556,7 +556,7 @@ export default function SurvivorBracket() {
                 >
                     <Subarticle>
                         <div className="text-center pb-8 ">
-                            <a className="text-3xl bg-white p-1" href="https://www.espn.com/mens-college-basketball/">
+                            <a className="text-3xl bg-white p-1" href="https://fantasy.espn.com/tournament-challenge-bracket/2021/en/bracket">
                                 Link to ESPN bracket
                             </a>
                         </div>
