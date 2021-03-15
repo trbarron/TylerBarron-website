@@ -253,13 +253,14 @@ export default function SurvivorUsers() {
         let usersSorted = users.sort((a, b) => parseInt(b.totalSeed) - parseInt(a.totalSeed));
 
         const formattedUsers = usersSorted.map((u) =>
-            <tr key={u.entryName}>
-                <td className="px-3 py-1 text-center bg-white">{u.entryName}</td>
-                <td className="px-3 py-1 text-center bg-white">{u.actualName}</td>
-                <td className="px-3 py-1 text-center bg-white">{u.venmo}</td>
-                <td className="px-3 py-1 text-center bg-white">{u.email}</td>
-                <td className="px-3 py-1 text-center bg-white">{u.phoneNumber}</td>
-                <td className="px-3 py-1 text-center bg-white">{u.broughtBack}</td>
+            <tr key={u.entryName} className={` text-center ${u.hidden === "true" ? "bg-red-300" : "bg-white"} `}>
+                <td className="px-3 py-1">{u.entryName}</td>
+                <td className="px-3 py-1">{u.actualName}</td>
+                <td className="px-3 py-1">{u.venmo}</td>
+                <td className="px-3 py-1">{u.email}</td>
+                <td className="px-3 py-1">{u.phoneNumber}</td>
+                <td className="px-3 py-1">{u.broughtBack}</td>
+                <td className="px-3 py-1">{u.hidden}</td>
             </tr>
         )
 
@@ -283,6 +284,8 @@ export default function SurvivorUsers() {
                                             <th className="sticky top-0 px-3 py-3">Email</th>
                                             <th className="sticky top-0 px-3 py-3">Phone #</th>
                                             <th className="sticky top-0 px-3 py-3">Bought Back?</th>
+                                            <th className="sticky top-0 px-3 py-3">Hidden?</th>
+
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y bg-black">

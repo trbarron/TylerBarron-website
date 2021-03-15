@@ -530,21 +530,21 @@ export default function SurvivorBracket() {
 
         let usersAlive = usersSorted.filter((u) => u.surv === "true");
         const formattedUsersAlive = usersAlive.map((u) =>
-            <tr key={u.entryName}>
-                <td className="px-6 py-4 text-center">{u.entryName}</td>
-                <td className="px-6 py-4 text-center">{u.totalSeed}</td>
-                <td className="px-6 py-4 text-center">{u.visibleSelections}</td>
-                <td className="px-6 py-4 text-center">No</td>
+            <tr key={u.entryName} className={` text-center ${u.hidden === "true" ? "hidden" : ""} `}>
+                <td className="px-6 py-4 ">{u.entryName}</td>
+                <td className="px-6 py-4 ">{u.totalSeed}</td>
+                <td className="px-6 py-4 ">{u.visibleSelections}</td>
+                <td className="px-6 py-4 ">No</td>
             </tr>
         )
 
         let usersDead = usersSorted.filter((u) => u.surv === "false");
         const formattedUsersDead = usersDead.map((u) =>
-            <tr key={u.entryName}>
-                <td className="px-6 py-4 text-center">{u.entryName}</td>
-                <td className="px-6 py-4 text-center">{u.totalSeed}</td>
-                <td className="px-6 py-4 text-center">{u.visibleSelections}</td>
-                <td className="px-6 py-4 text-center">Yes</td>
+            <tr key={u.entryName} className={` text-center ${u.hidden === "true" ? "hidden" : ""} `}>
+                <td className="px-6 py-4 ">{u.entryName}</td>
+                <td className="px-6 py-4 ">{u.totalSeed}</td>
+                <td className="px-6 py-4 ">{u.visibleSelections}</td>
+                <td className="px-6 py-4 ">Yes</td>
             </tr>
         )
 
