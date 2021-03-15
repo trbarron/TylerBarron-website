@@ -32,6 +32,23 @@ function getUsers() {
     })
 }
 
+function getUsersSuper() {
+    return new Promise(resolve => {
+        try {
+            fetch('https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/user/getAllSuper', {
+                method: 'GET',
+            }).then(response => {
+                    return response.json()
+                }).then(json => {
+                    resolve (json)
+                });
+        } catch (error) {
+            console.log("Error 32: ",error)
+            throw error
+        }
+    })
+}
+
 function getUser(id) {
     return new Promise(resolve => {
         try {
@@ -122,4 +139,4 @@ function postCreateUser(entryName,password,actualName,venmo,email,phoneNumber) {
     })
 }
 
-export {getRound, getUsers, getUser, getTeams, postSelections, postCreateUser}
+export {getRound, getUsers, getUsersSuper, getUser, getTeams, postSelections, postCreateUser}
