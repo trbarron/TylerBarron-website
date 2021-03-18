@@ -36,7 +36,7 @@ export default function SurvivorBracket() {
 
     useEffect(() => {
         getData();
-
+        toast.info("Running tests before games are played. Will take an hour. Ignore things that look wrong until then -tylerb");
     }, [])
 
     function buttonify(teams, selectable) {
@@ -112,13 +112,14 @@ export default function SurvivorBracket() {
             if (userID.length > 0) {
                 toast.error("Entry Name has already been used");
             }
-
-            const encryptedPass = await encryptPass(password)
-            await postCreateUser(entryName, encryptedPass, actualName, venmo, email, phoneNumber);
-
-            getData()
-            setShowSignUp(false);
-            toast.success("Successfully Created User");
+            else {
+                const encryptedPass = await encryptPass(password)
+                await postCreateUser(entryName, encryptedPass, actualName, venmo, email, phoneNumber);
+    
+                getData()
+                setShowSignUp(false);
+                toast.success("Successfully Created User");
+            }
         }
 
         else {
