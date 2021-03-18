@@ -133,11 +133,12 @@ export default function SurvivorBracket() {
 
     async function submitTeams() {
         if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
-        let formattedSelections = selections.join("o");
-        await postSelections(currentUser.id, formattedSelections);
-        setSelections([])
-        await logOn();
-
+        else {
+            let formattedSelections = selections.join("o");
+            await postSelections(currentUser.id, formattedSelections);
+            setSelections([])
+            await logOn();
+        }
     }
 
 
@@ -579,7 +580,7 @@ export default function SurvivorBracket() {
                         </div>
 
 
-                        <div className= {`border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50  ${prevSelTeams.length > 0 ? "" : " hidden"} `}>
+                        <div className= {`border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50  ${elimTeams.length > 0 ? "" : " hidden"} `}>
                             <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-red-600 bg-opacity-50 pt-3">Eliminated Teams:</h3>
 
                             <div className="flex flex-wrap mx-6">

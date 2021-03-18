@@ -20,11 +20,11 @@ export default function Footer() {
                   <a href="https://www.tylerbarron.com/" className="text-gray-light text-md">made by Tyler Barron</a>
               </div>
               <div className="text-sm  pb-4 text-black">
-                  V1.31
+                  V1.4
               </div>
               <div className="mt-0">
 
-                <button
+                <button href="mailto: trbbarron@gmail.com"
                   className="bg-gray-light shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                   type="button">
                   <i className="flex fab"></i>
@@ -34,7 +34,7 @@ export default function Footer() {
                   />
                 </button>
 
-                <button
+                <button href="https://github.com/trbarron"
                   className="bg-gray-light shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                   type="button">
                   <i className="flex fab uil-instagram"></i>
@@ -43,7 +43,7 @@ export default function Footer() {
                     style={{backgroundSize: "cover"}}
                   />
                 </button>
-                <button
+                <button href="https://www.linkedin.com/in/tyler-barron-61972855/"
                   className="bg-gray-light shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                   type="button">
                   <i className="flex fab"></i>
