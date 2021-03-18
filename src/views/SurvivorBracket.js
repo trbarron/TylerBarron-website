@@ -36,7 +36,6 @@ export default function SurvivorBracket() {
 
     useEffect(() => {
         getData();
-        toast.info("Running tests before games are played. Will take an hour. Ignore things that look wrong until then -tylerb");
     }, [])
 
     function buttonify(teams, selectable) {
