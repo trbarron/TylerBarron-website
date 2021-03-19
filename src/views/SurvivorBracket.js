@@ -131,20 +131,30 @@ export default function SurvivorBracket() {
     }
 
     async function submitTeams() {
-        if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
+        if (true) {
+            toast.error("Selections locked")
+        }
         else {
-            let formattedSelections = selections.join("o");
-            await postSelections(currentUser.id, formattedSelections);
-            setSelections([])
-            await logOn();
+            if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
+            else {
+                let formattedSelections = selections.join("o");
+                await postSelections(currentUser.id, formattedSelections);
+                setSelections([])
+                await logOn();
+            }
         }
     }
 
 
     async function releaseTeams() {
-        await postSelections(currentUser.id, "o");
-        setSelections([])
-        await logOn();
+        if (true) {
+            toast.error("Selections locked")
+        }
+        else {
+            await postSelections(currentUser.id, "o");
+            setSelections([])
+            await logOn();
+        }
     }
 
     async function logOut() {
