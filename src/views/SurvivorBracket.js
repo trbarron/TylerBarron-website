@@ -131,30 +131,20 @@ export default function SurvivorBracket() {
     }
 
     async function submitTeams() {
-        if (true) {
-            toast.error("Selections locked")
-        }
+        if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
         else {
-            if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
-            else {
-                let formattedSelections = selections.join("o");
-                await postSelections(currentUser.id, formattedSelections);
-                setSelections([])
-                await logOn();
-            }
+            let formattedSelections = selections.join("o");
+            await postSelections(currentUser.id, formattedSelections);
+            setSelections([])
+            await logOn();
         }
     }
 
 
     async function releaseTeams() {
-        if (true) {
-            toast.error("Selections locked")
-        }
-        else {
-            await postSelections(currentUser.id, "o");
-            setSelections([])
-            await logOn();
-        }
+        await postSelections(currentUser.id, "o");
+        setSelections([])
+        await logOn();
     }
 
     async function logOut() {
@@ -183,7 +173,7 @@ export default function SurvivorBracket() {
             data = data.split(",");
             let allTeams = [];
 
-            for (let _i = 0; _i <= parseInt(_round); _i++) {
+            for (let _i = 0; _i < parseInt(_round); _i++) {
                 let rData = data[_i].split("o");
                 rData = rData.map(entry => parseInt(entry));
 
