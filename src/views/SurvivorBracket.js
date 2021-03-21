@@ -173,12 +173,18 @@ export default function SurvivorBracket() {
             data = data.split(",");
             let allTeams = [];
 
-            for (let _i = 0; _i < parseInt(_round); _i++) {
+            let _i = 0
+
+            do
+            {
                 let rData = data[_i].split("o");
                 rData = rData.map(entry => parseInt(entry));
 
                 allTeams.push(..._teams.filter((team) => rData.includes(parseInt(team.id))));
+                _i++
             }
+            while (_i < parseInt(_round))
+
             let visibleSelections = allTeams.map(a => a.name).join(", ");
             _user["visibleSelections"] = visibleSelections
         });
