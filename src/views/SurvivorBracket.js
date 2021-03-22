@@ -31,6 +31,8 @@ export default function SurvivorBracket() {
     const [commPassword, setCommPassword] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
 
+    const lockedOut = true;
+
 
     let mainContent = undefined;
 
@@ -131,20 +133,32 @@ export default function SurvivorBracket() {
     }
 
     async function submitTeams() {
-        if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
+        if (lockedOut) {
+            toast.error("Selections Locked")
+            return
+        }
         else {
-            let formattedSelections = selections.join("o");
-            await postSelections(currentUser.id, formattedSelections);
-            setSelections([])
-            await logOn();
+            if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
+            else {
+                let formattedSelections = selections.join("o");
+                await postSelections(currentUser.id, formattedSelections);
+                setSelections([])
+                await logOn();
+            }
         }
     }
 
 
     async function releaseTeams() {
-        await postSelections(currentUser.id, "o");
-        setSelections([])
-        await logOn();
+        if (lockedOut) {
+            toast.error("Selections Locked")
+            return
+        }
+        else {
+            await postSelections(currentUser.id, "o");
+            setSelections([])
+            await logOn();
+        }
     }
 
     async function logOut() {
