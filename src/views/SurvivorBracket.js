@@ -31,7 +31,7 @@ export default function SurvivorBracket() {
     const [commPassword, setCommPassword] = useState();
     const [phoneNumber, setPhoneNumber] = useState();
 
-    const lockedOut = true;
+    const lockedOut = false;
 
 
     let mainContent = undefined;
@@ -197,7 +197,7 @@ export default function SurvivorBracket() {
                 allTeams.push(..._teams.filter((team) => rData.includes(parseInt(team.id))));
                 _i++
             }
-            while (_i <= parseInt(_round))
+            while (_i < parseInt(_round))
 
             let visibleSelections = allTeams.map(a => a.name).join(", ");
             _user["visibleSelections"] = visibleSelections
