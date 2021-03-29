@@ -600,13 +600,13 @@ export default function SurvivorBracket() {
                         </div>
 
 
-                        <div className= {`border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50  ${elimTeams.length > 0 ? "" : " hidden"} `}>
+                        {/* <div className= {`border-l-8 -ml-6 -mr-6 border-red-600 border-opacity-50  ${elimTeams.length > 0 ? "" : " hidden"} `}>
                             <h3 className="text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-red-600 bg-opacity-50 pt-3">Eliminated Teams:</h3>
 
                             <div className="flex flex-wrap mx-6">
                                 {buttonify(elimTeams, false)}
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="border-l-8 -ml-6 -mr-6 border-blue-600 border-opacity-50">
 
