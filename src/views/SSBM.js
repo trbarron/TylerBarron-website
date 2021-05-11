@@ -41,7 +41,7 @@ export default function SSBM() {
         <Subarticle
             subtitle="UW Texture Mod V1.10"
         >
-            <p>Super Smash Bros. Melee is considered a "beautiful accident" because of its speed, relative balance and depth of gameplay. However, because it was made pre-internet there haven't been patches, visual updates or any of the other benefits we see from popular games. This was an attempt to give our college's competitive scene a unique skin for the game</p>
+            <p>Super Smash Bros. Melee is a "beautiful accident" because of it's speed, balance and ability for self-expression. It came out before the internet so it hasn't had balance patches, DLC or visual updates. This mod was an attempt to give our college's competitive scene a unique skin for the game</p>
 
             <Photo
                 src={falco1}
@@ -49,7 +49,7 @@ export default function SSBM() {
                 caption="Falco wearing UW colors"
             />
 
-            <p>The most popular characters: Fox, Falco, Marth and Shiek got alternate costumes to support the dawgs</p>
+            <p>The most popular characters got alternate costumes with our school's colors</p>
             
             <Photo
                 src={fox}
@@ -72,7 +72,7 @@ export default function SSBM() {
                 caption="UW Shiek"
             />
 
-            <p>The stage Pokémon Stadium was altered to have the UW Logo on the standard version and to be Husky Stadium if the hacked, no-transform version of the stage.</p>
+            <p>I modified the stage Pokémon Stadium to have the UW Logo</p>
             
             <Photo
                 src={stadium}
@@ -87,7 +87,7 @@ export default function SSBM() {
                 caption="No-Transform Pokemon Stadium"
             />
 
-            <p>Finally, I included a setting so that Fox and Falco's lasers, traditionally red, are now purple. Like all the other mods this can be toggled on and off</p>
+            <p>Finally, Fox and Falco's lasers are now purple. Like all the other mods this is togglable</p>
             <Photo
                 src={falco2}
                 alt=""
@@ -112,7 +112,7 @@ export default function SSBM() {
         <Subarticle
             subtitle="Barron B0XX"
         >
-            <p>There is a small slice of the world who is still into Super Smash Bros. Melee on the Nintendo Gamecube. Over time players have asked more and more of themselves and the game trying to reach perfection, however one roadblock to this is the physical controller. This project aims to solve some of those drawbacks</p>
+            <p>There is a small slice of the world who is still into Super Smash Bros. Melee on the Nintendo Gamecube. Over time players have asked more and more of themselves to reach higher heights. One roadblock to this is the physical controller and it's inherent flaws. This project aims to solve some of those drawbacks</p>
 
             <Photo
                 src={gameCubeController}
@@ -120,7 +120,7 @@ export default function SSBM() {
                 caption="My Modded Gamecube Controllers"
             />
 
-            <p>The solution to this problem was created by someone who need it most, Hax$. He is a top 20 player known for his extreme speed at the game but this speed came at a cost -- his hands. After destroying his hands he redesigned the controller and built <a href="https://b0xx.com/">a keyboard style controller called the B0XX.</a></p>
+            <p>This started with someone who need it most, Hax$. He is a top 20 player known for his extreme speed at the game but this speed came at a cost -- his hands. After several surgeries to reconstruct his hands he had to start over. He designed an ergonomic keyboard style controller called the B0XX.</p>
             
             <Photo
                 src={haxBoxx}
@@ -137,27 +137,27 @@ export default function SSBM() {
             />
 
 
-            <p>Hax promised to sell these controllers but after three years of waiting nothing has shipped yet. As a result I decided to build my own</p>
+            <p>Hax promised to sell these controllers but he was very slow to make it market. As a result I decided to build my own</p>
             
             <Photo
                 src={boxxRender}
                 alt=""
-                caption="Standard Pokemon Stadium"
+                caption="Controller Rendering"
             />
 
             <p className="w-screen"></p>
             <Photo
                 src={boxxLayout}
                 alt=""
-                caption="No-Transform Pokemon Stadium"
+                caption="Controller Layout"
             />
 
-            <p>Below is linked a more detailed build process. The build itself took four or so workdays with two hardware trips, two McMaster orders, three Amazon orders, one broken piece of acrylic and one burnt thumb. The code was based on SimpleController's code, modified for my button layout and application. Now just to get good with it :)</p>
+            <p>I linked a more detailed build process. The build itself took 20 hours, two hardware trips, five online orders and one burnt thumb. The code is based on SimpleController's, modified for my button layout and application. The only thing left is to get good with it</p>
 
             <Photo
                 src={barronBoxx}
                 alt=""
-                caption="No-Transform Pokemon Stadium"
+                caption="Completed Controller, ready to use"
             />
 
         </Subarticle>

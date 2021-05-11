@@ -39,14 +39,14 @@ export default function TheRiddler() {
           <Subarticle
             subtitle="What is the Riddler?"
           >
-            <p>The riddler is a weekly math, logic and probability problem hosted by <a href="http://fivethirtyeight.com">fivethirtyeight.com</a>, a statistically oriented politics, sports and culture blog.</p>
+            <p>The Riddler is a weekly math, logic and probability problem hosted by fivethirtyeight. The website usually posts data-driven politics, sports and culture blog and predictions.</p>
 
           <Photo
             src={riddlerLogo}
             alt="theRiddler"
           />
 
-          <p>If the answer is particularly cool or my solution can be extended, made interactable or generalized then I'll usually write it up. I've also created and submitted some problems that have been featured.</p>
+          <p>If my solution extendable, interactive or generalizable then I'll usually blog about it. I've also created and submitted some problems that have published on the column.</p>
           </Subarticle>
         </Article>
 
