@@ -328,7 +328,7 @@ export default function ChessOpenings() {
           title="FAQ"
         >
           <Subarticle
-            subtitle="Questions / Notes"
+            subtitle=""
           >
 
           <p>
@@ -340,28 +340,6 @@ export default function ChessOpenings() {
           <p>
             Continue to play the opening until you break the book (get to the end of the opening explorer) or mess up. If you mess up press the back arrow to try again
           </p>          
-          </Subarticle>
-
-          <Subarticle
-            subtitle="To Do List"
-          >
-
-            <ul className="w-full px-4 mb-4 text-md leading-relaxed pl-8">
-              <li>• Better metric for doing well... streak score?</li>
-              <li>• Wrapping things in try/catch so you can't actually break it</li>
-              <li>• _maybe_ accepting two answers if they are close</li>
-            </ul>   
-            <div></div>    
-          </Subarticle>
-
-          <Subarticle
-            subtitle="Contact"
-          >
-
-          <p>
-            Contact me through twitter <a href="https://twitter.com/BuildABarr/">@BuildABarr</a> if you have ideas, questions, comments, etc.
-          </p>
-          <div></div>
           </Subarticle>
         </Article>
         </div>

@@ -20,38 +20,42 @@ export default function Footer() {
                   <a href="https://www.tylerbarron.com/" className="text-gray-light text-md">made by Tyler Barron</a>
               </div>
               <div className="text-sm  pb-4 text-black">
-                  V1.45
+                  V1.5
               </div>
               <div className="mt-0">
 
-                <button href="mailto: trbbarron@gmail.com"
+                <a href="mailto: trbbarron@gmail.com"
                   className="bg-gray-light shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                   type="button">
                   <i className="flex fab"></i>
                   <img
                     src={email}
                     style={{backgroundSize: "cover"}}
+                    alt="email"
                   />
-                </button>
+                </a>
 
-                <button href="https://github.com/trbarron"
+                <a href="https://github.com/trbarron"
                   className="bg-gray-light shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                   type="button">
                   <i className="flex fab uil-instagram"></i>
                   <img
                     src={git}
                     style={{backgroundSize: "cover"}}
+                    alt="github"
                   />
-                </button>
-                <button href="https://www.linkedin.com/in/tyler-barron-61972855/"
+                </a>
+
+                <a href="https://www.linkedin.com/in/tyler-barron-61972855/"
                   className="bg-gray-light shadow-lg h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
-                  type="button">
-                  <i className="flex fab"></i>
+                  type="submit">
                   <img
+                    href="https://www.linkedin.com/in/tyler-barron-61972855/"
                     src={lin}
                     style={{backgroundSize: "cover"}}
+                    alt="linkedin"
                   />
-                </button>
+                </a>
               </div>
 
 

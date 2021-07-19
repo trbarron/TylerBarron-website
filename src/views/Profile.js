@@ -19,26 +19,13 @@ export default function Profile() {
             <img
               src={bckgrndImg}
               style={{maxWidth: "200%"}}
+              alt="background_image"
             />
           </div>
           <div
             className="top-auto bottom-0 left-0 right-0 w-auto absolute pointer-events-none overflow-hidden"
             style={{ height: "14rem", transform: "translateZ(0)" }}
           >
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0"
-            >
-              <polygon
-                className="text-red fill-current"
-                points="3000 0 3000 500 0 100"
-              ></polygon>
-            </svg>
           </div>
         </section>
         <section className="relative pt-16 pb-4 bg-red">
@@ -52,6 +39,7 @@ export default function Profile() {
                         src={usrImag}
                         className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-40 w-auto"
                         style={{ maxWidth: "20rem"}}
+                        alt="shadow"
                       />
                     </div>
                   </div>
@@ -65,7 +53,7 @@ export default function Profile() {
                 <div className="mt-10 py-10 border-t border-gray">
                     <div className="w-full px-4">
                       <p className="mb-4 text-lg leading-relaxed text-gray">
-                      I'm Tyler, a Seattlite working as a Frontend Web Developer for a consulting company. I've worked for a robotics companies in the past. I spend my free time exercising (bouldering, running, yoga), creating 
+                      I'm Tyler, a recent Denver transplant working as a Frontend Web Developer for a consulting company. I've worked for a robotics companies in the past. I spend my free time exercising (bouldering, running, yoga), creating 
                       various art (photography / generative art), working on projects shown on this website and playing various video and board games.
                       </p>
                       <p className="mb-4 text-lg leading-relaxed text-gray">

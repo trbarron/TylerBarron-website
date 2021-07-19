@@ -31,9 +31,9 @@ export default function Profile() {
                 <li><a href="/TheRiddler" className="py-1 home-link">FiveThirtyEight's The Riddler</a></li>
                 <li><a href="/CamelUpCup" className="py-1 home-link">Camel Up Cup</a></li>
                 <li><a href="/ChessOpenings" className="py-1 home-link">Chess Openings Practice</a></li>
-                <li><a href="/MarchMadness" className="py-1 home-link">Boyd's March Madness (WIP)</a></li>
+                <li><a href="/MarchMadness" className="py-1 home-link">March Madness</a></li>
                 <li><a href="/GenerativeArt" className="py-1 home-link">Generative Art</a></li>
-                <li><a href="/Set" className="py-1 home-link">Set</a></li>
+                <li><a href="/Set" className="py-1 home-link">Hackathon Project: Set</a></li>
                 <li><a href="/BoulderingTracker" className="py-1 home-link">Bouldering Tracker</a></li>
                 <li><a href="/HueLights" className="py-1 home-link">Custom Hue Lights Setup</a></li>
                 <li><a href="/SSBM" className="py-1 home-link">Super Smash Bros. Melee Mods</a></li>
