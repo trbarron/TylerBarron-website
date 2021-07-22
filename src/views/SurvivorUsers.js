@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import analytics from '../components/Analytics.js'
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

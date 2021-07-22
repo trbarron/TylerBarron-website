@@ -1,4 +1,5 @@
 import React from "react";
+import analytics from '../components/Analytics.js'
 
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
@@ -12,9 +13,9 @@ import weatherCodes from "../assets/img/HueLights/weatherCodes.jpg"
 import sceneChanger from "../assets/img/HueLights/sceneChanger.jpg"
 import dashButton from "../assets/img/HueLights/dashButton.png"
 
-export default function Set() {
-
+export default function HueLIghts() {
   return (
+      
     <div className="bg-background bg-fixed">
       <Navbar/>
       <main>

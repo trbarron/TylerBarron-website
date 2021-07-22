@@ -1,8 +1,8 @@
 import React from "react";
 import Footer from "../components/Footer.js";
-
 import bckgrndImg from '../assets/img/background.jpg';
 
+import analytics from '../components/Analytics.js'
 
 export default function Profile() {
   return (
