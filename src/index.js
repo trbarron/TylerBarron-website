@@ -17,6 +17,7 @@ import SwiftneyGame from "./views/SwiftneyGame.js"
 import ChessOpenings from "./views/ChessOpenings.js"
 import SurvivorBracket from "./views/SurvivorBracket.js"
 import MarchMadnessFAQ from "./views/MarchMadnessFAQ.js"
+import YoutubeRevenueSplit from "./views/YoutubeRevenueSplit.js"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -71,6 +72,14 @@ ReactDOM.render(
 
       <Route path="/MarchMadnessFAQ">
         <MarchMadnessFAQ />
+      </Route>
+
+      <Route path="/YoutubeRevenueSplit">
+        <YoutubeRevenueSplit />
+      </Route>
+
+      <Route path="/login">
+        <YoutubeRevenueSplit />
       </Route>
 
       <Route path="/">
