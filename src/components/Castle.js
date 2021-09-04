@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import "../assets/CSS/field.scss"
 import useKeypress from '../assets/tools/useKeypress';
 
-export default function Castle(castleVal, initialTroopsVal, setCastle) {
-  const [troopsVal, setTroopsVal] = useState(initialTroopsVal);
+const Castle = (params) => {
   const [active, setActive] = useState(false);
+
+
+  const castleVal = params.castleVal;
+  const troopsVal = params.troopsVal;
+  const setTroopsVal = params.setTroopsVal;
+
 
   // }
   useKeypress('ArrowUp', () => {
@@ -22,20 +27,19 @@ export default function Castle(castleVal, initialTroopsVal, setCastle) {
   function updateNumber(e) {
     // const val = e.target.value;
     // If the current value passes the validity test then apply that to state
-    // if (e.target.validity.valid) setTroopsVal(e.target.value);
+    if (e.target.validity.valid) setTroopsVal(e.target.value);
   }
 
   function blurVal() {
     setActive(false);
-    // setTroopsVal(Math.round(troopsVal * 10) / 10)
+    setTroopsVal(Math.round(troopsVal * 10) / 10)
   }
 
   function incrementTroops(amount) {
     const newTroopVal = Math.round((troopsVal + amount) * 10) / 10;
-    // setTroopsVal(newTroopVal);
-    setCastle(newTroopVal);
+    setTroopsVal(newTroopVal);
   }
-  
+
 
   return (
 
@@ -65,7 +69,7 @@ export default function Castle(castleVal, initialTroopsVal, setCastle) {
         placeholder={troopsVal}
         type="tel"
         pattern="^-?[0-9]\d*\.?\d*$"
-        value={initialTroopsVal}
+        value={troopsVal}
         id={castleVal}
       />
 
@@ -84,4 +88,6 @@ export default function Castle(castleVal, initialTroopsVal, setCastle) {
 
 
   );
-}
+};
+
+export default Castle
