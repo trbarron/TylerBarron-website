@@ -10,7 +10,7 @@ import Input from "../components/TextInput.js";
 import GoogleLogin from 'react-google-login';
 import Axios from "axios";
 
-export default function YoutubeRevenueSplit() {
+export default function AuthExample() {
 
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");

@@ -17,7 +17,8 @@ import SwiftneyGame from "./views/SwiftneyGame.js"
 import ChessOpenings from "./views/ChessOpenings.js"
 import SurvivorBracket from "./views/SurvivorBracket.js"
 import MarchMadnessFAQ from "./views/MarchMadnessFAQ.js"
-import YoutubeRevenueSplit from "./views/YoutubeRevenueSplit.js"
+import AuthExample from "./views/AuthExample.js"
+import RiddlerWarfare from "./views/RiddlerWarfare.js"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -74,12 +75,12 @@ ReactDOM.render(
         <MarchMadnessFAQ />
       </Route>
 
-      <Route path="/YoutubeRevenueSplit">
-        <YoutubeRevenueSplit />
+      <Route path="/AuthExample">
+        <AuthExample />
       </Route>
 
-      <Route path="/login">
-        <YoutubeRevenueSplit />
+      <Route path="/RiddlerWarfare">
+        <RiddlerWarfare />
       </Route>
 
       <Route path="/">

@@ -25,10 +25,6 @@ class Input extends React.Component {
     }
   }
 
-  // passwordify(value) {
-  //     return "•".repeat(value.length)
-  // }
-
   render() {
     const { active, value, error, label } = this.state;
     const { predicted, locked, isPassword } = this.props;

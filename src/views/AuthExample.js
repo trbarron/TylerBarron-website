@@ -12,7 +12,7 @@ import Input from "../components/TextInput.js";
 import GoogleLogin from 'react-google-login';
 import Axios from "axios";
 
-export default function YoutubeRevenueSplit(_user) {
+export default function AuthExample(_user) {
 
 
   const [name, setName] = useState('');
@@ -39,7 +39,7 @@ export default function YoutubeRevenueSplit(_user) {
     Axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:4000/",
+      url: "http://localhost:4000/auth",
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -111,14 +111,13 @@ export default function YoutubeRevenueSplit(_user) {
         "Access-Control-Allow-Credentials": true
       }
     }).then((res) => {
-      console.log("res")
       _logOn();
     }).catch((err) => {
       _logOn();
     });
   };
 
-  
+
 
   return (
 
@@ -134,18 +133,15 @@ export default function YoutubeRevenueSplit(_user) {
           <Subarticle
             subtitle=""
           >
-            <div>
+            <h3 className="text-xl text-center pb-4">
               {!authenticated ? (
                 <h1>Welcome!</h1>
               ) : (
                 <div>
-                  <h1>You have logged in successfully!</h1>
-                  <h2>Welcome {name}!</h2>
+                  Logged in as: {name}
                 </div>
               )}
-            </div>
-
-            <h3 className="text-xl text-center pb-4">Log On</h3>
+            </h3>
 
             <div className="w-2/4 mx-auto h-16 pb-4">
               <Input
@@ -177,13 +173,9 @@ export default function YoutubeRevenueSplit(_user) {
               <div className="w-full h-full text-center text-lg place-self-center pt-2">Register</div>
             </div>
 
-            <br></br>
-
-
             <hr></hr>
-            <br></br>
 
-            <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={_handleSignInGoogle}>
+            <div className="w-2/4 mx-auto h-12 mb-4 mt-4 bg-red-light rounded cursor-pointer" onClick={_handleSignInGoogle}>
               <div className="w-full h-full text-center text-lg place-self-center pt-2">Log On with Google</div>
             </div>
 
