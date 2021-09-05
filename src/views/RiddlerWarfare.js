@@ -430,7 +430,7 @@ export default function RiddlerWarfair() {
         >
           <Radiobutton
             title={"Opponent"}
-            options={["Human", "Random", "1000 Random"]}
+            options={["Human", "Random", ]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
             onChange={setP2}
           />
 
