@@ -1,28 +1,24 @@
 const Radiobutton = (params) => {
 
+    const onChange = params.onChange;
+
     return (
-        <div class="main flex border rounded-full overflow-hidden m-4 select-none">
-            <div class="title py-3 my-auto px-5 bg-blue-500 text-white text-sm font-semibold mr-3">Type of Opponent</div>
-            <label class="flex radio p-2 cursor-pointer">
-                <input class="my-auto transform scale-125" type="radio" name="sfg" />
-                <div class="title px-2">Human</div>
-            </label>
+        <div className="main flex border overflow-hidden m-4 select-none">
+            <div className="title py-3 my-auto px-5 bg-gray text-white text-sm font-semibold mr-3">{params.title}</div>
 
-            <label class="flex radio p-2 cursor-pointer">
-                <input class="my-auto transform scale-125" type="radio" name="sfg" />
-                <div class="title px-2">Random</div>
-            </label>
-
-            <label class="flex radio p-2 cursor-pointer">
-                <input class="my-auto transform scale-125" type="radio" name="sfg" />
-                <div class="title px-2">Strong Opponent</div>
-            </label>
-
-            <label class="flex radio p-2 cursor-pointer">
-                <input class="my-auto transform scale-125" type="radio" name="sfg" />
-                <div class="title px-2">1000's of Opponents</div>
-            </label>
-
+            {params.options.map((element) => {
+                return (
+                    <label className="flex radio p-2 cursor-pointer">
+                        <input
+                            className="my-auto transform scale-125"
+                            type="radio"
+                            name="sfg"
+                            onChange={() => onChange(element)}
+                            key={element}
+                        />
+                        <div className="title px-2">{element}</div>
+                    </label>)
+            })}
         </div>
     )
 }

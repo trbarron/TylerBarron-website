@@ -9,7 +9,7 @@ const Castle = (params) => {
   const castleVal = params.castleVal;
   const troopsVal = params.troopsVal;
   const setTroopsVal = params.setTroopsVal;
-
+  const editable = params.editable;
 
   // }
   useKeypress('ArrowUp', () => {
@@ -47,9 +47,9 @@ const Castle = (params) => {
       <span className="m-auto">{castleVal}</span>
 
 
-
+      
       <button
-        className="font-semibold bg-red-200 hover:bg-red-300 text-white h-full w-full flex rounded-t focus:outline-none cursor-pointer"
+        className={"font-semibold bg-red-200 hover:bg-red-300 text-white h-full w-full flex rounded-t focus:outline-none cursor-pointer" + (editable ? "" : " hidden")}
         onClick={() => {
           incrementTroops(0.1);
         }}
@@ -75,7 +75,7 @@ const Castle = (params) => {
 
 
       <button
-        className="font-semibold bg-red-200 hover:bg-red-300 text-white h-full w-full flex rounded-b focus:outline-none cursor-pointer"
+        className={"font-semibold bg-red-200 hover:bg-red-300 text-white h-full w-full flex rounded-b focus:outline-none cursor-pointer" + (editable ? "" : " hidden")}
         onClick={() => {
           incrementTroops(-0.1);
         }}
