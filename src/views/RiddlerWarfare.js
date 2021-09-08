@@ -14,6 +14,7 @@ import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Radiobutton from "../components/RadioButton.js";
 import Input from "../components/TextInput.js";
+import BarChart from "../components/charts/barChart.js"
 
 // Images
 import imgCastleBlank from '../assets/img/RiddlerWarfare/castleBlank.svg';
@@ -34,6 +35,17 @@ export default function RiddlerWarfair() {
 
   const castlesIntA = castlesStrA.split(",").map((e) => parseFloat(e));
   const castlesIntB = castlesStrB.split(",").map((e) => parseFloat(e));
+
+  const [data, setData] = useState([
+    {
+      Title: "A",
+      Value: 10
+    },
+    {
+      Title: "B",
+      Value: 35
+    }
+  ]);
 
   function setCastle(team, index, value) {
     if (team === "A") {
@@ -78,6 +90,20 @@ export default function RiddlerWarfair() {
     setScoreB(_scoreB);
     setIsRandomized(false);
     setResults(showResults(_scoreA, _scoreB, _exception));
+    if (!_exception) {
+      setData(
+        [
+          {
+            Title: "A",
+            Value: _scoreA
+          },
+          {
+            Title: "B",
+            Value: _scoreB
+          }
+        ]
+      )
+    }
   }
 
   function getRandomDistro() {
@@ -208,10 +234,6 @@ export default function RiddlerWarfair() {
   function createBattleground(P2) {
     let P2Castles = <div> </div>
 
-    function roundTenth(val) {
-      return Math.round(val * 10) / 10;
-    }
-
     function generateHumanP2() {
 
       let castles = [];
@@ -328,8 +350,7 @@ export default function RiddlerWarfair() {
         {P2Castles}
 
         <div className="w-full grid grid-cols-3 gap-4 py-4">
-          <p>Player B:</p>
-          <p>244</p>
+          <BarChart width={600} height={400} data={data} maxData={100} />
         </div>
 
         <button
