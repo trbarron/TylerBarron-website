@@ -49,8 +49,7 @@ const Castle = (params) => {
 
       
       <button
-        className={"font-semibold bg-red-200 hover:bg-red-300 text-white h-full w-full flex rounded-t focus:outline-none cursor-pointer" + (editable ? "" : " hidden")}
-        onClick={() => {
+className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-none " + (editable ? "cursor-pointer bg-red-200 hover:bg-red-300" : " cursor-not-allowed bg-gray-200 hover:bg-gray-300")}        onClick={() => {
           incrementTroops(0.1);
         }}
       >
@@ -75,7 +74,7 @@ const Castle = (params) => {
 
 
       <button
-        className={"font-semibold bg-red-200 hover:bg-red-300 text-white h-full w-full flex rounded-b focus:outline-none cursor-pointer" + (editable ? "" : " hidden")}
+        className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-none " + (editable ? "cursor-pointer bg-red-200 hover:bg-red-300" : " cursor-not-allowed bg-gray-200 hover:bg-gray-300")}
         onClick={() => {
           incrementTroops(-0.1);
         }}

@@ -13,9 +13,15 @@ import Footer from "../components/Footer.js";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Radiobutton from "../components/RadioButton.js";
+import Input from "../components/TextInput.js";
+
+// Images
+import imgCastleBlank from '../assets/img/RiddlerWarfare/castleBlank.svg';
+
 
 export default function RiddlerWarfair() {
   const [P2, setP2] = useState("Human");
+  const [totalRounds, setTotalRounds] = useState(10000);
   const [isRandomized, setIsRandomized] = useState(false);
 
   const [scoreA, setScoreA] = useState(0)
@@ -33,6 +39,9 @@ export default function RiddlerWarfair() {
   const [castle8A, setCastle8A] = useState(10);
   const [castle9A, setCastle9A] = useState(10);
   const [castle10A, setCastle10A] = useState(10);
+
+  const [castlesStrA, setCastlesStrA] = useState("10,10,10,10,10,10,10,10,10,10")
+  const [castlesStrB, setCastlesStrB] = useState("10,10,10,10,10,10,10,10,10,10")
 
   const [castle1B, setCastle1B] = useState(10);
   const [castle2B, setCastle2B] = useState(10);
@@ -56,6 +65,53 @@ export default function RiddlerWarfair() {
     setIsRandomized(false);
     setResults(showResults(_scoreA, _scoreB, _exception));
   }
+
+  function handleManyBattleButton(totalRounds) {
+    let _scoreA = 0;
+    let _scoreB = 0;
+    let _exception = null;
+    const totalRoundsNum = parseInt(totalRounds);
+    for (let round = 0; round < totalRoundsNum; round++) {
+      const _roundCastleB = getRandomDistro();
+      const [_roundScoreA, _roundScoreB, _roundException] = battleLogic(castlesA, _roundCastleB);
+
+      // Player A Won:
+      if (_roundScoreA > _roundScoreB) { _scoreA += 1 }
+
+      // Player B Won:
+      else if (_roundScoreA < _roundScoreB) { _scoreB += 1 }
+
+      // Player A Won:
+      else if (_roundScoreA === _roundScoreB) { _scoreA += 0.5; _scoreB += 0.5 }
+
+      if (_roundException) { _exception = _roundException }
+    }
+    setScoreA(_scoreA);
+    setScoreB(_scoreB);
+    setIsRandomized(false);
+    setResults(showResults(_scoreA, _scoreB, _exception));
+  }
+
+  function getRandomDistro() {
+    const randomDistro = [];
+
+    for (let i = 0; i < 10; i++) {
+      randomDistro.push(Math.random());
+    }
+
+    const sumDistro = randomDistro.reduce((a, b) => a + b, 0);
+
+    for (let i = 0; i < 10; i++) {
+      randomDistro[i] = Math.round((randomDistro[i] / sumDistro) * 1000) / 10;
+    }
+
+    // Hehe fix the last one and give it the crumbs
+    const leftovers = randomDistro.reduce((a, b) => a + b, 0) - 100;
+    randomDistro[9] -= leftovers;
+
+    return randomDistro;
+  }
+
 
   function showResults(_scoreA, _scoreB, _exception) {
     if (_exception) {
@@ -236,23 +292,10 @@ export default function RiddlerWarfair() {
       )
     }
 
+
     function generateRandomP2(setRandom) {
       if (setRandom) {
-        const randomDistro = [];
-
-        for (let i = 0; i < 10; i++) {
-          randomDistro.push(Math.random())
-        }
-
-        const sumDistro = randomDistro.reduce((a, b) => a + b, 0);
-
-        for (let i = 0; i < 10; i++) {
-          randomDistro[i] = Math.round((randomDistro[i] / sumDistro) * 1000) / 10;
-        }
-
-        // Hehe fix the last one and give it the crumbs
-        const leftovers = randomDistro.reduce((a, b) => a + b, 0) - 100;
-        randomDistro[9] -= leftovers;
+        const randomDistro = getRandomDistro();
 
         setCastle1B(randomDistro[0])
         setCastle2B(randomDistro[1])
@@ -339,7 +382,7 @@ export default function RiddlerWarfair() {
 
     return (
       <>
-        <div className="w-full grid grid-cols-10 gap-0 h-16 ">
+        <div className="w-full grid grid-cols-10 gap-0 h-32 ">
           <Castle
             castleVal={1}
             setTroopsVal={setCastle1A}
@@ -403,17 +446,85 @@ export default function RiddlerWarfair() {
           />
         </div>
 
-        <button
-          type="button"
-          className="my-20"
-          onClick={() => handleBattleButton(castlesA, castlesB)}
-        >
+        <div className="w-full grid grid-cols-10 gap-0 h-full pb-4 ">
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
 
-          Fight
-        </button>
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            alt="castle1"
+          />
+
+          <img
+            src={imgCastleBlank}
+            style={{ backgroundSize: "cover" }}
+            alt="castle1"
+          />
+
+        </div>
 
 
         {P2Castles}
+
+        <button
+          type="button"
+          className="mt-20 bg-gray-dark text-white"
+          onClick={() => handleBattleButton()}
+        >
+          Fight Once
+        </button>
+
+        <button
+          type="button"
+          className="my-5 bg-gray-dark text-white"
+          onClick={() => handleManyBattleButton(totalRounds)}
+        >
+          Fight a lot
+        </button>
+
+        <button
+          type="button"
+          className="mb-5 bg-gray-dark text-white"
+          onClick={() => handleManyBattleButton(totalRounds)}
+        >
+          Submit Bot
+        </button>
 
       </>)
   }
@@ -430,9 +541,19 @@ export default function RiddlerWarfair() {
         >
           <Radiobutton
             title={"Opponent"}
-            options={["Human", "Random", ]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
+            options={["Human", "Random",]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
             onChange={setP2}
           />
+
+          <div className="h-full pb-20">
+            <div className={"w-2/4 mx-auto h-16 pb-4 " + ((P2 === "Human") ? "hidden" : " ")}>
+              <Input
+                id={"Total Rounds"}
+                label={"Total Rounds"}
+                handleChange={(e) => setTotalRounds(e)}
+              />
+            </div>
+          </div>
 
           {createBattleground(P2)}
 
