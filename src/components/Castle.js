@@ -5,11 +5,13 @@ import useKeypress from '../assets/tools/useKeypress';
 const Castle = (params) => {
   const [active, setActive] = useState(false);
 
-
-  const castleVal = params.castleVal;
+  const castleIndex = params.castleIndex;
+  const castleTeam = params.castleTeam;
   const troopsVal = params.troopsVal;
   const setTroopsVal = params.setTroopsVal;
   const editable = params.editable;
+
+  const tabIndex = 1 + castleIndex + (castleTeam === "A" ? 0 : 10)
 
   // }
   useKeypress('ArrowUp', () => {
@@ -27,29 +29,28 @@ const Castle = (params) => {
   function updateNumber(e) {
     // const val = e.target.value;
     // If the current value passes the validity test then apply that to state
-    if (e.target.validity.valid) setTroopsVal(e.target.value);
+    if (e.target.validity.valid) setTroopsVal(castleTeam, castleIndex, e.target.value);
   }
 
   function blurVal() {
     setActive(false);
-    setTroopsVal(Math.round(troopsVal * 10) / 10)
+    setTroopsVal(castleTeam, castleIndex, Math.round(troopsVal * 10) / 10);
   }
 
   function incrementTroops(amount) {
     const newTroopVal = Math.round((troopsVal + amount) * 10) / 10;
-    setTroopsVal(newTroopVal);
+    setTroopsVal(castleTeam, castleIndex, newTroopVal);
   }
 
 
   return (
 
     <div className="flex flex-col h-10 w-full relative px-1" >
-      <span className="m-auto">{castleVal}</span>
 
 
-      
+
       <button
-className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-none " + (editable ? "cursor-pointer bg-red-200 hover:bg-red-300" : " cursor-not-allowed bg-gray-200 hover:bg-gray-300")}        onClick={() => {
+        className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-none " + (editable ? "cursor-pointer bg-red-200 hover:bg-red-300" : " cursor-not-allowed bg-gray-200 hover:bg-gray-300")} onClick={() => {
           incrementTroops(0.1);
         }}
       >
@@ -69,7 +70,7 @@ className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-
         type="tel"
         pattern="^-?[0-9]\d*\.?\d*$"
         value={troopsVal}
-        id={castleVal}
+        tabIndex={tabIndex}
       />
 
 
