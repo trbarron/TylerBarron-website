@@ -45,7 +45,7 @@ const Castle = (params) => {
 
   return (
 
-    <div className="flex flex-col h-10 w-full relative px-1" >
+    <div className="flex flex-col h-10 w-full relative px-0.5 md:px-1" >
 
 
 
@@ -60,7 +60,7 @@ const Castle = (params) => {
 
 
       <input
-        className="md:p-2 p-1 text-xs md:text-base border-gray-400 focus:outline-none text-center"
+        className="md:p-2 p-0 text-xs md:text-base border-gray-400 focus:outline-none text-center"
         name="custom-input-number"
         onChange={(e) => updateNumber(e)}
         onFocus={() => setActive(true)}

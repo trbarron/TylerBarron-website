@@ -65,7 +65,6 @@ export default function RiddlerWarfare() {
       "interestec",
       "fuzzyspuffy",
       "monsterup",
-      "milka1baby",
       "lovesboost",
       "edgymnerch",
       "ortspoon",
@@ -77,13 +76,21 @@ export default function RiddlerWarfare() {
       "popularkiya",
       "breacche",
       "blikimore",
-      "stonewellforever",
       "simmson",
       "brighthulk",
       "bootecia",
       "spuffyffet",
       "rozalthiric",
       "bookman",
+      "Mang0",
+      "plup",
+      "ibdw",
+      "leffen",
+      "amsa",
+      "m2k",
+      "armada",
+      "ppmd",
+      "hbox",
     ]
 
     return listOfNames[Math.floor(Math.random() * listOfNames.length)];
@@ -272,10 +279,10 @@ export default function RiddlerWarfare() {
       return (
         <>
           <p>
-            Player won {_scoreA} out of {_scoreB} games played.
+            Player won {_scoreA} out of {_scoreB} games played for a winrate of {Math.round(_scoreA / (_scoreA +_scoreB) * 1000) / 10}%. 
           </p>
           <p>
-            This puts you in "tbd" place
+            Your army was added to the database for future armies to face
           </p>
         </>
       )
@@ -443,22 +450,22 @@ export default function RiddlerWarfare() {
       castleImages.push(
         <div>
           <img
-            className={castleImagePaddings[castleImgIndex]}
+            className={"h-full " + castleImagePaddings[castleImgIndex]}
             src={imgCastleBlank}
             alt={"castle" + castleImgIndex}
           />
-          <p className="text-center place-self-center w-full my-0">{castleImgIndex + 1}</p>
+          <p className="text-center place-self-center w-full my-0 p-0 align-bottom">{castleImgIndex + 1}</p>
         </div>
       )
     }
 
     return (
       <>
-        <div className="w-full grid grid-cols-10 gap-0 h-32 py-4">
+        <div className="w-full grid grid-cols-10 gap-0 h-28 pt-4">
           {castles}
         </div>
 
-        <div className="w-full grid grid-cols-10 gap-0 h-full py-4 ">
+        <div className="w-full grid grid-cols-10 gap-0 h-full pb-8 ">
           {castleImages}
         </div>
 
@@ -466,7 +473,7 @@ export default function RiddlerWarfare() {
         {P2Castles}
 
         <div className="w-full grid grid-cols-1 pt-4">
-          <BarChart width={600} height={75} data={data} />
+          <BarChart data={data} />
         </div>
 
         <div className="h-16">

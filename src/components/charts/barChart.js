@@ -1,18 +1,22 @@
 import * as d3 from 'd3';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
-function BarChart({ width, height, data }) {
+function BarChart({ data }) {
     const ref = useRef();
 
-    const margin = { top: 0, right: 0, bottom: 90, left: 140 }
+    const margin = { top: 0, right: 0, bottom: 0, left: 0 }
 
     useEffect(() => {
+        const width = ref.current.parentElement.parentElement.offsetWidth;
+        const height = ref.current.parentElement.parentElement.offsetHeight;    
+
         const svg = d3.select(ref.current)
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width)
+            .attr("height", height)
         svg.append("glob")
             .attr("transform", `translate(${margin.left},${margin.bottom})`);
-
+        // setGWidth(ref.current.parentElement.parentElement.parentElement.offsetWidth);
+        // setGHeight(ref.current.parentElement.parentElement.parentElement.offsetHeight);
     }, []);
 
     useEffect(() => {
@@ -20,7 +24,13 @@ function BarChart({ width, height, data }) {
     }, [data]);
 
     const draw = () => {
-        const svg = d3.select(ref.current);
+
+        const width = ref.current.parentElement.parentElement.offsetWidth;
+        const height = ref.current.parentElement.parentElement.offsetHeight;
+    
+        const svg = d3.select(ref.current)
+            .attr("width", ref.current.parentElement.parentElement.offsetWidth)
+            .attr("height", ref.current.parentElement.parentElement.offsetHeight)
         var selection = svg.selectAll("rect").data(data);
 
         const reducer = (previousValue, currentValue) => previousValue + currentValue.Value;
