@@ -279,7 +279,7 @@ export default function RiddlerWarfare() {
       return (
         <>
           <p>
-            Player won {_scoreA} out of {_scoreB} games played for a winrate of {Math.round(_scoreA / (_scoreA +_scoreB) * 1000) / 10}%. 
+            Player won {_scoreA} out of {_scoreB} games played for a winrate of {Math.round(_scoreA / (_scoreA + _scoreB) * 1000) / 10}%.
           </p>
           <p>
             Your army was added to the database for future armies to face
@@ -418,6 +418,18 @@ export default function RiddlerWarfare() {
       P2Castles = generateInternetP2();
     }
 
+    // Check to see if Player A has a soldier count of 100
+    let doesntSum = (<div className="h-4"></div>);
+    const sum = Math.round(castlesIntA.reduce((a, b) => a + b, 0) * 10) / 10;
+
+    if (sum !== 100) {
+      doesntSum = (
+        <p className="text-center w-full text-sm p-0 m-0 h-4">
+          soldier total: {sum}
+        </p>
+      );
+    }
+
 
 
     let castles = [];
@@ -461,6 +473,7 @@ export default function RiddlerWarfare() {
 
     return (
       <>
+        {doesntSum}
         <div className="w-full grid grid-cols-10 gap-0 h-28 pt-4">
           {castles}
         </div>
