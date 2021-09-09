@@ -15,20 +15,23 @@ import Article from "../components/Article.js";
 import Radiobutton from "../components/RadioButton.js";
 import Input from "../components/TextInput.js";
 import BarChart from "../components/charts/barChart.js"
+import Axios from "axios";
 
 // Images
 import imgCastleBlank from '../assets/img/RiddlerWarfare/castleBlank.svg';
 
 
-export default function RiddlerWarfair() {
-  const [P2, setP2] = useState("Human");
+export default function RiddlerWarfare() {
+  const [P2, setP2] = useState("Local Human");
   const [totalRounds, setTotalRounds] = useState(10000);
   const [isRandomized, setIsRandomized] = useState(false);
 
-  const [scoreA, setScoreA] = useState(0)
-  const [scoreB, setScoreB] = useState(0)
+  const [scoreA, setScoreA] = useState(0);
+  const [scoreB, setScoreB] = useState(0);
 
   const [results, setResults] = useState("N/A")
+
+  const [username, setUsername] = useState(getRandomUsername())
 
   const [castlesStrA, setCastlesStrA] = useState("10,10,10,10,10,10,10,10,10,10")
   const [castlesStrB, setCastlesStrB] = useState("10,10,10,10,10,10,10,10,10,10")
@@ -38,14 +41,53 @@ export default function RiddlerWarfair() {
 
   const [data, setData] = useState([
     {
-      Title: "A",
-      Value: 10
+      Title: "Player 1",
+      Value: 0.5
     },
     {
-      Title: "B",
-      Value: 35
+      Title: "Player 2",
+      Value: 0.5
     }
   ]);
+
+  function getRandomUsername() {
+    const listOfNames = [
+      "bandalls",
+      "wattlexp",
+      "sweetiele",
+      "hyperyaufarer",
+      "editussion",
+      "experthead",
+      "flamesbria",
+      "heroanhart",
+      "liveltekah",
+      "linguss",
+      "interestec",
+      "fuzzyspuffy",
+      "monsterup",
+      "milka1baby",
+      "lovesboost",
+      "edgymnerch",
+      "ortspoon",
+      "oranolio",
+      "onemama",
+      "dravenfact",
+      "reallychel",
+      "reakefit",
+      "popularkiya",
+      "breacche",
+      "blikimore",
+      "stonewellforever",
+      "simmson",
+      "brighthulk",
+      "bootecia",
+      "spuffyffet",
+      "rozalthiric",
+      "bookman",
+    ]
+
+    return listOfNames[Math.floor(Math.random()*listOfNames.length)];
+  }
 
   function setCastle(team, index, value) {
     if (team === "A") {
@@ -94,17 +136,53 @@ export default function RiddlerWarfair() {
       setData(
         [
           {
-            Title: "A",
+            Title: "You",
             Value: _scoreA
           },
           {
-            Title: "B",
+            Title: "Random Opponent",
             Value: _scoreB
           }
         ]
       )
     }
   }
+
+  function handleSubmitArmyButton() {
+    Axios({
+      method: "POST",
+      data: {
+        name: username,
+        selections: castlesStrA,
+      },
+      withCredentials: true,
+      url: "http://localhost:3000/api/army/post/submitArmy",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        "Access-Control-Allow-Credentials": true
+      }
+    }).then((res) => {
+      console.log(res);
+      // console.log(JSON.parse(res.data));
+      const internetResult = res.data;
+      setResults(showResults(internetResult.armyWins, internetResult.armyGamesPlayed, null, "The Internet"));
+
+      //set data for graph
+      setData(
+        [
+          {
+            Title: "You",
+            Value: internetResult.armyWins
+          },
+          {
+            Title: "The Internet",
+            Value: internetResult.armyGamesPlayed - internetResult.armyWins
+          }
+        ]
+      )
+    });
+  };
 
   function getRandomDistro() {
     const randomDistro = [];
@@ -127,7 +205,7 @@ export default function RiddlerWarfair() {
   }
 
 
-  function showResults(_scoreA, _scoreB, _exception) {
+  function showResults(_scoreA, _scoreB, _exception, player2 = P2) {
     if (_exception) {
       toast.error(_exception);
 
@@ -138,7 +216,7 @@ export default function RiddlerWarfair() {
       )
     }
 
-    if (P2 === "Human" || P2 === "Random") {
+    if (player2 === "Local Human" || player2 === "Random") {
       if (_scoreA === _scoreB) {
         return (
           <>
@@ -148,9 +226,9 @@ export default function RiddlerWarfair() {
             <p>
               Player B: {_scoreB}
             </p>
-            <h3>
+            <p>
               Players tie!
-            </h3>
+            </p>
           </>
         )
       }
@@ -164,9 +242,9 @@ export default function RiddlerWarfair() {
             <p>
               Player B: {_scoreB}
             </p>
-            <h3>
+            <p>
               Player A Wins!
-            </h3>
+            </p>
           </>
 
         )
@@ -181,15 +259,28 @@ export default function RiddlerWarfair() {
             <p>
               Player B: {_scoreB}
             </p>
-            <h2>
+            <p>
               Player B Wins!
-            </h2>
+            </p>
           </>
         )
       }
 
 
 
+    }
+
+    else if (player2 === "The Internet") {
+      return (
+        <>
+          <p>
+            Player won {_scoreA} out of {_scoreB} games played.
+          </p>
+          <p>
+            This puts you in "tbd" place
+          </p>
+        </>
+      )
     }
   }
 
@@ -250,12 +341,34 @@ export default function RiddlerWarfair() {
       }
 
       return (
-        <div className="w-full grid grid-cols-10 gap-0 h-48 ">
+        <div className="w-full grid grid-cols-10 gap-0 h-32 py-4 ">
           {castles}
         </div>
       )
     }
 
+
+    function generateInternetP2() {
+
+      let castles = [];
+      for (let castleIndex = 0; castleIndex < 10; castleIndex++) {
+        castles.push(
+          <Castle
+            castleIndex={castleIndex}
+            castleTeam={"B"}
+            setTroopsVal={console.log}
+            troopsVal={"?"}
+            editable={false}
+          />
+        )
+      }
+
+      return (
+        <div className="w-full grid grid-cols-10 gap-0 h-32 py-4 ">
+          {castles}
+        </div>
+      )
+    }
 
     function generateRandomP2(setRandom) {
       if (setRandom) {
@@ -286,7 +399,7 @@ export default function RiddlerWarfair() {
       )
     }
 
-    if (P2 === "Human") {
+    if (P2 === "Local Human") {
       P2Castles = generateHumanP2();
     }
 
@@ -296,6 +409,11 @@ export default function RiddlerWarfair() {
     else if (P2 === "Random") {
       P2Castles = generateRandomP2(false);
     }
+    else if (P2 === "The Internet") {
+      P2Castles = generateInternetP2();
+    }
+
+
 
     let castles = [];
     for (var castleIndex = 0; castleIndex < 10; castleIndex++) {
@@ -349,13 +467,24 @@ export default function RiddlerWarfair() {
 
         {P2Castles}
 
-        <div className="w-full grid grid-cols-3 gap-4 py-4">
-          <BarChart width={600} height={400} data={data} maxData={100} />
+        <div className="w-full grid grid-cols-1 pt-4">
+          <BarChart width={600} height={75} data={data} />
+        </div>
+
+        <div className="h-16">
+          <div className={"w-full mx-auto h-16 " + ((P2 === "The Internet") ? "" : "hidden")}>
+            <Input
+              id={"Name"}
+              label={"Name"}
+              value={username}
+              handleChange={(e) => setUsername(e)}
+            />
+          </div>
         </div>
 
         <button
           type="button"
-          className="mt-20 bg-gray-dark text-white"
+          className={"my-5 h-16 cursor-pointer bg-gray text-white" + ((P2 === "Local Human") ? "" : " hidden")}
           onClick={() => handleBattleButton()}
         >
           Fight Once
@@ -363,7 +492,7 @@ export default function RiddlerWarfair() {
 
         <button
           type="button"
-          className="my-5 bg-gray-dark text-white"
+          className={"my-5 h-16 cursor-pointer bg-gray text-white" + ((P2 === "Random") ? "" : " hidden")}
           onClick={() => handleManyBattleButton(totalRounds)}
         >
           Fight a lot
@@ -371,12 +500,11 @@ export default function RiddlerWarfair() {
 
         <button
           type="button"
-          className="mb-5 bg-gray-dark text-white"
-          onClick={() => handleManyBattleButton(totalRounds)}
+          className={"my-5 h-16 cursor-pointer bg-gray text-white" + ((P2 === "The Internet") ? "" : " hidden")}
+          onClick={() => handleSubmitArmyButton()}
         >
-          Submit Bot
+          Submit Army
         </button>
-
       </>)
   }
 
@@ -392,15 +520,16 @@ export default function RiddlerWarfair() {
         >
           <Radiobutton
             title={"Opponent"}
-            options={["Human", "Random",]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
+            options={["Local Human", "Random", "The Internet"]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
             onChange={setP2}
           />
 
           <div className="h-24">
-            <div className={"w-2/4 mx-auto h-16 pb-4 " + ((P2 === "Human") ? "hidden" : " ")}>
+            <div className={"w-2/4 mx-auto h-16 pb-4 " + ((P2 === "Random") ? "" : "hidden")}>
               <Input
                 id={"Total Rounds"}
                 label={"Total Rounds"}
+                value={totalRounds}
                 handleChange={(e) => setTotalRounds(e)}
               />
             </div>

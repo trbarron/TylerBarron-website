@@ -4,11 +4,15 @@ import React, { useRef, useEffect } from 'react';
 function BarChart({ width, height, data }) {
     const ref = useRef();
 
+    const margin = { top: 0, right: 0, bottom: 90, left: 140 }
+
     useEffect(() => {
         const svg = d3.select(ref.current)
-            .attr("width", width)
-            .attr("height", height)
-            .style("border", "0")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        svg.append("glob")
+            .attr("transform", `translate(${margin.left},${margin.bottom})`);
+
     }, []);
 
     useEffect(() => {
@@ -19,8 +23,11 @@ function BarChart({ width, height, data }) {
         const svg = d3.select(ref.current);
         var selection = svg.selectAll("rect").data(data);
 
-        const reducer = (previousValue, currentValue) => Math.max(previousValue, currentValue.Value);
-        const maxData = data.reduce(reducer,0)
+        const reducer = (previousValue, currentValue) => previousValue + currentValue.Value;
+        const maxData = data.reduce(reducer, 0)
+
+        svg.selectAll("g").remove();
+
 
         const x = d3.scaleLinear()
             .domain([0, maxData])
@@ -38,32 +45,40 @@ function BarChart({ width, height, data }) {
             .domain(data.map(d => d.Title))
             .padding(.1);
         svg.append("g")
-            .call(d3.axisLeft(y))
+            .call(d3.axisRight(y))
+            .selectAll("text")
+            .style("text-anchor", "start");
+
 
 
 
         //Bars
 
-        // selection
-        //     .transition().duration(300)
-        //     .attr("width", (d) => x(d))
-        //     .attr("x", (d) => height - x(d))
-
         selection
             .data(data)
             .join("rect")
-            .attr("x", x(0))
             .attr("y", d => y(d.Title))
-            .attr("width", d => x(d.Value))
             .attr("height", y.bandwidth())
             .attr("fill", "#EA5449")
+
+            // animation
+            .attr("width", d => x(0)) // always equal to 0
+            .attr("x", d => x(0))
+
+        selection
+            .transition()
+            .duration(800)
+            .attr("x", d => x(0))
+            .attr("width", d => x(d.Value))
+            .delay(function (d, i) { return (i * 200) })
 
         selection
             .exit()
             .transition().duration(300)
-            .attr("x", () => width)
-            .attr("width", 0)
+            .attr("y", (d) => height)
+            .attr("height", 0)
             .remove()
+
     }
 
 
