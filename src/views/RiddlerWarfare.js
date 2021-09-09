@@ -86,7 +86,7 @@ export default function RiddlerWarfare() {
       "bookman",
     ]
 
-    return listOfNames[Math.floor(Math.random()*listOfNames.length)];
+    return listOfNames[Math.floor(Math.random() * listOfNames.length)];
   }
 
   function setCastle(team, index, value) {
@@ -159,8 +159,6 @@ export default function RiddlerWarfare() {
       url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        "Access-Control-Allow-Credentials": true
       }
     }).then((res) => {
       console.log(res);
