@@ -3,7 +3,7 @@ const Radiobutton = (params) => {
     const onChange = params.onChange;
 
     return (
-        <div className="main flex border overflow-hidden m-4 select-none">
+        <div className="main flex flex-col md:flex-row border overflow-hidden m-4 select-none">
             <div className="title py-3 my-auto px-5 bg-gray text-white text-sm font-semibold mr-3">{params.title}</div>
 
             {params.options.map((element) => {

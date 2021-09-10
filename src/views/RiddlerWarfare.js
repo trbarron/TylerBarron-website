@@ -304,6 +304,16 @@ export default function RiddlerWarfare() {
       return [0, 0, "Player B doesn't sum to 100"]
     }
 
+    const minNumberA = Math.min(...castlesA);
+    if (minNumberA < 0) {
+      return [0, 0, "Player A has an invalid (negative) number"]
+    }
+
+    const minNumberB = Math.min(...castlesB);
+    if (minNumberB < 0) {
+      return [0, 0, "Player B has an invalid (negative) number"]
+    }
+
     for (let i = 0; i < 10; i++) {
 
       // Handle ties
@@ -561,7 +571,9 @@ export default function RiddlerWarfare() {
           title="Results"
           subtitle=""
         >
-          {results}
+          <div className="pb-4">
+            {results}
+          </div>
 
         </Article>
 
