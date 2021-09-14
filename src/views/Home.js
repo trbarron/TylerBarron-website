@@ -32,12 +32,13 @@ export default function Profile() {
                 <li><a href="/CamelUpCup" className="py-1 home-link">Camel Up Cup</a></li>
                 <li><a href="/ChessOpenings" className="py-1 home-link">Chess Openings Practice</a></li>
                 <li><a href="/MarchMadness" className="py-1 home-link">March Madness</a></li>
+                <li><a href="/RiddlerWarfare" className="py-1 home-link">Riddler Warfare</a></li>
                 <li><a href="/GenerativeArt" className="py-1 home-link">Generative Art</a></li>
                 <li><a href="/Set" className="py-1 home-link">Hackathon Project: Set</a></li>
                 <li><a href="/BoulderingTracker" className="py-1 home-link">Bouldering Tracker</a></li>
                 <li><a href="/HueLights" className="py-1 home-link">Custom Hue Lights Setup</a></li>
                 <li><a href="/SSBM" className="py-1 home-link">Super Smash Bros. Melee Mods</a></li>
-                <li><a href="/BedFrame" className="py-1 home-link">Bed Frame</a></li>
+                {/* <li><a href="/BedFrame" className="py-1 home-link">Bed Frame</a></li> */}
                 <li><a href="/SwiftneyGame" className="py-1 home-link">The Swiftney Game</a></li>
             </ul>
         </section>
