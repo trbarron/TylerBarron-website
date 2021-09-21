@@ -22,22 +22,24 @@ import imgCastleBlank from '../assets/img/RiddlerWarfare/castleBlank.svg';
 
 
 export default function RiddlerWarfare() {
-  const [P2, setP2] = useState("Local Human");
-  const [totalRounds, setTotalRounds] = useState(10000);
+  const [P2, setP2] = useState("The Internet");
   const [isRandomized, setIsRandomized] = useState(false);
 
-  const [scoreA, setScoreA] = useState(0);
-  const [scoreB, setScoreB] = useState(0);
-
-  const [results, setResults] = useState("N/A")
+  const [results, setResults] = useState("")
 
   const [username, setUsername] = useState(getRandomUsername())
 
   const [castlesStrA, setCastlesStrA] = useState("10,10,10,10,10,10,10,10,10,10")
   const [castlesStrB, setCastlesStrB] = useState("10,10,10,10,10,10,10,10,10,10")
 
-  const castlesIntA = castlesStrA.split(",").map((e) => parseFloat(e));
-  const castlesIntB = castlesStrB.split(",").map((e) => parseFloat(e));
+
+  const totalRounds = 10000;
+
+  const castlesArrIntA = castlesStrA.split(",").map((e) => parseFloat(e));
+  const castlesArrIntB = castlesStrB.split(",").map((e) => parseFloat(e));
+
+  const castlesArrStrA = castlesStrA.split(",").map((e) => e);
+  const castlesArrStrB = castlesStrB.split(",").map((e) => e);
 
   const [data, setData] = useState([
     {
@@ -98,19 +100,17 @@ export default function RiddlerWarfare() {
 
   function setCastle(team, index, value) {
     if (team === "A") {
-      castlesIntA[index] = value;
-      setCastlesStrA(castlesIntA.join(","))
+      castlesArrIntA[index] = value;
+      setCastlesStrA(castlesArrIntA.join(","))
     }
     else if (team === "B") {
-      castlesIntB[index] = value;
-      setCastlesStrB(castlesIntB.join(","))
+      castlesArrIntB[index] = value;
+      setCastlesStrB(castlesArrIntB.join(","))
     }
   }
 
   function handleBattleButton() {
-    const [_scoreA, _scoreB, _exception] = battleLogic(castlesIntA, castlesIntB);
-    setScoreA(_scoreA);
-    setScoreB(_scoreB);
+    const [_scoreA, _scoreB, _exception] = battleLogic(castlesArrIntA, castlesArrIntB);
     setIsRandomized(false);
     setResults(showResults(_scoreA, _scoreB, _exception));
   }
@@ -119,10 +119,9 @@ export default function RiddlerWarfare() {
     let _scoreA = 0;
     let _scoreB = 0;
     let _exception = null;
-    const totalRoundsNum = parseInt(totalRounds);
-    for (let round = 0; round < totalRoundsNum; round++) {
+    for (let round = 0; round < totalRounds; round++) {
       const _roundCastleB = getRandomDistro();
-      const [_roundScoreA, _roundScoreB, _roundException] = battleLogic(castlesIntA, _roundCastleB);
+      const [_roundScoreA, _roundScoreB, _roundException] = battleLogic(castlesArrIntA, _roundCastleB);
 
       // Player A Won:
       if (_roundScoreA > _roundScoreB) { _scoreA += 1 }
@@ -135,8 +134,6 @@ export default function RiddlerWarfare() {
 
       if (_roundException) { _exception = _roundException }
     }
-    setScoreA(_scoreA);
-    setScoreB(_scoreB);
     setIsRandomized(false);
     setResults(showResults(_scoreA, _scoreB, _exception));
     if (!_exception) {
@@ -199,7 +196,7 @@ export default function RiddlerWarfare() {
     const sumDistro = randomDistro.reduce((a, b) => a + b, 0);
 
     for (let i = 0; i < 10; i++) {
-      randomDistro[i] = Math.round((randomDistro[i] / sumDistro) * 1000) / 10;
+      randomDistro[i] = Math.floor((randomDistro[i] / sumDistro) * 1000) / 10;
     }
 
     // Hehe fix the last one and give it the crumbs
@@ -349,7 +346,7 @@ export default function RiddlerWarfare() {
             castleIndex={castleIndex}
             castleTeam={"B"}
             setTroopsVal={setCastle}
-            troopsVal={castlesIntB[castleIndex]}
+            troopsVal={castlesArrStrB[castleIndex]}
             editable={true}
           />
         )
@@ -401,7 +398,7 @@ export default function RiddlerWarfare() {
             castleIndex={castleIndex}
             castleTeam={"B"}
             setTroopsVal={setCastle}
-            troopsVal={castlesIntB[castleIndex]}
+            troopsVal={castlesArrStrB[castleIndex]}
             editable={false}
           />
         )
@@ -430,7 +427,7 @@ export default function RiddlerWarfare() {
 
     // Check to see if Player A has a soldier count of 100
     let doesntSum = (<div className="h-4"></div>);
-    const sum = Math.round(castlesIntA.reduce((a, b) => a + b, 0) * 10) / 10;
+    const sum = Math.round(castlesArrIntA.reduce((a, b) => a + b, 0) * 10) / 10;
 
     if (sum !== 100) {
       doesntSum = (
@@ -449,7 +446,7 @@ export default function RiddlerWarfare() {
           castleIndex={castleIndex}
           castleTeam={"A"}
           setTroopsVal={setCastle}
-          troopsVal={castlesIntA[castleIndex]}
+          troopsVal={castlesArrStrA[castleIndex]}
           editable={true}
         />
       )
@@ -457,16 +454,16 @@ export default function RiddlerWarfare() {
 
     const castleImages = [];
     const castleImagePaddings = [
-      "p-5",   //1
-      "p-4 ",   //2
-      "p-3.5", //3
-      "p-3",   //4
-      "p-2.5", //5
-      "p-2",   //6
-      "p-1.5", //7
-      "p-1",   //8
-      "p-0.5", //9
-      "p-0",   //10
+      "p-2 md:p-5 lg:p-8",   //1
+      "p-2 md:p-4 lg:p-7",   //2
+      "p-1.5 md:p-3.5 lg:p-6", //3
+      "p-1.5 md:p-3 lg:p-5",   //4
+      "p-1 md:p-2.5 lg:p-4", //5
+      "p-1 md:p-2 lg:p-3",   //6
+      "p-0.5 md:p-1.5 lg:p-2", //7
+      "p-0.5 md:p-1 lg:p-1.5",   //8
+      "p-0 md:p-0.5 lg:p-1", //9
+      "p-0 md:p-0 lg:p-0",   //10
     ]
     for (var castleImgIndex = 0; castleImgIndex < 10; castleImgIndex++) {
       castleImages.push(
@@ -495,11 +492,11 @@ export default function RiddlerWarfare() {
 
         {P2Castles}
 
-        <div className="w-full grid grid-cols-1 pt-4">
+        <div className="w-full grid grid-cols-1 py-2">
           <BarChart data={data} />
         </div>
 
-        <div className="h-16">
+        <div className="h-16 mt-5">
           <div className={"w-full mx-auto h-16 " + ((P2 === "The Internet") ? "" : "hidden")}>
             <Input
               id={"Name"}
@@ -548,20 +545,10 @@ export default function RiddlerWarfare() {
         >
           <Radiobutton
             title={"Opponent"}
-            options={["Local Human", "Random", "The Internet"]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
+            options={[ "The Internet", "Random", "Local Human"]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
             onChange={setP2}
+            checkedVal={P2}
           />
-
-          <div className="h-24">
-            <div className={"w-2/4 mx-auto h-16 pb-4 " + ((P2 === "Random") ? "" : "hidden")}>
-              <Input
-                id={"Total Rounds"}
-                label={"Total Rounds"}
-                value={totalRounds}
-                handleChange={(e) => setTotalRounds(e)}
-              />
-            </div>
-          </div>
 
           {createBattleground(P2)}
 

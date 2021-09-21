@@ -4,7 +4,7 @@ module.exports = {
     fontFamily: {
       body: ['Armata', 'sans-serif'],
     },
-    
+
     extend: {
       spacing: {
         xl: "49rem",
@@ -13,8 +13,8 @@ module.exports = {
 
       backgroundImage: theme => ({
         'background': "url('./assets/img/background.jpg')",
-       }),
-      
+      }),
+
       maxHeight: {
         '0': '0',
         '1/4': '25%',
@@ -38,7 +38,7 @@ module.exports = {
           dark: '#EA5449',
           clear: "#EA5449DD",
         },
-  
+
         gray: {
           light: '#f2f2f2',
           DEFAULT: '#2E3532',

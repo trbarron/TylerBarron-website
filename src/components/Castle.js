@@ -26,19 +26,13 @@ const Castle = (params) => {
     };
   });
 
-  function updateNumber(e) {
-    // const val = e.target.value;
-    // If the current value passes the validity test then apply that to state
-    if (e.target.validity.valid) setTroopsVal(castleTeam, castleIndex, e.target.value);
-  }
-
   function blurVal() {
     setActive(false);
     setTroopsVal(castleTeam, castleIndex, Math.round(troopsVal * 10) / 10);
   }
 
   function incrementTroops(amount) {
-    const newTroopVal = Math.round((troopsVal + amount) * 10) / 10;
+    const newTroopVal = Math.round((parseFloat(troopsVal) + amount) * 10) / 10;
     setTroopsVal(castleTeam, castleIndex, newTroopVal);
   }
 
@@ -46,8 +40,6 @@ const Castle = (params) => {
   return (
 
     <div className="flex flex-col h-10 w-full relative px-0.5 md:px-1" >
-
-
 
       <button
         className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-none " + (editable ? "cursor-pointer bg-red-200 hover:bg-red-300" : " cursor-not-allowed bg-gray-200 hover:bg-gray-300")} onClick={() => {
@@ -57,22 +49,19 @@ const Castle = (params) => {
         <span className="m-auto">+</span>
       </button>
 
-
-
       <input
         className="md:p-2 p-0 text-xs md:text-base border-gray-400 focus:outline-none text-center"
         name="custom-input-number"
-        onChange={(e) => updateNumber(e)}
+        onChange={(e) => setTroopsVal(castleTeam, castleIndex, e.target.value)}
         onFocus={() => setActive(true)}
         onBlur={() => blurVal()}
         autoComplete={"off"}
         placeholder={troopsVal}
         type="tel"
-        pattern="^-?[0-9]\d*\.?\d*$"
+        // pattern="^-?[0-9]\d*\.?\d*$"
         value={troopsVal}
         tabIndex={tabIndex}
       />
-
 
       <button
         className={"font-semibold text-white h-full w-full flex rounded-b focus:outline-none " + (editable ? "cursor-pointer bg-red-200 hover:bg-red-300" : " cursor-not-allowed bg-gray-200 hover:bg-gray-300")}
@@ -83,9 +72,7 @@ const Castle = (params) => {
         <span className="m-auto">-</span>
       </button>
 
-
     </div>
-
 
   );
 };

@@ -9,10 +9,10 @@ return (
         <section className={"relative container mx-auto px-4 my-12"}>
             <div className={modifiedClassName}>
                 <div className="mt-4">
-                    <h3 className="text-4xl leading-normal text-gray-dark ">
+                    <h3 className="text-3xl lg:text-4xl leading-normal text-gray-dark ">
                         {props.title}
                     </h3>
-                    <h2 className="text-2xl text-red-clear pb-2">
+                    <h2 className="text-xl lg:text-2xl text-red-clear pb-2">
                         {props.subtitle}
                     </h2>
                 </div>
