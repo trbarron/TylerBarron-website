@@ -26,6 +26,7 @@ export default function RiddlerWarfare() {
   const [isRandomized, setIsRandomized] = useState(false);
 
   const [results, setResults] = useState("")
+  const [leaderboard, setLeaderboard] = useState("")
 
   const [username, setUsername] = useState(getRandomUsername())
 
@@ -51,6 +52,76 @@ export default function RiddlerWarfare() {
       Value: 0.5
     }
   ]);
+
+  const numberLeaderboardToDisp = 10;
+
+  useEffect(() => {
+    getLeaderboard();
+  }, [])
+
+
+  function getLeaderboard() {
+    Axios({
+      method: "GET",
+      data: {},
+      // url: "http://localhost:3000/api/army/get/getArmyLeaderboard ",
+      url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/get/getArmyLeaderboard",
+
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      const leaderboard = formatLeaderboard(res.data, numberLeaderboardToDisp);
+      setLeaderboard(leaderboard);
+    });
+
+  }
+
+  function formatLeaderboard(data) {
+    let leaderboard = [];
+
+    data.slice(0,numberLeaderboardToDisp).map((entry, ind) => {
+      const name = entry.name;
+      const armyWins = entry.armyWins;
+      const armyGamesPlayed = entry.armyGamesPlayed;
+
+      const rowClassname = (ind % 2 === 0) ? "bg-gray-100" : "bg-white"
+
+      leaderboard.push(
+        <tr class={"border-b " + rowClassname}>
+          <td class="p-3 px-5">{ind + 1}</td>
+          <td class="p-3 px-5">{name}</td>
+          <td class="p-3 px-5">{armyWins}</td>
+          <td class="p-3 px-5">{armyGamesPlayed - armyWins}</td>
+          <td class="p-3 px-5">{parseInt(armyWins * 1000 / armyGamesPlayed) / 1000}</td>
+        </tr>
+      );
+
+      return null
+
+    })
+
+    // now format it in jsx
+    const leaderboardJSX = (
+      <div class="py-4 flex justify-center">
+        <table class="w-full text-md bg-white shadow rounded mb-4 text-center">
+          <tbody>
+            <tr class="border-b text-center">
+              <th class="p-3 px-5">Rank</th>
+              <th class="p-3 px-5">Name</th>
+              <th class="p-3 px-5">Wins</th>
+              <th class="p-3 px-5">Losses</th>
+              <th class="p-3 px-5">Win Rate</th>
+            </tr>
+            {leaderboard}
+
+          </tbody>
+        </table>
+      </div>
+    )
+
+    return leaderboardJSX
+  }
 
   function getRandomUsername() {
     const listOfNames = [
@@ -161,6 +232,8 @@ export default function RiddlerWarfare() {
       },
       // withCredentials: true,
       url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
+      // url: "http://localhost:3000/api/army/post/submitArmy",
+
       headers: {
         'Content-Type': 'application/json',
       }
@@ -184,6 +257,7 @@ export default function RiddlerWarfare() {
         ]
       )
     });
+    getLeaderboard()
   };
 
   function getRandomDistro() {
@@ -276,7 +350,7 @@ export default function RiddlerWarfare() {
       return (
         <>
           <p>
-            Player won {_scoreA} out of {_scoreB} games played for a winrate of {Math.round(_scoreA / (_scoreA + _scoreB) * 1000) / 10}%.
+            Player won {_scoreA} out of {_scoreB} games played for a winrate of {Math.round(_scoreA / (_scoreB) * 1000) / 10}%.
           </p>
           <p>
             Your army was added to the database for future armies to face
@@ -545,7 +619,7 @@ export default function RiddlerWarfare() {
         >
           <Radiobutton
             title={"Opponent"}
-            options={[ "The Internet", "Random", "Local Human"]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
+            options={["The Internet", "Random", "Local Human"]} //"1000 Random", "Strong Opponent", "1000 Strong Opponents"
             onChange={setP2}
             checkedVal={P2}
           />
@@ -563,6 +637,17 @@ export default function RiddlerWarfare() {
           </div>
 
         </Article>
+
+        <Article
+          title="Leaderboard"
+          subtitle=""
+        >
+          <div className="pb-4">
+            {leaderboard}
+          </div>
+
+        </Article>
+
 
         <Article
           title="What is Riddler Warfare?"
