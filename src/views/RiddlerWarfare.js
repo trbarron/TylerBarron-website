@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import analytics from '../components/Analytics.js'
 
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,7 +9,6 @@ import Castle from "../components/Castle";
 
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
-import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Radiobutton from "../components/RadioButton.js";
 import Input from "../components/TextInput.js";
@@ -20,19 +18,17 @@ import Axios from "axios";
 // Images
 import imgCastleBlank from '../assets/img/RiddlerWarfare/castleBlank.svg';
 
-
 export default function RiddlerWarfare() {
   const [P2, setP2] = useState("The Internet");
   const [isRandomized, setIsRandomized] = useState(false);
 
   const [results, setResults] = useState("")
-  const [leaderboard, setLeaderboard] = useState("")
+  const [leaderboard, setLeaderboard] = useState("Loading...")
 
   const [username, setUsername] = useState(getRandomUsername())
 
   const [castlesStrA, setCastlesStrA] = useState("10,10,10,10,10,10,10,10,10,10")
   const [castlesStrB, setCastlesStrB] = useState("10,10,10,10,10,10,10,10,10,10")
-
 
   const totalRounds = 10000;
 
@@ -89,11 +85,11 @@ export default function RiddlerWarfare() {
 
       leaderboard.push(
         <tr class={"border-b " + rowClassname}>
-          <td class="p-3 px-5">{ind + 1}</td>
-          <td class="p-3 px-5">{name}</td>
-          <td class="p-3 px-5">{armyWins}</td>
-          <td class="p-3 px-5">{armyGamesPlayed - armyWins}</td>
-          <td class="p-3 px-5">{parseInt(armyWins * 1000 / armyGamesPlayed) / 1000}</td>
+          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{ind + 1}</td>
+          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{name}</td>
+          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyWins}</td>
+          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyGamesPlayed - armyWins}</td>
+          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{parseInt(armyWins * 1000 / armyGamesPlayed) / 1000}</td>
         </tr>
       );
 
@@ -103,18 +99,17 @@ export default function RiddlerWarfare() {
 
     // now format it in jsx
     const leaderboardJSX = (
-      <div class="py-4 flex justify-center">
-        <table class="w-full text-md bg-white shadow rounded mb-4 text-center">
+      <div class="py-4 flex justify-center w-full">
+        <table class="text-sm sm:text-md lg:text-lg bg-white shadow rounded mb-4 text-center w-full p-3">
           <tbody>
             <tr class="border-b text-center">
-              <th class="p-3 px-5">Rank</th>
-              <th class="p-3 px-5">Name</th>
-              <th class="p-3 px-5">Wins</th>
-              <th class="p-3 px-5">Losses</th>
-              <th class="p-3 px-5">Win Rate</th>
+              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Rank</th>
+              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Name</th>
+              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Wins</th>
+              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Losses</th>
+              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Win Rate</th>
             </tr>
             {leaderboard}
-
           </tbody>
         </table>
       </div>
@@ -231,8 +226,8 @@ export default function RiddlerWarfare() {
         selections: castlesStrA,
       },
       // withCredentials: true,
-      url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
-      // url: "http://localhost:3000/api/army/post/submitArmy",
+      // url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
+      url: "http://localhost:3000/api/army/post/submitArmy",
 
       headers: {
         'Content-Type': 'application/json',
