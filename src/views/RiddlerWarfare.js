@@ -226,8 +226,8 @@ export default function RiddlerWarfare() {
         selections: castlesStrA,
       },
       // withCredentials: true,
-      // url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
-      url: "http://localhost:3000/api/army/post/submitArmy",
+      url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
+      // url: "http://localhost:3000/api/army/post/submitArmy",
 
       headers: {
         'Content-Type': 'application/json',
