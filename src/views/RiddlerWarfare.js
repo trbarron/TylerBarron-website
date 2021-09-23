@@ -75,24 +75,29 @@ export default function RiddlerWarfare() {
 
   function formatLeaderboard(data) {
     let leaderboard = [];
+    const leaders = [];
+    let uniqueLeader = 0;
 
-    data.slice(0,numberLeaderboardToDisp).map((entry, ind) => {
+    data.map((entry, ind) => {
       const name = entry.name;
       const armyWins = entry.armyWins;
       const armyGamesPlayed = entry.armyGamesPlayed;
 
-      const rowClassname = (ind % 2 === 0) ? "bg-gray-100" : "bg-white"
+      if (!leaders.includes(name) && leaderboard.length <= numberLeaderboardToDisp) {
+        leaders.push(name);
+        const rowClassname = (uniqueLeader % 2 === 0) ? "bg-gray-100" : "bg-white"
+        uniqueLeader +=1;
 
-      leaderboard.push(
-        <tr class={"border-b " + rowClassname}>
-          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{ind + 1}</td>
-          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{name}</td>
-          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyWins}</td>
-          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyGamesPlayed - armyWins}</td>
-          <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{parseInt(armyWins * 1000 / armyGamesPlayed) / 1000}</td>
-        </tr>
-      );
-
+        leaderboard.push(
+          <tr class={"border-b " + rowClassname}>
+            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{uniqueLeader}</td>
+            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{name}</td>
+            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyWins}</td>
+            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyGamesPlayed - armyWins}</td>
+            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{parseInt(armyWins * 1000 / armyGamesPlayed) / 1000}</td>
+          </tr>
+        );
+      }
       return null
 
     })
@@ -132,21 +137,21 @@ export default function RiddlerWarfare() {
       "linguss",
       "interestec",
       "fuzzyspuffy",
-      "monsterup",
+      "rubblecannon",
       "lovesboost",
       "edgymnerch",
-      "ortspoon",
-      "oranolio",
-      "onemama",
-      "dravenfact",
-      "reallychel",
-      "reakefit",
-      "popularkiya",
-      "breacche",
-      "blikimore",
-      "simmson",
+      "tripgunner",
+      "hashtag",
+      "wardonboy",
+      "cerealface",
+      "chewchew",
+      "bitsentinel",
+      "drugstorecowboy",
+      "fastdraw",
+      "mr.blonde",
+      "wildcat",
       "brighthulk",
-      "bootecia",
+      "skychaser",
       "spuffyffet",
       "rozalthiric",
       "bookman",
@@ -161,7 +166,11 @@ export default function RiddlerWarfare() {
       "hbox",
     ]
 
-    return listOfNames[Math.floor(Math.random() * listOfNames.length)];
+    const selectedName = listOfNames[Math.floor(Math.random() * listOfNames.length)]
+    const selectedSuffix = Math.floor(Math.random() * 100)
+
+
+    return selectedName + selectedSuffix;
   }
 
   function setCastle(team, index, value) {
