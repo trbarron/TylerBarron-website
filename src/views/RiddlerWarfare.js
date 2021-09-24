@@ -49,7 +49,7 @@ export default function RiddlerWarfare() {
     }
   ]);
 
-  const numberLeaderboardToDisp = 10;
+  const numberLeaderboardToDisp = 14;
 
   useEffect(() => {
     getLeaderboard();
