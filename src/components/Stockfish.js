@@ -2,7 +2,7 @@ const STOCKFISH = window.STOCKFISH;
 
 class Stockfish {
 
-    constructor(game, setEvalScore) {
+    constructor(game, setEvalScore, setPrevEvalScore) {
         if (Stockfish._instance) {
             return Stockfish._instance;
         }
@@ -19,11 +19,12 @@ class Stockfish {
         //Set variables to the class
         this.game = game;
         this.evaler = evaler;
+        this.lastEvalScore = 0;
 
         this.uciCmd("uci");
 
         evaler.onmessage = event => {
-            this.handleEvalerMessage(event, setEvalScore)
+            this.handleEvalerMessage(event, setEvalScore, setPrevEvalScore)
         };
 
         evaler.onerror = event => {
@@ -31,7 +32,7 @@ class Stockfish {
         }
     }
 
-    handleEvalerMessage(event, setEvalScore) {
+    handleEvalerMessage(event, setEvalScore, setPrevEvalScore) {
         let line;
 
         if (event && typeof event === "object") {
@@ -39,7 +40,7 @@ class Stockfish {
         } else {
             line = event;
         }
-        console.log('Reply: ' + line);
+        // console.log('Reply: ' + line);
         if (line !== "uciok" || line !== "readyok") {
             let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
             /// Did the AI move?
@@ -50,11 +51,14 @@ class Stockfish {
 
                 /// Is it measuring in centipawns?
                 if (match[1] === "cp") {
-                    setEvalScore((score / 100.0).toFixed(2));
+                    const evalScore = (score / 100.0).toFixed(2);
+                    setEvalScore(evalScore);
+                    setPrevEvalScore(this.lastEvalScore);
+                    this.lastEvalScore = evalScore;
 
                     /// Did it find a mate?
                 } else if (match[1] === "mate") {
-                    setEvalScore("Mate in " + Math.abs(score));
+                    // setEvalScore("Mate in " + Math.abs(score));
                 }
             }
         }
@@ -63,7 +67,7 @@ class Stockfish {
     uciCmd(cmd) {
         const evaler = this.evaler;
 
-        console.log('UCI: ' + cmd);
+        // console.log('UCI: ' + cmd);
         evaler.postMessage(cmd);
     }
 

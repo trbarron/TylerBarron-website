@@ -54,9 +54,9 @@ export default function AuthExample() {
   };
 
   return (
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-grow">
 
         {/* <BottomStripe/> */}
 

@@ -612,10 +612,10 @@ export default function RiddlerWarfare() {
   }
 
   return (
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar />
       <ToastContainer />
-      <main>
+      <main className="flex-grow">
 
         <Article
           title="Riddler Warfare"

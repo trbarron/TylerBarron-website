@@ -23,21 +23,21 @@ export default function ChessOpenings() {
   const [prevEvalScore, setPrevEvalScore] = useState(0);
   const boardOrientation = "white";
 
-  const stockfish = new StockFish(chess, setEvalScore);
+  const stockfish = new StockFish(chess, setEvalScore, setPrevEvalScore);
 
   async function onMove(from, to) {
     chess.move({ from, to, promotion: "x" });
     setLastMove([from, to]);
     setFen(chess.fen());
     stockfish.getEval(chess.fen());
-    setPrevEvalScore(evalScore);
+    // setPrevEvalScore(evalScore);
   }
 
 
   return (
-    <div className="bg-background bg-fixed min-h-screen">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-grow">
 
 
         <Article
@@ -46,15 +46,9 @@ export default function ChessOpenings() {
         >
 
           <Subarticle>
-            <div className="mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "10% 90%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
-              <div className="w-full h-full boarder">
-                <EvalBar data={{ evalScore: evalScore, prevEvalScore: prevEvalScore }} />
-              </div>
+            <div className="mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "90% 10%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
 
               <div className="w-100% col-span-2 md:col-span-1">
-
-
-
                 <Chessground
                   fen={fen}
                   lastMove={lastMove}
@@ -65,6 +59,9 @@ export default function ChessOpenings() {
                   height={"0"}
                   style={{ paddingTop: "100%" }}
                 />
+              </div>
+              <div className="w-full h-full boarder bg-gray-50">
+                <EvalBar data={{ evalScore: evalScore, prevEvalScore: prevEvalScore }} />
               </div>
 
             </div>

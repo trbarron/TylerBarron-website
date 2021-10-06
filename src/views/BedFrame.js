@@ -18,9 +18,9 @@ import sageAndBed from "../assets/img/BedFrame/sageAndBed.jpg"
 export default function BedFrame() {
 
   return (
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
-      <main>
+      <main className="flex-grow">
 
         {/* <BottomStripe/> */}
           

@@ -6,12 +6,14 @@ function EvalBar({ data }) {
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 }
 
+    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+
     const evalData = [{
         Title: "Eval",
-        Value: (5 - parseFloat(data.evalScore))
+        Value: clamp((5 - parseFloat(data.evalScore)), 0.1, 4.9)
     }];
 
-    const prevDataVal = (5 - parseFloat(data.prevEvalScore));
+    const prevDataVal = clamp((5 - parseFloat(data.prevEvalScore)), 0.1, 4.9);
 
 
     useEffect(() => {
@@ -23,6 +25,11 @@ function EvalBar({ data }) {
             .attr("height", height)
         svg.append("glob")
             .attr("transform", `translate(${margin.left},${margin.bottom})`);
+
+        svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "pink");
     }, []);
 
     useEffect(() => {
@@ -66,7 +73,6 @@ function EvalBar({ data }) {
 
 
 
-
         //Bars
 
         selection
@@ -74,10 +80,10 @@ function EvalBar({ data }) {
             .join("rect")
             .attr("x", d => x(d.Title))
             .attr("width", x.bandwidth())
-            .attr("fill", "#EA5449")
+            .attr("fill", "#000000")
 
             // animation
-            .attr("height", d => y(0)) // always equal to 0
+            .attr("height", d => y(prevDataVal)) // always equal to 0
             .attr("y", d => y(0))
 
         selection
