@@ -18,16 +18,16 @@ export default function ChessOpenings() {
   const [chess, setChess] = useState(new Chess());
   const [fen, setFen] = useState("");
   const [lastMove, setLastMove] = useState();
+  const [evalScore, setEvalScore] = useState();
   const boardOrientation = "white";
 
-  const stockfish = new StockFish(chess);
+  const stockfish = new StockFish(chess, setEvalScore);
 
   async function onMove(from, to) {
     chess.move({ from, to, promotion: "x" });
     setLastMove([from, to]);
     setFen(chess.fen());
     stockfish.getEval(chess.fen());
-    // getEval(chess.fen());
   }
 
 
@@ -38,7 +38,7 @@ export default function ChessOpenings() {
 
 
         <Article
-          title="Chess Opening Practice"
+          title="Ludwig Chess"
           subtitle=""
         >
 
@@ -56,6 +56,9 @@ export default function ChessOpenings() {
                   height={"0"}
                   style={{ paddingTop: "100%" }}
                 />
+              </div>
+              <div>
+                {evalScore}
               </div>
 
 
