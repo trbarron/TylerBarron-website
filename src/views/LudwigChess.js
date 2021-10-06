@@ -11,6 +11,7 @@ import Chess from "chess.js"
 import StockFish from "../components/Stockfish.js";
 
 import 'react-chessground/dist/styles/chessground.css'
+import EvalBar from "../components/charts/evalBar.js";
 
 
 export default function ChessOpenings() {
@@ -18,7 +19,8 @@ export default function ChessOpenings() {
   const [chess, setChess] = useState(new Chess());
   const [fen, setFen] = useState("");
   const [lastMove, setLastMove] = useState();
-  const [evalScore, setEvalScore] = useState();
+  const [evalScore, setEvalScore] = useState(0);
+  const [prevEvalScore, setPrevEvalScore] = useState(0);
   const boardOrientation = "white";
 
   const stockfish = new StockFish(chess, setEvalScore);
@@ -28,6 +30,7 @@ export default function ChessOpenings() {
     setLastMove([from, to]);
     setFen(chess.fen());
     stockfish.getEval(chess.fen());
+    setPrevEvalScore(evalScore);
   }
 
 
@@ -43,8 +46,14 @@ export default function ChessOpenings() {
         >
 
           <Subarticle>
-            <div className="mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "80% 20%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
+            <div className="mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "10% 90%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
+              <div className="w-full h-full boarder">
+                <EvalBar data={{ evalScore: evalScore, prevEvalScore: prevEvalScore }} />
+              </div>
+
               <div className="w-100% col-span-2 md:col-span-1">
+
+
 
                 <Chessground
                   fen={fen}
@@ -57,11 +66,6 @@ export default function ChessOpenings() {
                   style={{ paddingTop: "100%" }}
                 />
               </div>
-              <div>
-                {evalScore}
-              </div>
-
-
 
             </div>
 
