@@ -11121,6 +11121,11 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
+stockfish@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/stockfish/-/stockfish-12.0.0.tgz#92b6aa4dcb80905da21037d8913804ae1000e0fc"
+  integrity sha512-hcYsWE8FS/gKxrJQZPQrw59UpAWTTiQuxFJOctivrBB0Qbt7bL0WGAuehdCFySofEM3H2l9zFIuYCGdWqVQ0fQ==
+
 stream-browserify@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"

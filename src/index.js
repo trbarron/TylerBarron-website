@@ -19,6 +19,7 @@ import SurvivorBracket from "./views/SurvivorBracket.js"
 import MarchMadnessFAQ from "./views/MarchMadnessFAQ.js"
 import AuthExample from "./views/AuthExample.js"
 import RiddlerWarfare from "./views/RiddlerWarfare.js"
+import LudwigChess from "./views/LudwigChess.js"
 
 ReactDOM.render(
   <BrowserRouter>
@@ -81,6 +82,10 @@ ReactDOM.render(
 
       <Route path="/RiddlerWarfare">
         <RiddlerWarfare />
+      </Route>
+
+      <Route path="/LudwigChess">
+        <LudwigChess />
       </Route>
 
       <Route path="/">

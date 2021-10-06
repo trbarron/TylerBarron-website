@@ -25,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.2",
     "react-toastify": "^7.0.3",
+    "stockfish": "^12.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "web-vitals": "^1.0.1"
   },
