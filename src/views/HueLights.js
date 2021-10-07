@@ -16,9 +16,9 @@ import dashButton from "../assets/img/HueLights/dashButton.png"
 export default function HueLIghts() {
   return (
       
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
-      <main>
+      <main className="flex-grow">
          
         <Article
           title="Custom Hue Lights Setup" 

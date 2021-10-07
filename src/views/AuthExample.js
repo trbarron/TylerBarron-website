@@ -121,9 +121,9 @@ export default function AuthExample(_user) {
 
   return (
 
-    <div className="bg-background bg-fixed">
-      <Navbar />
-      <main>
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
+        <Navbar />
+      <main className="flex-grow">
 
         <Article
           title="Authentication Example"

@@ -15,9 +15,9 @@ import setSetup from "../assets/img/Set/setSetup.jpg"
 export default function Set() {
 
   return (
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
-      <main>
+      <main className="flex-grow">
 
         {/* <BottomStripe/> */}
           

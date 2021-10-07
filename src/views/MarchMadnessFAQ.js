@@ -11,9 +11,9 @@ import Article from "../components/Article.js";
 export default function MarchMadnessFAQ() {
 
   return (
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
-      <main>          
+      <main className="flex-grow">
         <Article
           title="March Madness" 
           subtitle=""

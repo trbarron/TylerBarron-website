@@ -27,9 +27,9 @@ import crosswordTwo from "../assets/img/Riddler/crosswordTwo.png"
 export default function TheRiddler() {
 
   return (
-    <div className="bg-background bg-fixed">
+    <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
-      <main>
+      <main className="flex-grow">
 
         {/* <BottomStripe/> */}
           

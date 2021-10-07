@@ -248,7 +248,7 @@ export default function ChessOpenings() {
   return (
     <div className="bg-background bg-fixed min-h-screen">
       <Navbar/>
-      <main>
+      <main className="flex-grow">
 
           
         <Article
