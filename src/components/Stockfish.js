@@ -14,7 +14,7 @@ class Stockfish {
         let evaler =
             typeof STOCKFISH === "function"
                 ? STOCKFISH()
-                : new Worker(options.stockfishjs || "stockfish.js");
+                : new Worker(options.stockfishjs || "/stockfish.js");
 
         //Set variables to the class
         this.game = game;
@@ -40,7 +40,7 @@ class Stockfish {
         } else {
             line = event;
         }
-        // console.log('Reply: ' + line);
+        console.log('Reply: ' + line);
         if (line !== "uciok" || line !== "readyok") {
             let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
             /// Did the AI move?
@@ -58,7 +58,13 @@ class Stockfish {
 
                     /// Did it find a mate?
                 } else if (match[1] === "mate") {
+                    const evalScore = 1000 * (this.game.turn() === "w" ? 1 : -1);
+                    setEvalScore(evalScore);
+                    setPrevEvalScore(this.lastEvalScore);
+                    this.lastEvalScore = evalScore;
+
                     // setEvalScore("Mate in " + Math.abs(score));
+                    console.log("Mate in " + Math.abs(score));
                 }
             }
         }
@@ -76,7 +82,7 @@ class Stockfish {
 
         if (!game.game_over()) {
             this.uciCmd("position fen " + game.fen());
-            this.uciCmd("go depth 15");
+            this.uciCmd("go depth 18");
         }
     }
 }

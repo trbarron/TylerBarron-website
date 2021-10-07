@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import analytics from '../components/Analytics.js'
 
 import Navbar from "../components/Navbar.js";
@@ -8,10 +8,18 @@ import Article from "../components/Article.js";
 import Chessground from 'react-chessground'
 import Chess from "chess.js"
 
+import { db } from '../assets/tools/firebaseConn';
+import { ref, update, onValue } from "firebase/database";
+
 import StockFish from "../components/Stockfish.js";
 
 import 'react-chessground/dist/styles/chessground.css'
 import EvalBar from "../components/charts/evalBar.js";
+import { useParams } from "react-router";
+import { setRandomFallback } from "bcryptjs";
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 
 export default function ChessOpenings() {
@@ -23,14 +31,72 @@ export default function ChessOpenings() {
   const [prevEvalScore, setPrevEvalScore] = useState(0);
   const boardOrientation = "white";
 
+  const { gameID } = useParams()
+
+
+
+
+
   const stockfish = new StockFish(chess, setEvalScore, setPrevEvalScore);
 
+
+  useEffect(() => {
+    getFromDB();
+  }, [])
+
+  async function getFromDB() {
+    const db2 = db;
+    const starCountRef = ref(db2, "games");
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data[gameID].FEN)
+      const FEN = data[gameID].FEN;
+      // setFen(FEN)
+
+      // setChess(chess.load(FEN));
+      chess.load(FEN);
+      setFen(FEN);
+
+    });
+  }
+
+  async function updateDB(FEN) {
+    const newGame = {};
+    newGame[gameID] = {
+      token: gameID,
+      FEN: FEN
+    }
+
+    update(ref(db, 'games'), newGame)
+
+  }
+
   async function onMove(from, to) {
-    chess.move({ from, to, promotion: "x" });
-    setLastMove([from, to]);
-    setFen(chess.fen());
-    stockfish.getEval(chess.fen());
-    // setPrevEvalScore(evalScore);
+    // if (chess.move({ from, to })) {
+      chess.move({from,to});
+      const FEN = chess.fen();
+      setFen(FEN);
+      setLastMove([from, to]);
+      stockfish.getEval(FEN);
+      await updateDB(FEN);
+    // };
+  }
+
+  const turnColor = () => {
+    return chess.turn() === "w" ? "white" : "black"
+  }
+
+  const calcMovable = () => {
+    const dests = new Map()
+    chess.SQUARES.forEach(s => {
+      const ms = chess.moves({ square: s, verbose: true })
+      if (ms.length) dests.set(s, ms.map(m => m.to))
+    })
+    return {
+      free: false,
+      dests,
+      color: turnColor()
+    }
   }
 
 
@@ -54,6 +120,8 @@ export default function ChessOpenings() {
                   lastMove={lastMove}
                   onMove={onMove}
                   orientation={boardOrientation}
+                  movable={calcMovable()}
+                  turnColor={turnColor()}
                   animation={{ enabled: false }}
                   width={"100%"}
                   height={"0"}

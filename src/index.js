@@ -20,6 +20,7 @@ import MarchMadnessFAQ from "./views/MarchMadnessFAQ.js"
 import AuthExample from "./views/AuthExample.js"
 import RiddlerWarfare from "./views/RiddlerWarfare.js"
 import LudwigChess from "./views/LudwigChess.js"
+import LudwigChessLanding from "./views/LudwigChessLanding";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -84,8 +85,12 @@ ReactDOM.render(
         <RiddlerWarfare />
       </Route>
 
-      <Route path="/LudwigChess">
+      <Route path="/LudwigChess/:gameID">
         <LudwigChess />
+      </Route>
+
+      <Route path="/LudwigChess/">
+        <LudwigChessLanding />
       </Route>
 
       <Route path="/">

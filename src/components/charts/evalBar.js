@@ -10,10 +10,10 @@ function EvalBar({ data }) {
 
     const evalData = [{
         Title: "Eval",
-        Value: clamp((5 - parseFloat(data.evalScore)), 0.1, 4.9)
+        Value: clamp((5 - parseFloat(data.evalScore)), 0.1, 9.9)
     }];
 
-    const prevDataVal = clamp((5 - parseFloat(data.prevEvalScore)), 0.1, 4.9);
+    const prevDataVal = clamp((5 - parseFloat(data.prevEvalScore)), 0.1, 9.9);
 
 
     useEffect(() => {
