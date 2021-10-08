@@ -69,7 +69,7 @@ export default function LudwigChessHostLanding() {
                             />
                         </div>
                         <form onSubmit={(e) => createGame(e,setGameID)} action='#'>
-                            <div className="w-1/4 mx-auto h-12 mb-4 bg-white rounded cursor-pointer">
+                            <div className="w-1/2 lg:w-1/4 mx-auto h-12 mb-4 bg-white rounded cursor-pointer">
                                 <button type="submit" className="w-full h-full text-center text-lg place-self-center pt-2">Create Lobby</button>
                             </div>
                         </form>

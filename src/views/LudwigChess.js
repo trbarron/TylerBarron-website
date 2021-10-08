@@ -213,7 +213,7 @@ export default function ChessOpenings() {
 
             </Modal>
 
-            <div className="z-0 mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "90% 10%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
+            <div className="z-0 mx-auto grid gap-x-4 w-full grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "90% 10%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
               <div className="w-100% col-span-1 z-0">
                 <div className="text-center pb-4">
                   <div className={"w-min mx-auto p-0.5 " + (orientation === "black" ? "bg-white text-black" : "bg-black text-white")}>
@@ -254,9 +254,9 @@ export default function ChessOpenings() {
           <Subarticle>
             <div className="text-center">
               <p>
-                {"To invite someone, send them this link:"}
+                {"To invite someone, send this link:"}
               </p>
-              <pre>{"http://tylerbarron.com/ludwigchess/" + gameID}</pre>
+              <pre className="text-xs lg:text-md">{"http://tylerbarron.com/ludwigchess/" + gameID}</pre>
             </div>
             <div></div>
           </Subarticle>
