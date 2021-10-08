@@ -79,6 +79,7 @@ class Stockfish {
 
     getEval() {
         const game = this.game;
+        this.uciCmd("stop");
 
         if (!game.game_over()) {
             this.uciCmd("position fen " + game.fen());

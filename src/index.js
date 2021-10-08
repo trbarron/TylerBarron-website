@@ -20,7 +20,8 @@ import MarchMadnessFAQ from "./views/MarchMadnessFAQ.js"
 import AuthExample from "./views/AuthExample.js"
 import RiddlerWarfare from "./views/RiddlerWarfare.js"
 import LudwigChess from "./views/LudwigChess.js"
-import LudwigChessLanding from "./views/LudwigChessLanding";
+import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
+import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -85,12 +86,16 @@ ReactDOM.render(
         <RiddlerWarfare />
       </Route>
 
-      <Route path="/LudwigChess/:gameID">
+      <Route path="/LudwigChess/:gameID/:name">
         <LudwigChess />
       </Route>
 
+      <Route path="/LudwigChess/:gameID/">
+        <LudwigChessInviteLanding />
+      </Route>
+
       <Route path="/LudwigChess/">
-        <LudwigChessLanding />
+        <LudwigChessHostLanding />
       </Route>
 
       <Route path="/">
