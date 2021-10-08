@@ -7,6 +7,7 @@ import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Chessground from 'react-chessground'
 import Chess from "chess.js"
+import Modal from 'react-modal';
 
 
 import { db } from '../assets/tools/firebaseConn';
@@ -23,8 +24,9 @@ export default function ChessOpenings() {
   const [chess, setChess] = useState(new Chess());
   const [fen, setFen] = useState("");
   const [lastMove, setLastMove] = useState();
+  const [gameOver, setGameOver] = useState("");
   const [evalScore, setEvalScore] = useState(0);
-  const [prevEvalScore, setPrevEvalScore] = useState(0);
+  const [evalText, setEvalText] = useState("");
   const [whiteSeat, setWhiteSeat] = useState("");
   const [blackSeat, setBlackSeat] = useState("");
 
@@ -34,7 +36,7 @@ export default function ChessOpenings() {
 
   useEffect(() => {
 
-    const stockfish = new StockFish(chess, setEvalScore, setPrevEvalScore);
+    const stockfish = new StockFish(chess, setEvalScore, setEvalText);
 
     async function getFromDB() {
       const db2 = db;
@@ -47,9 +49,17 @@ export default function ChessOpenings() {
         const blackSeat = data.blackSeat;
 
         chess.load(FEN);
-        console.log("Loaded FEN: ", FEN);
+        // console.log("Loaded FEN: ", FEN);
         setFen(FEN);
         stockfish.getEval(FEN);
+
+        if (chess.game_over()) {
+          if (chess.in_checkmate()) { setGameOver("Checkmate"); }
+          if (chess.in_draw()) { setGameOver("Draw"); }
+          if (chess.in_stalemate()) { setGameOver("Stalemate"); }
+          if (chess.in_threefold_repetition()) { setGameOver("Threefold Repetition"); }
+          if (chess.in_threefold_repetition()) { setGameOver("Insufficient Material"); }
+        }
 
         if (data.lastMoveFrom) {
           setLastMove([data.lastMoveFrom, data.lastMoveTo]);
@@ -79,9 +89,6 @@ export default function ChessOpenings() {
           updatedData[gameID].blackSeat = name;
           update(ref(db, 'games'), updatedData);
         }
-
-        console.log("Get that ole data :)");
-
       }, {
         onlyOnce: true
       });
@@ -92,7 +99,6 @@ export default function ChessOpenings() {
 
   useEffect(() => {
     window.addEventListener("unload", (event) => {
-      console.log("unloadingasdf: ");
 
       const db2 = db;
       const starCountRef = ref(db2, "games/" + gameID);
@@ -146,7 +152,7 @@ export default function ChessOpenings() {
   }
 
   async function onMove(from, to) {
-    chess.move({ from, to });
+    chess.move({ from, to, promotion: "q" });
     const FEN = chess.fen();
     await updateDB(FEN, from, to);
   }
@@ -178,6 +184,10 @@ export default function ChessOpenings() {
     }
   }
 
+  function handleRequestCloseFunc() {
+    setGameOver("");
+  }
+
   return (
     <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar />
@@ -190,11 +200,25 @@ export default function ChessOpenings() {
         >
 
           <Subarticle>
-            <div className="mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "90% 10%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
+            <Modal
+              isOpen={gameOver}
+              onRequestClose={handleRequestCloseFunc}
+              preventScroll={true}
+              shouldFocusAfterRender={false}
+              className={"inset-x-0 inset-y-0 flex fixed h-1 w-min m-auto justify-center px-4 z-50"}
+            >
+              <div className="text-center text-xl">
+                {gameOver}
+              </div>
 
-              <div className="w-100% col-span-1">
+            </Modal>
+
+            <div className="z-0 mx-auto grid gap-x-4 w-full grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "90% 10%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
+              <div className="w-100% col-span-1 z-0">
                 <div className="text-center pb-4">
-                  {(orientation === "black" ? whiteSeat : blackSeat)}
+                  <div className={"w-min mx-auto p-0.5 " + (orientation === "black" ? "bg-white text-black" : "bg-black text-white")}>
+                    {(orientation === "black" ? whiteSeat : blackSeat)}
+                  </div>
                 </div>
 
                 <Chessground
@@ -211,20 +235,31 @@ export default function ChessOpenings() {
                 />
 
                 <div className="text-center pt-4">
-                  {(orientation === "black" ? blackSeat : whiteSeat)}
+                  <div className={"w-min mx-auto p-0.5 " + (orientation === "black" ? "bg-black text-white" : "bg-white text-black")}>
+                    {(orientation === "black" ? blackSeat : whiteSeat)}
+                  </div>
                 </div>
 
               </div>
               <div className={"w-full h-full boarder " + (orientation === "black" ? "bg-black" : "bg-white")}>
-                <EvalBar data={{ evalScore, prevEvalScore, orientation }} />
+                <EvalBar data={{ evalScore, orientation, evalText }} />
               </div>
 
             </div>
 
             <div className="pb-8"></div>
-
           </Subarticle>
 
+          {/* Show a dialog for inviting other players */}
+          <Subarticle>
+            <div className="text-center">
+              <p>
+                {"To invite someone, send them this link:"}
+              </p>
+              <pre>{"http://tylerbarron.com/ludwigchess/" + gameID}</pre>
+            </div>
+            <div></div>
+          </Subarticle>
         </Article>
       </main>
       <Footer />

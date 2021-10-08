@@ -27,7 +27,7 @@ class Input extends React.Component {
 
   render() {
     const { active, value, error, label } = this.state;
-    const { predicted, locked, isPassword } = this.props;
+    const { predicted, locked, isPassword, tabIndex, autoComplete } = this.props;
     const fieldClassName = `field ${(locked ? active : active || value) &&
       "active"} ${locked && !active && "locked"}`;
 
@@ -47,7 +47,8 @@ class Input extends React.Component {
           onKeyPress={this.handleKeyPress.bind(this)}
           onFocus={() => !locked && this.setState({ active: true })}
           onBlur={() => !locked && this.setState({ active: false })}
-          autoComplete={isPassword ? "off" : "on"}
+          autoComplete={isPassword || (autoComplete === false)? "off" : "on"}
+          tabIndex={tabIndex}
         />
         <label htmlFor={1} className={error && "error"}>
           {error || label}

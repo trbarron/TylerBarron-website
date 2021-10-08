@@ -13,7 +13,6 @@ import Article from "../components/Article.js";
 import Input from "../components/TextInput.js";
 
 export default function LudwigChessHostLanding() {
-    const [newGame, setNewGame] = useState(false);
     const [gameID, setGameID] = useState(false);
     const [name, setName] = useState(false);
 
@@ -27,7 +26,7 @@ export default function LudwigChessHostLanding() {
     }
 
 
-    function createGame(setNewGame, setGameID,) {
+    const createGame = (e, setGameID) => {
         const gameID = token();
         const newGame = {};
         newGame[gameID] = {
@@ -40,7 +39,6 @@ export default function LudwigChessHostLanding() {
 
         update(ref(db, 'games'), newGame)
 
-        setNewGame(newGame);
         setGameID(gameID)
 
     }
@@ -66,12 +64,15 @@ export default function LudwigChessHostLanding() {
                                 id={"Name"}
                                 label={"Name"}
                                 handleChange={(e) => setName(e)}
+                                tabIndex={0}
+                                autoComplete={false}
                             />
                         </div>
-
-                        <div className="w-1/4 mx-auto h-12 mb-4 bg-white rounded cursor-pointer" onClick={() => createGame(setNewGame,setGameID,name)}>
-                            <div className="w-full h-full text-center text-lg place-self-center pt-2">Create Lobby</div>
-                        </div>
+                        <form onSubmit={(e) => createGame(e,setGameID)} action='#'>
+                            <div className="w-1/4 mx-auto h-12 mb-4 bg-white rounded cursor-pointer">
+                                <button type="submit" className="w-full h-full text-center text-lg place-self-center pt-2">Create Lobby</button>
+                            </div>
+                        </form>
 
                     </Subarticle>
                 </Article>

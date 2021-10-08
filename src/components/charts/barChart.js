@@ -57,9 +57,6 @@ function BarChart({ data }) {
             .selectAll("text")
             .style("text-anchor", "start");
 
-
-
-
         //Bars
 
         selection

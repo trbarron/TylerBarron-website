@@ -2,7 +2,7 @@ const STOCKFISH = window.STOCKFISH;
 
 class Stockfish {
 
-    constructor(game, setEvalScore, setPrevEvalScore) {
+    constructor(game, setEvalScore, setEvalText) {
         if (Stockfish._instance) {
             return Stockfish._instance;
         }
@@ -19,12 +19,11 @@ class Stockfish {
         //Set variables to the class
         this.game = game;
         this.evaler = evaler;
-        this.lastEvalScore = 0;
 
         this.uciCmd("uci");
 
         evaler.onmessage = event => {
-            this.handleEvalerMessage(event, setEvalScore, setPrevEvalScore)
+            this.handleEvalerMessage(event, setEvalScore, setEvalText)
         };
 
         evaler.onerror = event => {
@@ -32,7 +31,7 @@ class Stockfish {
         }
     }
 
-    handleEvalerMessage(event, setEvalScore, setPrevEvalScore) {
+    handleEvalerMessage(event, setEvalScore, setEvalText) {
         let line;
 
         if (event && typeof event === "object") {
@@ -40,7 +39,7 @@ class Stockfish {
         } else {
             line = event;
         }
-        console.log('Reply: ' + line);
+        // console.log('Reply: ' + line);
         if (line !== "uciok" || line !== "readyok") {
             let match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbn])?/);
             /// Did the AI move?
@@ -53,18 +52,13 @@ class Stockfish {
                 if (match[1] === "cp") {
                     const evalScore = (score / 100.0).toFixed(2);
                     setEvalScore(evalScore);
-                    setPrevEvalScore(this.lastEvalScore);
-                    this.lastEvalScore = evalScore;
+                    setEvalText((score / 100.0).toFixed(1));
 
                     /// Did it find a mate?
                 } else if (match[1] === "mate") {
-                    const evalScore = 1000 * (this.game.turn() === "w" ? 1 : -1);
+                    const evalScore = 1000 * (this.game.turn() === "w" ? 1 : -1) * parseFloat(match[2]);
                     setEvalScore(evalScore);
-                    setPrevEvalScore(this.lastEvalScore);
-                    this.lastEvalScore = evalScore;
-
-                    // setEvalScore("Mate in " + Math.abs(score));
-                    console.log("Mate in " + Math.abs(score));
+                    setEvalText("M" + Math.abs(score));
                 }
             }
         }
@@ -83,7 +77,7 @@ class Stockfish {
 
         if (!game.game_over()) {
             this.uciCmd("position fen " + game.fen());
-            this.uciCmd("go depth 18");
+            this.uciCmd("go depth 15");
         }
     }
 }
