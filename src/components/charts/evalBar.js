@@ -8,13 +8,16 @@ function EvalBar({ data }) {
 
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
+    const value = (5 + parseFloat(data.evalScore * (data.orientation === "black" ? 1 : -1)));
+
     const evalData = [{
         Title: "Eval",
-        Value: clamp((5 - parseFloat(data.evalScore)), 0.1, 9.9)
+        Value: clamp(value, 0.1, 9.9)
     }];
 
     const prevDataVal = clamp((5 - parseFloat(data.prevEvalScore)), 0.1, 9.9);
 
+    console.log("Current: ", value, " Next: ", prevDataVal);
 
     useEffect(() => {
         const width = ref.current.parentElement.parentElement.offsetWidth;
@@ -25,11 +28,6 @@ function EvalBar({ data }) {
             .attr("height", height)
         svg.append("glob")
             .attr("transform", `translate(${margin.left},${margin.bottom})`);
-
-        svg.append("rect")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("fill", "pink");
     }, []);
 
     useEffect(() => {
@@ -75,27 +73,29 @@ function EvalBar({ data }) {
 
         //Bars
 
+        const fill = (data.orientation === "black" ? "#FFFFFF" : "#000000")
+
         selection
             .data(evalData)
             .join("rect")
             .attr("x", d => x(d.Title))
             .attr("width", x.bandwidth())
-            .attr("fill", "#000000")
+            .attr("fill", fill)
 
-            // animation
-            .attr("height", d => y(prevDataVal)) // always equal to 0
-            .attr("y", d => y(0))
+            // // animation
+            // .attr("height", d => y(prevDataVal)) // always equal to 0
+            // .attr("y", d => y(0))
 
         selection
             .transition()
-            .duration(800)
+            .duration(1000)
             .attr("y", d => y(0))
             .attr("height", d => y(d.Value))
             .delay(function (d, i) { return (i * 200) })
 
         selection
             .exit()
-            .transition().duration(300)
+            .transition().duration(200)
             .attr("x", (d) => width)
             .attr("width", 0)
             .remove()
