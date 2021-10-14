@@ -11,16 +11,18 @@ import Footer from "../components/Footer.js";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Input from "../components/TextInput.js";
+import Radiobutton from "../components/RadioButton.js";
 
 export default function LudwigChessHostLanding() {
     const [gameID, setGameID] = useState(false);
     const [name, setName] = useState(false);
+    const [gameType, setGameType] = useState("Public")
 
 
     if (gameID) {
         let urlName = name;
         if (!urlName) {
-            urlName = "secret user"
+            urlName = "AnonymousUser"
         }
         return <Redirect to={"/ludwigchess/" + gameID + "/" + urlName} />
     }
@@ -35,6 +37,8 @@ export default function LudwigChessHostLanding() {
             lastMoveTo: null,
             whiteSeat: "",
             blackSeat: "",
+            gameType,
+            gameOver: false
         }
 
         update(ref(db, 'games'), newGame)
@@ -68,8 +72,20 @@ export default function LudwigChessHostLanding() {
                                 autoComplete={false}
                             />
                         </div>
-                        <form onSubmit={(e) => createGame(e,setGameID)} action='#'>
-                            <div className="w-1/2 lg:w-1/4 mx-auto h-12 mb-4 bg-white rounded cursor-pointer">
+
+                        <div className="w-2/4 mx-auto pb-4">
+                            <Radiobutton
+                                title={"Type"}
+                                options={["Public", "Private"]}
+                                default={"Public"}
+                                onChange={setGameType}
+                                checkedVal={gameType}
+                            />
+                        </div>
+
+
+                        <form onSubmit={(e) => createGame(e, setGameID)} action='#'>
+                            <div className="w-1/2 mx-auto h-16 mb-4 bg-white rounded cursor-pointer">
                                 <button type="submit" className="w-full h-full text-center text-lg place-self-center pt-2">Create Lobby</button>
                             </div>
                         </form>

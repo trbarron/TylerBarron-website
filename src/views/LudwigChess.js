@@ -49,7 +49,6 @@ export default function ChessOpenings() {
         const blackSeat = data.blackSeat;
 
         chess.load(FEN);
-        // console.log("Loaded FEN: ", FEN);
         setFen(FEN);
         stockfish.getEval(FEN);
 
@@ -136,7 +135,7 @@ export default function ChessOpenings() {
   }, [gameID, name])
 
 
-  async function updateDB(FEN, from, to) {
+  async function updateDB(FEN, from, to, _gameOver) {
     const newGame = {};
     newGame[gameID] = {
       FEN: FEN,
@@ -146,15 +145,19 @@ export default function ChessOpenings() {
       blackSeat: blackSeat,
     };
 
-    console.log("Moved FEN:  ", FEN);
+    if (_gameOver) newGame[gameID].gameOver = true
 
     update(ref(db, 'games'), newGame);
   }
 
   async function onMove(from, to) {
     chess.move({ from, to, promotion: "q" });
+    
+    let _gameOver = chess.game_over();
+      
+
     const FEN = chess.fen();
-    await updateDB(FEN, from, to);
+    await updateDB(FEN, from, to, _gameOver);
   }
 
   const turnColor = () => {

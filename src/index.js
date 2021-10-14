@@ -22,6 +22,7 @@ import RiddlerWarfare from "./views/RiddlerWarfare.js"
 import LudwigChess from "./views/LudwigChess.js"
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
+import LudwigChessAudienceChess from "./views/LudwigChessAudienceLanding";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -84,6 +85,10 @@ ReactDOM.render(
 
       <Route path="/RiddlerWarfare">
         <RiddlerWarfare />
+      </Route>
+
+      <Route exact path="/LudwigChess/Join">
+        <LudwigChessAudienceChess />
       </Route>
 
       <Route path="/LudwigChess/:gameID/:name">
