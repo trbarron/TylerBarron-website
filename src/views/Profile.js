@@ -54,7 +54,7 @@ export default function Profile() {
                 <div className="mt-10 py-10 border-t border-gray">
                     <div className="w-full px-4">
                       <p className="mb-4 text-lg leading-relaxed text-gray">
-                      I'm Tyler, a recent Denver transplant working as a Frontend Web Developer for a consulting company. I've worked for a robotics companies in the past. I spend my free time exercising (bouldering, running, yoga), creating 
+                      I'm Tyler, a recent Denver transplant working as a software engineer. I've worked for a robotics companies in the past. I spend my free time exercising (bouldering, running, yoga), creating 
                       various art (photography / generative art), working on projects shown on this website and playing various video and board games.
                       </p>
                       <p className="mb-4 text-lg leading-relaxed text-gray">
