@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import analytics from '../components/Analytics.js'
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,53 +15,58 @@ import Input from "../components/TextInput.js";
 import BarChart from "../components/charts/barChart.js"
 import Axios from "axios";
 
-// Images
+import { battleLogic, submitArmyResponse, playerData } from "../types/RiddlerWarfare";
+import { listOfNames } from "../assets/tools/usernameList" // List of names to suggest as usernames
+
+
+// Image that we use for the castles
 import imgCastleBlank from '../assets/img/RiddlerWarfare/castleBlank.svg';
 
 export default function RiddlerWarfare() {
-  const [P2, setP2] = useState("The Internet");
-  const [isRandomized, setIsRandomized] = useState(false);
+  const [P2, setP2] = useState<string>("The Internet");
+  const [isRandomized, setIsRandomized] = useState<Boolean>(false);
 
-  const [results, setResults] = useState("")
-  const [leaderboard, setLeaderboard] = useState("Loading...")
+  const [results, setResults] = useState<JSX.Element>()
+  const [leaderboard, setLeaderboard] = useState<JSX.Element>(<p>Loading...</p>)
 
-  const [username, setUsername] = useState(getRandomUsername())
+  const [username, setUsername] = useState<string>(getRandomUsername())
 
-  const [castlesStrA, setCastlesStrA] = useState("10,10,10,10,10,10,10,10,10,10")
-  const [castlesStrB, setCastlesStrB] = useState("10,10,10,10,10,10,10,10,10,10")
+  const [castlesStrA, setCastlesStrA] = useState<string>("10,10,10,10,10,10,10,10,10,10")
+  const [castlesStrB, setCastlesStrB] = useState<string>("10,10,10,10,10,10,10,10,10,10")
 
-  const totalRounds = 10000;
+  const totalRounds: number = 10000;
 
-  const castlesArrIntA = castlesStrA.split(",").map((e) => parseFloat(e));
-  const castlesArrIntB = castlesStrB.split(",").map((e) => parseFloat(e));
+  const castlesArrIntA: number[] = castlesStrA.split(",").map((e) => parseFloat(e));
+  const castlesArrIntB: number[] = castlesStrB.split(",").map((e) => parseFloat(e));
 
-  const castlesArrStrA = castlesStrA.split(",").map((e) => e);
-  const castlesArrStrB = castlesStrB.split(",").map((e) => e);
+  const castlesArrStrA: string[] = castlesStrA.split(",").map((e) => e);
+  const castlesArrStrB: string[] = castlesStrB.split(",").map((e) => e);
 
-  const [data, setData] = useState([
+  const [data, setData] = useState<playerData[]>([
     {
-      Title: "Player 1",
-      Value: 0.5
+      title: "Player 1",
+      value: 0.5
     },
     {
-      Title: "Player 2",
-      Value: 0.5
+      title: "Player 2",
+      value: 0.5
     }
   ]);
 
-  const numberLeaderboardToDisp = 14;
+  const numberLeaderboardToDisp: number = 14;
+  const getArmyEndpoint: string = "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/get/getArmyLeaderboard";
+  // If using in local mode change the endoint: "http://localhost:3000/api/army/get/getArmyLeaderboard "
+  const submitArmyEndpoint: string = "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy"
+  // If using in local mode change the endoint: "http://localhost:3000/api/army/post/submitArmy",
 
+
+
+  // Functionally the same as getLeaderboard -- populates the leaderboard on initial load
   useEffect(() => {
-    getLeaderboard();
-  }, [])
-
-
-  function getLeaderboard() {
     Axios({
       method: "GET",
       data: {},
-      // url: "http://localhost:3000/api/army/get/getArmyLeaderboard ",
-      url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/get/getArmyLeaderboard",
+      url: getArmyEndpoint,
 
       headers: {
         'Content-Type': 'application/json',
@@ -70,49 +75,64 @@ export default function RiddlerWarfare() {
       const leaderboard = formatLeaderboard(res.data, numberLeaderboardToDisp);
       setLeaderboard(leaderboard);
     });
+  }, [setLeaderboard])
 
+
+  function getLeaderboard() {
+    Axios({
+      method: "GET",
+      data: {},
+      url: getArmyEndpoint,
+
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => {
+      const leaderboard: JSX.Element = formatLeaderboard(res.data, numberLeaderboardToDisp);
+      setLeaderboard(leaderboard);
+    });
   }
 
-  function formatLeaderboard(data) {
-    let leaderboard = [];
-    const leaders = [];
-    let uniqueLeader = 0;
+  function formatLeaderboard(data: any, numberLeaderboardToDisp: number) {
+    const leaderboard: JSX.Element[] = [];
+    const leaders: any[] = [];
+    let uniqueLeader: number = 0;
 
-    data.map((entry, ind) => {
-      const name = entry.name;
-      const armyWins = entry.armyWins;
-      const armyGamesPlayed = entry.armyGamesPlayed;
+    data.map((entry: { name: string; armyWins: number; armyGamesPlayed: number; }) => {
+      const name: string = entry.name;
+      const armyWins: number = entry.armyWins;
+      const armyGamesPlayed: number = entry.armyGamesPlayed;
 
       if (!leaders.includes(name) && leaderboard.length <= numberLeaderboardToDisp) {
         leaders.push(name);
-        const rowClassname = (uniqueLeader % 2 === 0) ? "bg-gray-100" : "bg-white"
-        uniqueLeader +=1;
+        const rowClassname: string = (uniqueLeader % 2 === 0) ? "bg-gray-100" : "bg-white"
+        uniqueLeader += 1;
 
         leaderboard.push(
-          <tr class={"border-b " + rowClassname}>
-            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{uniqueLeader}</td>
-            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{name}</td>
-            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyWins}</td>
-            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{armyGamesPlayed - armyWins}</td>
-            <td class="p-1 sm:py-3 sm:px-3 lg:px-5">{parseInt(armyWins * 1000 / armyGamesPlayed) / 1000}</td>
+          <tr className={"border-b " + rowClassname}>
+            <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{uniqueLeader}</td>
+            <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{name}</td>
+            <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{armyWins}</td>
+            <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{armyGamesPlayed - armyWins}</td>
+            <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{(Math.round(armyWins * 1000 / armyGamesPlayed) / 1000).toString}</td>
           </tr>
         );
       }
-      return null
+      return "Error..."
 
     })
 
     // now format it in jsx
-    const leaderboardJSX = (
-      <div class="py-4 flex justify-center w-full">
-        <table class="text-sm sm:text-md lg:text-lg bg-white shadow rounded mb-4 text-center w-full p-3">
+    const leaderboardJSX: JSX.Element = (
+      <div className="py-4 flex justify-center w-full">
+        <table className="text-sm sm:text-md lg:text-lg bg-white shadow rounded mb-4 text-center w-full p-3">
           <tbody>
-            <tr class="border-b text-center">
-              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Rank</th>
-              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Name</th>
-              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Wins</th>
-              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Losses</th>
-              <th class="p-1 sm:py-3 sm:px-3 lg:px-5">Win Rate</th>
+            <tr className="border-b text-center">
+              <th className="p-1 sm:py-3 sm:px-3 lg:px-5">Rank</th>
+              <th className="p-1 sm:py-3 sm:px-3 lg:px-5">Name</th>
+              <th className="p-1 sm:py-3 sm:px-3 lg:px-5">Wins</th>
+              <th className="p-1 sm:py-3 sm:px-3 lg:px-5">Losses</th>
+              <th className="p-1 sm:py-3 sm:px-3 lg:px-5">Win Rate</th>
             </tr>
             {leaderboard}
           </tbody>
@@ -124,56 +144,15 @@ export default function RiddlerWarfare() {
   }
 
   function getRandomUsername() {
-    const listOfNames = [
-      "bandalls",
-      "wattlexp",
-      "sweetiele",
-      "hyperyaufarer",
-      "editussion",
-      "experthead",
-      "flamesbria",
-      "heroanhart",
-      "liveltekah",
-      "linguss",
-      "interestec",
-      "fuzzyspuffy",
-      "rubblecannon",
-      "lovesboost",
-      "edgymnerch",
-      "tripgunner",
-      "hashtag",
-      "wardonboy",
-      "cerealface",
-      "chewchew",
-      "bitsentinel",
-      "drugstorecowboy",
-      "fastdraw",
-      "mr.blonde",
-      "wildcat",
-      "brighthulk",
-      "skychaser",
-      "spuffyffet",
-      "rozalthiric",
-      "bookman",
-      "Mang0",
-      "plup",
-      "ibdw",
-      "leffen",
-      "amsa",
-      "m2k",
-      "armada",
-      "ppmd",
-      "hbox",
-    ]
+    // get a random username (with number suffix) from listOfNames
 
-    const selectedName = listOfNames[Math.floor(Math.random() * listOfNames.length)]
-    const selectedSuffix = Math.floor(Math.random() * 100)
-
+    const selectedName: string = listOfNames[Math.floor(Math.random() * listOfNames.length)]
+    const selectedSuffix: number = Math.floor(Math.random() * 100)
 
     return selectedName + selectedSuffix;
   }
 
-  function setCastle(team, index, value) {
+  function setCastle(team: string, index: number, value: any) {
     if (team === "A") {
       castlesArrIntA[index] = value;
       setCastlesStrA(castlesArrIntA.join(","))
@@ -185,28 +164,34 @@ export default function RiddlerWarfare() {
   }
 
   function handleBattleButton() {
-    const [_scoreA, _scoreB, _exception] = battleLogic(castlesArrIntA, castlesArrIntB);
+    const { _scoreA, _scoreB, _exception }: battleLogic = battleLogic(castlesArrIntA, castlesArrIntB);
+    const _results: JSX.Element = showResults(_scoreA, _scoreB, _exception);
+    setResults(_results);
     setIsRandomized(false);
-    setResults(showResults(_scoreA, _scoreB, _exception));
   }
 
-  function handleManyBattleButton(totalRounds) {
-    let _scoreA = 0;
-    let _scoreB = 0;
-    let _exception = null;
-    for (let round = 0; round < totalRounds; round++) {
-      const _roundCastleB = getRandomDistro();
-      const [_roundScoreA, _roundScoreB, _roundException] = battleLogic(castlesArrIntA, _roundCastleB);
+  function handleManyBattleButton(totalRounds: number) {
+    let _scoreA: number = 0;
+    let _scoreB: number = 0;
+    let _exception: string = "";
 
+    for (let round: number = 0; round < totalRounds; round++) {
+      const _roundCastleB: number[] = getRandomDistro();
+      const { _scoreA: _roundScoreA, _scoreB: _roundScoreB, _exception: _roundException }: battleLogic = battleLogic(castlesArrIntA, _roundCastleB);
+
+      // Something weird happened -- just skip
+      if (!_roundScoreA || !_roundScoreB) { _scoreA += 0; _scoreB += 0 }
+      
       // Player A Won:
-      if (_roundScoreA > _roundScoreB) { _scoreA += 1 }
+      else if (_roundScoreA > _roundScoreB) { _scoreA += 1 }
 
       // Player B Won:
       else if (_roundScoreA < _roundScoreB) { _scoreB += 1 }
 
-      // Player A Won:
+      // Players tied:
       else if (_roundScoreA === _roundScoreB) { _scoreA += 0.5; _scoreB += 0.5 }
 
+      // There was an exception from the backend (usually caused by funky teams)
       if (_roundException) { _exception = _roundException }
     }
     setIsRandomized(false);
@@ -215,12 +200,12 @@ export default function RiddlerWarfare() {
       setData(
         [
           {
-            Title: "You",
-            Value: _scoreA
+            title: "You",
+            value: _scoreA
           },
           {
-            Title: "Random Opponent",
-            Value: _scoreB
+            title: "Random Opponent",
+            value: _scoreB
           }
         ]
       )
@@ -234,29 +219,25 @@ export default function RiddlerWarfare() {
         name: username,
         selections: castlesStrA,
       },
-      // withCredentials: true,
-      url: "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy",
-      // url: "http://localhost:3000/api/army/post/submitArmy",
-
+      url: submitArmyEndpoint,
       headers: {
         'Content-Type': 'application/json',
       }
     }).then((res) => {
       console.log(res);
-      // console.log(JSON.parse(res.data));
-      const internetResult = res.data;
-      setResults(showResults(internetResult.armyWins, internetResult.armyGamesPlayed, null, "The Internet"));
+      const internetResult: submitArmyResponse = res.data;
+      setResults(showResults(internetResult.armyWins, internetResult.armyGamesPlayed, "", "The Internet"));
 
       //set data for graph
       setData(
         [
           {
-            Title: "You",
-            Value: internetResult.armyWins
+            title: "You",
+            value: internetResult.armyWins
           },
           {
-            Title: "The Internet",
-            Value: internetResult.armyGamesPlayed - internetResult.armyWins
+            title: "The Internet",
+            value: internetResult.armyGamesPlayed - internetResult.armyWins
           }
         ]
       )
@@ -265,27 +246,28 @@ export default function RiddlerWarfare() {
   };
 
   function getRandomDistro() {
-    const randomDistro = [];
+    const randomDistro: number[] = [];
 
     for (let i = 0; i < 10; i++) {
       randomDistro.push(Math.random());
     }
 
-    const sumDistro = randomDistro.reduce((a, b) => a + b, 0);
+    const sumDistro: number = randomDistro.reduce((a: number, b: number) => a + b, 0);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i: number = 0; i < 10; i++) {
       randomDistro[i] = Math.floor((randomDistro[i] / sumDistro) * 1000) / 10;
     }
 
     // Hehe fix the last one and give it the crumbs
-    const leftovers = randomDistro.reduce((a, b) => a + b, 0) - 100;
+    const leftovers: number = randomDistro.reduce((a, b) => a + b, 0) - 100;
     randomDistro[9] -= leftovers;
 
     return randomDistro;
   }
 
+  function showResults(_scoreA: number, _scoreB: number, _exception: string, player2: string = P2) {
 
-  function showResults(_scoreA, _scoreB, _exception, player2 = P2) {
+    // Throw user errors here
     if (_exception) {
       toast.error(_exception);
 
@@ -296,6 +278,7 @@ export default function RiddlerWarfare() {
       )
     }
 
+    // Format the results text for playing against a random opponent or local human
     if (player2 === "Local Human" || player2 === "Random") {
       if (_scoreA === _scoreB) {
         return (
@@ -345,11 +328,15 @@ export default function RiddlerWarfare() {
           </>
         )
       }
-
-
+      else {
+        return (
+          <></>
+        )
+      }
 
     }
 
+    // Format the results text for playing against the internet
     else if (player2 === "The Internet") {
       return (
         <>
@@ -362,31 +349,35 @@ export default function RiddlerWarfare() {
         </>
       )
     }
+
+    else {
+      return (<></>)
+    }
   }
 
 
-  function battleLogic(castlesA, castlesB) {
-    let _scoreA = 0;
-    let _scoreB = 0;
-    let _exception = null;
+  function battleLogic(castlesA: number[], castlesB: number[]) {
+    let _scoreA: number = 0;
+    let _scoreB: number = 0;
+    let _exception: string = "";
 
     if (castlesA.reduce((a, b) => a + b, 0) !== 100) {
-      return [0, 0, "Player A doesn't sum to 100"]
+      return { _scoreA: 0, _scoreB: 0, _exception: "Player A doesn't sum to 100" }
     }
 
     const playerBSum = castlesB.reduce((a, b) => a + b, 0);
     if (playerBSum !== 100) {
-      return [0, 0, "Player B doesn't sum to 100"]
+      return { _scoreA: 0, _scoreB: 0, _exception: "Player B doesn't sum to 100" }
     }
 
     const minNumberA = Math.min(...castlesA);
     if (minNumberA < 0) {
-      return [0, 0, "Player A has an invalid (negative) number"]
+      return { _scoreA: 0, _scoreB: 0, _exception: "Player A has an invalid (negative) number" }
     }
 
     const minNumberB = Math.min(...castlesB);
     if (minNumberB < 0) {
-      return [0, 0, "Player B has an invalid (negative) number"]
+      return { _scoreA: 0, _scoreB: 0, _exception: "Player B has an invalid (negative) number" }
     }
 
     for (let i = 0; i < 10; i++) {
@@ -408,11 +399,11 @@ export default function RiddlerWarfare() {
       }
     }
 
-    return [_scoreA, _scoreB, _exception]
+    return { _scoreA, _scoreB, _exception }
 
   }
 
-  function createBattleground(P2) {
+  function createBattleground(P2: any) {
     let P2Castles = <div> </div>
 
     function generateHumanP2() {
@@ -439,7 +430,6 @@ export default function RiddlerWarfare() {
 
 
     function generateInternetP2() {
-
       let castles = [];
       for (let castleIndex = 0; castleIndex < 10; castleIndex++) {
         castles.push(
@@ -460,7 +450,7 @@ export default function RiddlerWarfare() {
       )
     }
 
-    function generateRandomP2(setRandom) {
+    function generateRandomP2(setRandom: boolean) {
       if (setRandom) {
         const randomDistro = getRandomDistro();
 
@@ -468,9 +458,8 @@ export default function RiddlerWarfare() {
         setIsRandomized(true);
       }
 
-
-      let castles = [];
-      for (var castleIndex = 0; castleIndex < 10; castleIndex++) {
+      let castles: JSX.Element[] = [];
+      for (let castleIndex: number = 0; castleIndex < 10; castleIndex++) {
         castles.push(
           <Castle
             castleIndex={castleIndex}
@@ -515,10 +504,8 @@ export default function RiddlerWarfare() {
       );
     }
 
-
-
-    let castles = [];
-    for (var castleIndex = 0; castleIndex < 10; castleIndex++) {
+    let castles: JSX.Element[] = [];
+    for (let castleIndex: number = 0; castleIndex < 10; castleIndex++) {
       castles.push(
         <Castle
           castleIndex={castleIndex}
@@ -530,8 +517,8 @@ export default function RiddlerWarfare() {
       )
     }
 
-    const castleImages = [];
-    const castleImagePaddings = [
+    const castleImages: JSX.Element[] = [];
+    const castleImagePaddings: string[] = [
       "p-2 md:p-5 lg:p-8",   //1
       "p-2 md:p-4 lg:p-7",   //2
       "p-1.5 md:p-3.5 lg:p-6", //3
@@ -543,7 +530,7 @@ export default function RiddlerWarfare() {
       "p-0 md:p-0.5 lg:p-1", //9
       "p-0 md:p-0 lg:p-0",   //10
     ]
-    for (var castleImgIndex = 0; castleImgIndex < 10; castleImgIndex++) {
+    for (let castleImgIndex: number = 0; castleImgIndex < 10; castleImgIndex++) {
       castleImages.push(
         <div>
           <img
@@ -580,7 +567,7 @@ export default function RiddlerWarfare() {
               id={"Name"}
               label={"Name"}
               value={username}
-              handleChange={(e) => setUsername(e)}
+              handleChange={(e: string) => setUsername(e)}
             />
           </div>
         </div>

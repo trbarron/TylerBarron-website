@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import analytics from '../components/Analytics.js'
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,53 +14,78 @@ import Input from "../components/TextInput.js";
 
 import { getRound, getUsers, getUser, getTeams, postSelections, postCreateUser } from "../components/SurvivorBracketAPI.js"
 import { encryptPass, checkPass } from "../assets/tools/passwordHash.js"
+import { entry, user, team } from "../types/SurvivorBracket";
 
 export default function SurvivorBracket() {
 
     const [showSignUp, setShowSignUp] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [selections, setSelections] = useState([]);
+    const [selections, setSelections] = useState<any>([]);
 
-    const [currentUser, setCurrentUser] = useState();
-    const [round, setRound] = useState();
-    const [users, setUsers] = useState();
-    const [teams, setTeams] = useState();
+    const [currentUser, setCurrentUser] = useState<user>();
+    const [round, setRound] = useState<string | undefined>();
+    const [users, setUsers] = useState<any>();
+    const [teams, setTeams] = useState<any>();
 
-    const [entryName, setEntryName] = useState();
-    const [password, setPassword] = useState();
-    const [actualName, setActualName] = useState();
-    const [venmo, setVenmo] = useState();
-    const [email, setEmail] = useState();
-    const [commPassword, setCommPassword] = useState();
-    const [phoneNumber, setPhoneNumber] = useState();
+    const [entryName, setEntryName] = useState<string | undefined>();
+    const [password, setPassword] = useState<string | undefined>();
+    const [actualName, setActualName] = useState<string | undefined>();
+    const [venmo, setVenmo] = useState<string | undefined>();
+    const [email, setEmail] = useState<string | undefined>();
+    const [commPassword, setCommPassword] = useState<string | undefined>();
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>();
 
     const lockedOut = false;
 
 
-    let mainContent = undefined;
+    let mainContent: JSX.Element = <div></div>;
+    let selectionsKey = currentUser ? currentUser.selections : "null" ;
 
     useEffect(() => {
+        async function getData() {
+            let [_round, _users, _teams] = await Promise.all([getRound(), getUsers(), getTeams()])
+    
+    
+            _users = parseUserTeamSelection(_users, _round, _teams);
+    
+            setRound(_round);
+            setUsers(_users);
+            setTeams(_teams);
+        }
+
         getData();
+
     }, [])
 
-    function buttonify(teams, selectable) {
-        let buttons = teams.map((entry) => {
+    async function getData() {
+        let [_round, _users, _teams] = await Promise.all([getRound(), getUsers(), getTeams()])
+
+
+        _users = parseUserTeamSelection(_users, _round, _teams);
+
+        setRound(_round);
+        setUsers(_users);
+        setTeams(_teams);
+    }
+
+    function buttonify(teams: any, selectable: boolean) {
+        let buttons = teams.map((entry: entry) => {
             if (entry.filler === true) {
-                return (<div key={entry.name + currentUser.selections} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
+                return (<div key={entry.name + selectionsKey} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
 
                     <div className="w-full ">
                         <div className={`widget w-full p-2 rounded-lg bg-white border-l-8 duration-300 transition border-color-gray-dark ${(selections.includes(entry.id) && selectable) ? "ring-4 ring-green-600 ring-opacity-60" : ""}`}>
                             <div className="flex items-center">
                                 <div className="icon w-14 p-3.5 text-xl text-white rounded-full mr-3 flex justify-center bg-gray-200" >
                                     --
-                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>)
             }
             else {
-                return (<div key={entry.name + currentUser.selections} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
+                return (<div key={entry.name + selectionsKey} className={`w-2/6 rounded p-3 place-content-center h-min  ${selectable ? "cursor-pointer" : ""} `} onClick={() => teamSelectedHandle(entry.id, selectable)} >
 
                     <div className="w-full ">
                         <div className={`widget w-full p-2 rounded-lg bg-white border-l-8 duration-300 transition ${(selections.includes(entry.id) && selectable) ? "ring-4 ring-green-600 ring-opacity-60" : ""}`} style={{ borderColor: entry.color }}>
@@ -81,19 +107,10 @@ export default function SurvivorBracket() {
     }
 
 
-    async function getData() {
-        let [_round, _users, _teams] = await Promise.all([getRound(), getUsers(), getTeams()])
 
-
-        _users = parseUserTeamSelection(_users, _round, _teams);
-
-        setRound(_round);
-        setUsers(_users);
-        setTeams(_teams);
-    }
 
     async function logOn() {
-        let userID = users.filter((u) => u.entryName === entryName);
+        let userID = users.filter((u: { entryName: string }) => u.entryName === entryName);
         userID = userID[0].id;
         let user = await getUser(userID);
 
@@ -111,14 +128,14 @@ export default function SurvivorBracket() {
         if (checkPass(commPassword, "$2a$04$Lnzgfev2RSknY3611TjxOuZt.F3gahg61aBakEWow1nS0KkJZxRfO")) { //hardcoded passwords are bad
             //display something to show that they did it correctly
 
-            let userID = users.filter((u) => u.entryName === entryName);
+            let userID = users.filter((u: user) => u.entryName === entryName);
             if (userID.length > 0) {
                 toast.error("Entry Name has already been used");
             }
             else {
                 const encryptedPass = await encryptPass(password)
                 await postCreateUser(entryName, encryptedPass, actualName, venmo, email, phoneNumber);
-    
+
                 getData()
                 setShowSignUp(false);
                 toast.success("Successfully Created User");
@@ -140,11 +157,14 @@ export default function SurvivorBracket() {
             return
         }
         else {
-            if (selections.length !== allowedTeams) {toast.error("Incorrect # of teams selected")}
+            if (selections.length !== allowedTeams) { toast.error("Incorrect # of teams selected") }
             else {
+                let _id = currentUser ? currentUser.id : "";
                 let formattedSelections = selections.join("o");
-                await postSelections(currentUser.id, formattedSelections);
+
+                await postSelections(_id, formattedSelections);
                 setSelections([])
+                toast.success("Successfully Submitted Teams")
                 await logOn();
             }
         }
@@ -157,51 +177,50 @@ export default function SurvivorBracket() {
             return
         }
         else {
-            await postSelections(currentUser.id, "o");
+            await postSelections(currentUser!.id, "o");
             setSelections([])
             await logOn();
         }
     }
 
     async function logOut() {
-        setCurrentUser(null);
+        setCurrentUser(undefined);
         setLoggedIn(false);
         toast.success("Successfully Logged Out");
     }
 
-    function newTotalSeed(currSelTeams) {
-        let tempSum = parseInt(currentUser.totalSeed) || 0
-        currSelTeams.forEach(element => {
-            tempSum += parseInt(element.seed) || 0;
-        });
-        if (tempSum === NaN) {
-            tempSum = 0
-        }
-        return tempSum
-    }
+    // function newTotalSeed(currSelTeams) {
+    //     let tempSum = parseInt(currentUser.totalSeed) || 0
+    //     currSelTeams.forEach(element => {
+    //         tempSum += parseInt(element.seed) || 0;
+    //     });
+    //     if (tempSum === NaN) {
+    //         tempSum = 0
+    //     }
+    //     return tempSum
+    // }
 
-    function parseUserTeamSelection(_users, _round, _teams) {
+    function parseUserTeamSelection(_users: user[], _round: string, _teams: team[]) {
 
         _users.forEach(_user => {
             let data = `${_user.selections}`
             data = data.replaceAll("[", "");
             data = data.replaceAll("]", "");
-            data = data.split(",");
+            const dataArray: string[] = data.split(",");
             let allTeams = [];
 
             let _i = 0
 
-            do
-            {
-                let rData = data[_i].split("o");
-                rData = rData.map(entry => parseInt(entry));
+            do {
+                const rDataString: string[] = dataArray[_i].split("o");
+                const rDataInt: number[] = rDataString.map(entry => parseInt(entry));
 
-                allTeams.push(..._teams.filter((team) => rData.includes(parseInt(team.id))));
+                allTeams.push(..._teams.filter((team) => rDataInt.includes(parseInt(team.id))));
                 _i++
             }
             while (_i < parseInt(_round))
 
-            let visibleSelections = allTeams.map(a => a.name).join(", ");
+            const visibleSelections = allTeams.map(a => a.name).join(", ");
             _user["visibleSelections"] = visibleSelections
         });
 
@@ -209,11 +228,11 @@ export default function SurvivorBracket() {
         return _users
     }
 
-    function teamSelectedHandle(name, selectable) {
+    function teamSelectedHandle(name: string, selectable: boolean) {
         if (!selectable) { return }
 
         if (selections.includes(name)) {
-            setSelections(selections.filter((m) => m !== name))
+            setSelections(selections.filter((m: string) => m !== name))
         }
         else {
             setSelections([...selections, name]);
@@ -222,7 +241,7 @@ export default function SurvivorBracket() {
 
     }
 
-    let faq = ""
+    let faq: JSX.Element = <div></div>
     if (!loggedIn) {
         faq = <Article
             title="March Madness"
@@ -235,35 +254,35 @@ export default function SurvivorBracket() {
 
                 <p>
                     Traditional NCAA tournament pools have users select their entire bracket before the 64-team tournament starts. The survivor pool has users select a small number of teams they think will win ahead of each of the tournament's six rounds. The catch is that users cannot select the same team twice, meaning they have a very small pool of teams to pick as the tournament field is cut in half at each round.
-        </p>
+                </p>
 
                 <p>
                     In Round 1, users select 3 teams they think will win. In order to pick again in Round 2, users need all three of their teams to win.
-        </p>
+                </p>
 
                 <p>
                     In Round 2, users select 2 teams they think will win. The catch is users cannot select teams they've already picked. They need both of their selections to win in order to advance.
-        </p>
+                </p>
 
                 <p>
                     In Round 3, and every round after that, users need to select just 1 winning team to move on. Again, it cannot be a team they have already picked.
-        </p>
+                </p>
 
                 <p className="font-bold">
                     Users are eliminated when you either:
-        </p>
+                </p>
 
                 <p>
                     -Pick a team that loses in that round (e.g. picking 1, 2, or 3 losing teams in Round 1, picking 1 or 2 losing teams in Round 2, picking a losing team in Round 3, etc.)
-        </p>
+                </p>
 
                 <p>
                     -Run out of teams to use in the upcoming round (e.g. made it to Round 4 but have already used all the remaining teams).
-        </p>
+                </p>
 
                 <p>
                     The winner will correctly pick the sufficient number of winners in each round OR make it farther than any other participant. The tiebreaker will be the user's total seed sum over the course of the tournament, so making riskier picks is incentivized.
-        </p>
+                </p>
 
             </Subarticle>
 
@@ -273,11 +292,11 @@ export default function SurvivorBracket() {
 
                 <p>
                     User A in Round 1 picks 1-seed Gonzaga, 2-seed Villanova, and 7-seed UCLA. If all three teams win, their total seed sum is 1+2+7 = 10.
-        </p>
+                </p>
 
                 <p>
                     User B in Round 1 picks 1-seed Baylor, 4-seed Tennessee, and 8-seed Oregon. If all three teams win, their total seed sum is 1+4+8 = 13. User B has the higher seed sum and is rewarded for making riskier picks.
-        </p>
+                </p>
 
             </Subarticle>
             <Subarticle
@@ -286,27 +305,27 @@ export default function SurvivorBracket() {
 
                 <p>
                     An entry that loses in Round 5 is better than any entry that lost in Round 4, regardless of total seed sum. Two entries that both lost in Round 5 are differentiated by their total seed sums of correct picks through the first four rounds.
-        </p>
+                </p>
 
                 <p className="font-italics">
                     Scenarios:
-        </p>
+                </p>
 
                 <p>
                     In Round 5, User A has a total seed sum of 40 and selects 1-seed Gonzaga. User B has a total seed sum of 43 and also selects 1-seed Gonzaga. User C has a total seed sum of 51 and selects 4-seed Wisconsin. Gonzaga wins and Wisconsin loses.
-        </p>
+                </p>
 
                 <p>
                     User C is eliminated and their very high seed sum is now irrelevant. User A and User B are still alive, but User B is ahead of User A in the standings because their total seed sum is 43+1=44 and User A's total seed sum is 40+1=41.
-        </p>
+                </p>
 
                 <p className="font-bold">
                     There are also an opportunities to buy back into the pool if you have lost.
-        </p>
+                </p>
 
                 <p>
                     Users can pay $20 to return to the pool if they select a losing team (or teams) in Round 1. Once you buy back in, they must then get one additional pick right in Round 2 in order to keep playing. So in order for buybackers to advance to Round 3, they would have to get 3 picks correct instead of just 2. Only their two highest seeded selections of the three will count towards the tiebreaker seed sum.
-        </p>
+                </p>
 
             </Subarticle>
 
@@ -316,11 +335,11 @@ export default function SurvivorBracket() {
 
                 <p>
                     User selected 1-seed Gonzaga, 5-seed Louisville, and 7-seed UCLA in Round 1. Gonzaga and UCLA won, but Louisville did not win. Their total seed sum is 1+7 = 8 because Louisville did not win.
-        </p>
+                </p>
 
                 <p>
                     User buys back in. In Round 2, they must select three teams. They select 1-seed Baylor, 4-seed Tennessee, and 11-seed Seton Hall. All three teams win and they can keep playing, but only Tennessee (4) and Seton Hall (11) count for their total seed sum.
-        </p>
+                </p>
 
             </Subarticle>
 
@@ -329,11 +348,11 @@ export default function SurvivorBracket() {
             >
                 <p>
                     -$20 per entry (unlimited entries per user)
-        </p>
+                </p>
 
                 <p>
                     -70% payout to winner, 25% to second, 5% of proceeds will benefit Left Behind K-9 Rescue
-        </p>
+                </p>
             </Subarticle>
 
             <Subarticle
@@ -341,31 +360,31 @@ export default function SurvivorBracket() {
             >
                 <p>
                     More info on the NCAA Tournament schedule linked here.
-        </p>
+                </p>
 
                 <p>
                     The tournament starts on Thursday, March 18 at 4PM, so users' first three picks would need to be in before then.
-        </p>
+                </p>
 
                 <p>
                     The second round starts on Sunday, March 20 at 12PM, so users' second two (or three for buybackers) picks would need to be in before then. If they have not selected by then, they are eliminated.
-        </p>
+                </p>
 
                 <p>
                     The third round starts on Saturday, March 27 at 2PM, so users' picks (one pick for Round 3) would need to be in before then. If they have not selected by then, they are eliminated.
-        </p>
+                </p>
 
                 <p>
                     Fourth round starts on Monday, March 29 at 7PM, so users' picks (one pick for Round 4) would need to be in before then. If they have not selected by then, they are eliminated.
-        </p>
+                </p>
 
                 <p>
                     Fifth round starts on Saturday, April 3 at 5PM, so users' picks (one pick for Round 5) would need to be in before then. If they have not selected by then, they are eliminated.
-        </p>
+                </p>
 
                 <p>
                     Sixth (last) round starts on Monday, April 5 at 9PM, so users' picks (one pick for Round 6) would need to be in before then. If they have not selected by then, they are eliminated.
-        </p>
+                </p>
 
             </Subarticle>
         </Article>
@@ -374,124 +393,124 @@ export default function SurvivorBracket() {
     // Default view
     if (!showSignUp && !loggedIn) {
         mainContent =
-        <Article
-            title="March Madness"
-        //   styleModifier={}
-        >
-            <Subarticle>
+            <Article
+                title="March Madness"
+            //   styleModifier={}
+            >
+                <Subarticle>
 
-                <h3 className="text-xl text-center pb-4">Log On</h3>
+                    <h3 className="text-xl text-center pb-4">Log On</h3>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Entry Name"}
-                        label={"Entry Name"}
-                        handleChange={(e) => setEntryName(e)}
-                    />
-                </div>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Entry Name"}
+                            label={"Entry Name"}
+                            handleChange={(e: string) => setEntryName(e)}
+                        />
+                    </div>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Password"}
-                        label={"Password"}
-                        isPassword={true}
-                        handleChange={(e) => setPassword(e)}
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Password"}
+                            label={"Password"}
+                            isPassword={true}
+                            handleChange={(e: string) => setPassword(e)}
 
-                    />
-                </div>
+                        />
+                    </div>
 
-                <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={logOn}>
-                    <div className="w-full h-full text-center text-lg place-self-center pt-2">Log On</div>
-                </div>
+                    <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={logOn}>
+                        <div className="w-full h-full text-center text-lg place-self-center pt-2">Log On</div>
+                    </div>
 
-                <p></p>
-                <p className="text-center">Need an account? <a onClick={signUpToggleHandle} className="cursor-pointer">Sign Up</a></p>
+                    <p></p>
+                    <p className="text-center">Need an account? <a onClick={signUpToggleHandle} className="cursor-pointer">Sign Up</a></p>
 
-            </Subarticle>
-        </Article>
+                </Subarticle>
+            </Article>
 
     }
 
     // Sign  Up for Account
     else if (showSignUp && !loggedIn) {
         mainContent =
-        <Article
-            title="March Madness"
-        >
-            <Subarticle>
+            <Article
+                title="March Madness"
+            >
+                <Subarticle>
 
-                <h3 className="text-xl text-center pb-4">Sign Up</h3>
+                    <h3 className="text-xl text-center pb-4">Sign Up</h3>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Entry Name"}
-                        label={"Entry Name"}
-                        handleChange={(e) => setEntryName(e)}
-                    />
-                </div>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Entry Name"}
+                            label={"Entry Name"}
+                            handleChange={(e: string) => setEntryName(e)}
+                        />
+                    </div>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"User Password"}
-                        label={"User Password"}
-                        isPassword={true}
-                        handleChange={(e) => setPassword(e)}
-                    />
-                </div>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"User Password"}
+                            label={"User Password"}
+                            isPassword={true}
+                            handleChange={(e: string) => setPassword(e)}
+                        />
+                    </div>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Actual Name"}
-                        label={"Actual Name"}
-                        handleChange={(e) => setActualName(e)}
-                    />
-                </div>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Actual Name"}
+                            label={"Actual Name"}
+                            handleChange={(e: string) => setActualName(e)}
+                        />
+                    </div>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Venmo Name"}
-                        label={"Venmo Name"}
-                        handleChange={(e) => setVenmo(e)}
-                    />
-                </div>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Venmo Name"}
+                            label={"Venmo Name"}
+                            handleChange={(e: string) => setVenmo(e)}
+                        />
+                    </div>
 
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Email"}
-                        label={"Email"}
-                        handleChange={(e) => setEmail(e)}
-                    />
-                </div>
-
-
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Phone Number"}
-                        label={"Phone Number"}
-                        handleChange={(e) => setPhoneNumber(e)}
-                    />
-                </div>
-
-                <div className="w-2/4 mx-auto h-16 pb-4">
-                    <Input
-                        id={"Commissioner Password"}
-                        label={"Commissioner Password"}
-                        isPassword={true}
-                        handleChange={(e) => setCommPassword(e)}
-                    />
-                </div>
-
-                <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={signUp}>
-                    <div className="w-full h-full text-center text-lg place-self-center pt-2">Sign Up</div>
-                </div>
-
-                <p></p>
-                <p className="text-center">Have an account? <a onClick={signUpToggleHandle} className="cursor-pointer">Log In</a></p>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Email"}
+                            label={"Email"}
+                            handleChange={(e: string) => setEmail(e)}
+                        />
+                    </div>
 
 
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Phone Number"}
+                            label={"Phone Number"}
+                            handleChange={(e: string) => setPhoneNumber(e)}
+                        />
+                    </div>
 
-            </Subarticle>
-        </Article>
+                    <div className="w-2/4 mx-auto h-16 pb-4">
+                        <Input
+                            id={"Commissioner Password"}
+                            label={"Commissioner Password"}
+                            isPassword={true}
+                            handleChange={(e: string) => setCommPassword(e)}
+                        />
+                    </div>
+
+                    <div className="w-2/4 mx-auto h-12 mb-4 bg-red-light rounded cursor-pointer" onClick={signUp}>
+                        <div className="w-full h-full text-center text-lg place-self-center pt-2">Sign Up</div>
+                    </div>
+
+                    <p></p>
+                    <p className="text-center">Have an account? <button type="button" onClick={signUpToggleHandle} className="cursor-pointer">Log In</button></p>
+
+
+
+                </Subarticle>
+            </Article>
     }
 
     // Real view
@@ -503,33 +522,33 @@ export default function SurvivorBracket() {
 
         let prevSelTeams = []
         let currSelTeams = []
-        let elimTeams = teams.filter((ele) => ele.results.includes("l"))
-        let availTeams = teams.filter((ele) => !ele.results.includes("l"))
+        // let elimTeams = teams.filter((ele) => ele.results.includes("l"))
+        let availTeams: team[] = teams.filter((ele: team) => !ele.results.includes("l"))
 
-        let selectionData = `${currentUser.selections}`
+        let selectionData: string = `${currentUser!.selections}`
         selectionData = selectionData.replaceAll("[", "");
         selectionData = selectionData.replaceAll("]", "");
-        selectionData = selectionData.split(",");
+        const selectionDataArray: string[] = selectionData.split(",");
 
-        for (let _i = 0; _i <= round; _i++) {
-            let rData = selectionData[_i].split("o");
-            rData = rData.map(entry => parseInt(entry));
+        for (let _i: number = 0; _i <= parseInt(round!); _i++) {
+            const rDataString: string[] = selectionDataArray[_i].split("o");
+            const rDataNum: number[] = rDataString.map(entry => parseInt(entry));
 
-            if (_i === parseInt(round)) {
-                currSelTeams.push(...teams.filter((team) => rData.includes(parseInt(team.id))));
+            if (_i === parseInt(round!)) {
+                currSelTeams.push(...teams.filter((team: team) => rDataNum.includes(parseInt(team.id))));
             }
             else {
-                prevSelTeams.push(...teams.filter((team) => rData.includes(parseInt(team.id))));
+                prevSelTeams.push(...teams.filter((team: team) => rDataNum.includes(parseInt(team.id))));
             }
 
             //remove teams that have been selected or are currently selected
-            availTeams = availTeams.filter((m) => !rData.includes(parseInt(m.id)));
+            availTeams = availTeams.filter((m) => !rDataNum.includes(parseInt(m.id)));
         }
 
         let fillerTeams = 0
         var allowedTeams = 1
-        if (round === "0" || (round === "1" && currentUser.buyback)) {allowedTeams = 3}
-        if (round === "1" && !currentUser.buyback) {allowedTeams = 2}
+        if (round === "0" || (round === "1" && currentUser!.buyback)) { allowedTeams = 3 }
+        if (round === "1" && !currentUser!.buyback) { allowedTeams = 2 }
 
         while (currSelTeams.length < allowedTeams) {
             let blankTeam = {
@@ -550,10 +569,10 @@ export default function SurvivorBracket() {
 
         // Users for table thing
 
-        let usersSorted = users.sort((a, b) => parseInt(b.totalSeed) - parseInt(a.totalSeed));
+        let usersSorted = users.sort((a: user, b: user) => parseInt(b.totalSeed) - parseInt(a.totalSeed));
 
-        let usersAlive = usersSorted.filter((u) => u.surv === "true");
-        const formattedUsersAlive = usersAlive.map((u) =>
+        let usersAlive = usersSorted.filter((u: user) => u.surv === "true");
+        const formattedUsersAlive = usersAlive.map((u: user) =>
             <tr key={u.entryName} className={` text-center ${u.hidden === "true" ? "hidden" : ""} `}>
                 <td className="px-6 py-4 ">{u.entryName}</td>
                 <td className="px-6 py-4 ">{u.totalSeed}</td>
@@ -562,8 +581,8 @@ export default function SurvivorBracket() {
             </tr>
         )
 
-        let usersDead = usersSorted.filter((u) => u.surv === "false");
-        const formattedUsersDead = usersDead.map((u) =>
+        let usersDead = usersSorted.filter((u: user) => u.surv === "false");
+        const formattedUsersDead = usersDead.map((u: user) =>
             <tr key={u.entryName} className={` text-center ${u.hidden === "true" ? "hidden" : ""} `}>
                 <td className="px-6 py-4 ">{u.entryName}</td>
                 <td className="px-6 py-4 ">{u.totalSeed}</td>
@@ -576,7 +595,7 @@ export default function SurvivorBracket() {
             <div>
                 <Article
                     title="Selections"
-                    subtitle={"Logged in: " + currentUser.entryName}
+                    subtitle={"Logged in: " + currentUser!.entryName}
                 >
                     <Subarticle>
                         <div className="text-center pb-8 ">
@@ -594,7 +613,7 @@ export default function SurvivorBracket() {
 
                         <div className="border-l-8 -ml-6 -mr-6 border-gray-600 border-opacity-50 ">
 
-                            <h3 className= {`text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-gray-600 bg-opacity-50 pt-3  ${prevSelTeams.length > 0 ? "" : " hidden"} `}>Previously Selected Teams:</h3>
+                            <h3 className={`text-xl text-gray-dark pl-12 pb-4 text-center w-full bg-gray-600 bg-opacity-50 pt-3  ${prevSelTeams.length > 0 ? "" : " hidden"} `}>Previously Selected Teams:</h3>
 
                             <div className="flex flex-wrap mx-6">
                                 {buttonify(prevSelTeams, false)}
