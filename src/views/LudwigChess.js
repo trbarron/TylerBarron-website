@@ -151,13 +151,15 @@ export default function ChessOpenings() {
   }
 
   async function onMove(from, to) {
-    chess.move({ from, to, promotion: "q" });
-    
-    let _gameOver = chess.game_over();
-      
+    if (whiteSeat && blackSeat) {
+      chess.move({ from, to, promotion: "q" });
+      let _gameOver = chess.game_over();
+      const FEN = chess.fen();
+      await updateDB(FEN, from, to, _gameOver);
+    } else {
+      chess.move();
+    }
 
-    const FEN = chess.fen();
-    await updateDB(FEN, from, to, _gameOver);
   }
 
   const turnColor = () => {
