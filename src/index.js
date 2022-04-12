@@ -23,7 +23,7 @@ import LudwigChess from "./views/LudwigChess.js"
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
 
-import AppleAppSiteAssociation from "./tools/apple-app-site-association";
+import AppleAppSiteAssociation from ".assets/tools/apple-app-site-association";
 
 ReactDOM.render(
   <BrowserRouter>
