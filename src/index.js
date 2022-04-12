@@ -22,7 +22,8 @@ import RiddlerWarfare from "./views/RiddlerWarfare.tsx"
 import LudwigChess from "./views/LudwigChess.js"
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
-import LudwigChessAudienceChess from "./views/LudwigChessAudienceLanding";
+
+import AppleAppSiteAssociation from "./tools/apple-app-site-association";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -101,6 +102,10 @@ ReactDOM.render(
 
       <Route path="/LudwigChess/">
         <LudwigChessHostLanding />
+      </Route>
+
+      <Route path="/apple-app-site-association/">
+        <AppleAppSiteAssociation />
       </Route>
 
       <Route path="/">

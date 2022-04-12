@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+        {
+            "appID": "1498119226.com.crosschx.main.OliveApp",
+            "paths": ["*"]
+        },
+        {
+            "appID": "1498119226.com.oliveai.Olive3",
+            "paths": ["*"]
+        }
+    ]
+  }
+}
