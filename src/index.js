@@ -25,6 +25,8 @@ import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
 
 import AppleAppSiteAssociation from "./assets/tools/apple-app-site-association";
 
+const reload = () => window.location.reload();
+
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
@@ -104,9 +106,7 @@ ReactDOM.render(
         <LudwigChessHostLanding />
       </Route>
 
-      <Route path="/apple-app-site-association/">
-        <AppleAppSiteAssociation />
-      </Route>
+      <Route path="/apple-app-site-association" onEnter={reload} />
 
       <Route path="/">
         <Home />
