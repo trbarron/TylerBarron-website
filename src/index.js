@@ -89,10 +89,10 @@ ReactDOM.render(
       <Route path="/RiddlerWarfare">
         <RiddlerWarfare />
       </Route>
-
+{/* 
       <Route exact path="/LudwigChess/Join">
         <LudwigChessAudienceChess />
-      </Route>
+      </Route> */}
 
       <Route path="/LudwigChess/:gameID/:name">
         <LudwigChess />
