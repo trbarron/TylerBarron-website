@@ -1,15 +1,8 @@
 {
-  "applinks": {
-    "apps": [],
-    "details": [
-        {
-            "appID": "1498119226.com.crosschx.main.OliveApp",
-            "paths": ["*"]
-        },
-        {
-            "appID": "1498119226.com.oliveai.Olive3",
-            "paths": ["*"]
-        }
+  "webcredentials": {
+    "apps": [
+      "FAKETEAMID.org.reactjs.native.example.yidapp",
+      "9GFA8A95A5.org.reactjs.native.example.yidapp"
     ]
   }
 }
