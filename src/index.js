@@ -104,7 +104,7 @@ ReactDOM.render(
         <LudwigChessHostLanding />
       </Route>
 
-      {/* <Route path="/.well-known/apple-app-site-association" onEnter={reload} /> */}
+      <Route path="%PUBLIC_URL%/.well-known/apple-app-site-association" onEnter={reload} />
 
       <Route path="/">
         <Home />
