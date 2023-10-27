@@ -71,35 +71,44 @@ export default function ChessOpenings() {
     
   };
 
-  async function checkMove(from,to) {
-    const {repMoves,openingName} = await getRepMoves(fen);
+  async function checkMove(from, to) {
+    const {repMoves, openingName} = await getRepMoves(fen);
     const selMove = selectOptimalMove(repMoves);
-    const optFrom = selMove.uci.substring(0,2);
-    const optTo = selMove.uci.substring(2,4);
+    const optFrom = selMove.uci.substring(0, 2);
+    const optTo = selMove.uci.substring(2, 4);
     setOpeningName(openingName);
     
-    let hasMessedUp = false
-
-    if ((from === optFrom && to === optTo) || (from === optFrom && to === "g1" && optTo === "h1")) {
-    
-      setOccuranceStyle(" transition duration-400 ease-in-out bg-green-100")
-      setTimeout(() => setOccuranceStyle("  transition duration-1000 ease-in-out bg-auto"), 400)
-    }
-    else {
+    let hasMessedUp = false;
+  
+    const isWhiteKingSideCastle = (from === "e1" && to === "g1" && optFrom === "e1" && optTo === "h1");
+    const isWhiteQueenSideCastle = (from === "e1" && to === "c1" && optFrom === "e1" && optTo === "a1");
+    const isBlackKingSideCastle = (from === "e8" && to === "g8" && optFrom === "e8" && optTo === "h8");
+    const isBlackQueenSideCastle = (from === "e8" && to === "c8" && optFrom === "e8" && optTo === "a8");
+  
+    if (
+      (from === optFrom && to === optTo) || 
+      isWhiteKingSideCastle || 
+      isWhiteQueenSideCastle || 
+      isBlackKingSideCastle || 
+      isBlackQueenSideCastle
+    ) {
+      setOccuranceStyle(" transition duration-400 ease-in-out bg-green-100");
+      setTimeout(() => setOccuranceStyle("  transition duration-1000 ease-in-out bg-auto"), 400);
+    } else {
       hasMessedUp = true;
       setCorrectionArrow([{
         brush: 'red',
         dest: optTo,
         orig: optFrom,
       }]);
-
-      setOccuranceStyle(" transition duration-400 ease-in-out bg-red-100")
-      setTimeout(() => setOccuranceStyle("  transition duration-1000 ease-in-out bg-auto"), 400)
+  
+      setOccuranceStyle(" transition duration-400 ease-in-out bg-red-100");
+      setTimeout(() => setOccuranceStyle("  transition duration-1000 ease-in-out bg-auto"), 400);
     }
     
-    return hasMessedUp
+    return hasMessedUp;
   }
-
+  
   function flipBoard() {
     const or = (boardOrientation === "white") ? "black" : "white"
     setBoardOrientation(or);
