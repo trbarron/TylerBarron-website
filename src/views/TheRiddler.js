@@ -1,8 +1,9 @@
 import React from "react";
-import analytics from '../components/Analytics.js'
-
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
+
+import Markdown from "../components/Markdown.tsx"
+
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Photo from "../components/Photo.js";
@@ -10,10 +11,6 @@ import Video from "../components/Video.js";
 
 import Riddler from "../components/Riddler.js";
 
-import riddlerLogo from "../assets/img/Riddler/riddlerlogo.gif"
-import pizzaPath from "../assets/img/Riddler/pizza_path.jpg"
-import barronSquareFour from "../assets/img/Riddler/barronSquareFour.jpg"
-import barronSquareEight from "../assets/img/Riddler/barronSquareEight.jpg"
 import sixPuzzle from "../assets/img/Riddler/sixPuzzle.jpg"
 import uniqueTileSnips from "../assets/img/Riddler/unique_tile_snips.png"
 import sevenSegDisplay from "../assets/img/Riddler/sevenSegDisplay.jpg"
@@ -21,71 +18,78 @@ import setBoard from "../assets/img/Riddler/setBoard.png"
 import neutColorado from "../assets/img/Riddler/neutColorado.png"
 import blueColorado from "../assets/img/Riddler/blueColorado.png"
 import crosswordOne from "../assets/img/Riddler/crosswordOne.png"
-import crosswordTwo from "../assets/img/Riddler/crosswordTwo.png"
+import crosswordTwoImg  from "../assets/img/Riddler/crosswordTwo.png"
+
+
+const imageMappings = {
+  crosswordTwo: crosswordTwoImg,
+  // ...other image mappings
+};
+
+const intro = `
+# FiveThirtyEight's The Riddler
+## What is the Riddler?
+The Riddler is a weekly math, logic and probability problem hosted by fivethirtyeight. The website usually posts data-driven politics, sports and culture blog and predictions.
+
+![Riddler Logo](images/Riddler/riddlerlogo.gif)
+
+If my solution extendable, interactive or generalizable then I'll usually blog about it. I've also created and submitted some problems that have published on the column.
+
+`;
+
+const submittedProblems = `
+# Submitted Problems
+## A Pizza Sauce Problem
+
+This problem is about filling a pizza evenly with sauce
+
+> _You work for Puzzling Pizza, a company committed to making the best and most consistent pizzas in town. As the shop’s resident mathematician, your boss has asked you to design a product similar to one they saw online:_
+
+[Link to video](https://www.youtube.com/watch?v=8Q0vk_fKDEo)
+
+> _They’ve already purchased the equipment but need to know the exact path and flow rate the sauce-dispensing arm should use to fill a 12-inch circular pizza with sauce as fully and evenly as possible._
+
+This problem was unique in that I not only created the problem but also wrote the solution and provided the diagrams.
+
+![pizzaPath](images/Riddler/pizza_path.jpg)
+
+[The solution can be found here](https://fivethirtyeight.com/features/a-peaceful-but-not-peaceful-transition-of-power-in-riddler-nation/)
+
+---
+## Barron Squares
+
+This is a mathmatical object I made and named
+
+It is a square matrix such that each row's leftmost element times its rightmost element will equal the two inner numbers (in the example below, the top row has 6*7 = 42). Similarly, each column's uppermost element times the column's lowermost element equals the middle digits (in the example, the right column is 7*8 = 56), as read top to bottom.
+
+![barronSquareFour](images/Riddler/barronSquareFour.jpg)
+###### 4x4 Barron Square
+
+This was then expanded on to be a 8x8 with two digit rows/columns being multiplied to get four digit products
+
+![barronSquareFour](images/Riddler/barronSquareEight.jpg)
+###### 8x8 Barron Square
+
+We ended up finding all 1444 4x4 Barrons Squares, several hundred 8x8 and even a few 16x16 Barron Squares. [This was featured as a Riddler Express for FiveThirtyEight.](https://fivethirtyeight.com/features/can-you-crack-this-squares-hidden-code/)
+
+---
+
+## A Geometric Puzzle
+
+`;
 
 
 export default function TheRiddler() {
 
   return (
-    <div className="bg-background bg-fixed min-h-screen flex flex-col">
+    <div className="bg-background bg-cover bg-fixed min-h-screen flex flex-col">
       <Navbar/>
       <main className="flex-grow">
-
-        {/* <BottomStripe/> */}
           
-        <Article
-          title="FiveThirtyEight's The Riddler" 
-          subtitle=""
-        >
-          <Subarticle
-            subtitle="What is the Riddler?"
-          >
-            <p>The Riddler is a weekly math, logic and probability problem hosted by fivethirtyeight. The website usually posts data-driven politics, sports and culture blog and predictions.</p>
+      <Markdown markdownFile={intro}/>
+      <Markdown markdownFile={submittedProblems}/>
+        {/* 
 
-          <Photo
-            src={riddlerLogo}
-            alt="theRiddler"
-          />
-
-          <p>If my solution extendable, interactive or generalizable then I'll usually blog about it. I've also created and submitted some problems that have published on the column.</p>
-          </Subarticle>
-        </Article>
-
-        <Article
-          title="Submitted Problems"
-          subtitle=""
-        >
-          <Subarticle subtitle="A Pizza Sauce Problem">
-            <p>This problem is about filling a pizza evenly with sauce</p>
-
-            <Riddler>
-              {"You work for Puzzling Pizza, a company committed to making the best and most consistent pizzas in town. As the shop’s resident mathematician, your boss has asked you to design a product similar to one they saw online:"}
-              <Video src={"https://www.youtube.com/embed/8Q0vk_fKDEo"} alt="Pizza Deliverer"/>
-              {"They’ve already purchased the equipment but need to know the exact path and flow rate the sauce-dispensing arm should use to fill a 12-inch circular pizza with sauce as fully and evenly as possible."}
-            </Riddler>            
-
-            <p>This problem was unique in that I not only created the problem but also wrote the solution and provided all the diagrams.</p>
-
-            <Photo src={pizzaPath} alt="pizzaPath" caption="The final sauce dispenser path"/>
-
-            <p><a href="https://fivethirtyeight.com/features/a-peaceful-but-not-peaceful-transition-of-power-in-riddler-nation/">The solution can be found here</a></p>
-
-          </Subarticle>
-
-          <Subarticle subtitle="Barron Squares">
-            <p>This is a mathmatical object I made and named</p>
-
-            <p>It is a square matrix such that each row's leftmost element times its rightmost element will equal the two inner numbers (in the example below, the top row has 6*7 = 42). Similarly, each column's uppermost element times the column's lowermost element equals the middle digits (in the example, the right column is 7*8 = 56), as read top to bottom.</p>
-
-            <Photo src={barronSquareFour} alt="barronSquareFour" caption="4x4 Barron Square"/>
-
-            <p>This was then expanded on to be a 8x8 with two digit rows/columns being multiplied to get four digit products</p>
-
-            <Photo src={barronSquareEight} alt="barronSquareEight" caption="8x8 Barron Square"/>
-
-            <p>We ended up finding all 1444 4x4 Barrons Squares, several hundred 8x8 and even a few 16x16 Barron Squares. <a href="https://fivethirtyeight.com/features/can-you-crack-this-squares-hidden-code/">This was featured as a Riddler Express for FiveThirtyEight.</a></p>
-
-          </Subarticle>
 
           <Subarticle subtitle="A Geometric Puzzle">
             <p>This is a problem about finding geometric subshapes and summing their areas</p>
@@ -198,10 +202,6 @@ export default function TheRiddler() {
             <Photo src={neutColorado} alt="neutColorado" caption="Initial map without districts drawn"/>
 
             <p>We used a randomized search that would try to slightly move districts, check continuity and then check the voting results. The method resulted in uniquely shaped maps that optimized each side's winningness.</p>
-{/* 
-            video
-            image
-            tweet */}
 
           <Photo src={blueColorado} alt="blueColorado" caption="Map with districts drawn optimized for blue. Blue wins 5/7 districts after 100,000 iterative flips"/>
           <p></p>
@@ -271,7 +271,7 @@ export default function TheRiddler() {
 
           </Subarticle>
 
-        </Article>
+        </Article> */}
 
       </main>
       <Footer />

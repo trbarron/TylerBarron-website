@@ -1,5 +1,4 @@
 import React from "react";
-import analytics from '../components/Analytics.js'
 
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
@@ -13,9 +12,7 @@ export default function BoulderingTracker() {
     <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
       <main className="flex-grow">
-
-        {/* <BottomStripe/> */}
-          
+         
         <Article
           title="Bouldering Tracker" 
           subtitle=""

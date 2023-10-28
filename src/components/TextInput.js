@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/CSS/field.scss"
+import "../assets/CSS/field.css"
 
 class Input extends React.Component {
   constructor(props) {

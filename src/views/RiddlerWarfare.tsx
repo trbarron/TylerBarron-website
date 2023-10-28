@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-import analytics from '../components/Analytics.js'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -58,7 +57,6 @@ export default function RiddlerWarfare() {
   // If using in local mode change the endoint: "http://localhost:3000/api/army/get/getArmyLeaderboard "
   const submitArmyEndpoint: string = "https://eusrys31w3.execute-api.us-east-1.amazonaws.com/api/army/post/submitArmy"
   // If using in local mode change the endoint: "http://localhost:3000/api/army/post/submitArmy",
-
 
 
   // Functionally the same as getLeaderboard -- populates the leaderboard on initial load

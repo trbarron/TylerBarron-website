@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import "../assets/CSS/field.scss"
+import React, { useState } from "react";
+import "../assets/CSS/field.css"
 import useKeypress from '../assets/tools/useKeypress';
 
 const Castle = (params) => {

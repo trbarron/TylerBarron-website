@@ -2,7 +2,7 @@ module.exports = {
   theme: {
 
     fontFamily: {
-      body: ['Armata', 'sans-serif'],
+      body: ['Berkeley', 'system-ui']
     },
 
     extend: {
@@ -13,8 +13,9 @@ module.exports = {
 
       backgroundImage: theme => ({
         'background': "url('./assets/img/background.jpg')",
+        'gradient-to-red-clear': 'linear-gradient(to left, white, #018786DD)',
+        'gradient-to-blue-gray': 'linear-gradient(to left, #018786DD, #018786DD)',
       }),
-
       maxHeight: {
         '0': '0',
         '1/4': '25%',
@@ -33,10 +34,10 @@ module.exports = {
 
       colors: {
         red: {
-          light: '#EA5449',
-          DEFAULT: '#EA5449',
-          dark: '#EA5449',
-          clear: "#EA5449DD",
+          light: '#A4A4A4',
+          DEFAULT: '#03DAC6',
+          dark: '#018786',
+          clear: "#018786DD",
         },
 
         gray: {

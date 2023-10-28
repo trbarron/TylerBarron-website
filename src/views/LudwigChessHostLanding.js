@@ -4,8 +4,6 @@ import { db } from '../assets/tools/firebaseConn';
 import { ref, update } from "firebase/database";
 import { Redirect } from 'react-router-dom';
 
-import analytics from '../components/Analytics.js'
-
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
 import Subarticle from "../components/Subarticle.js";

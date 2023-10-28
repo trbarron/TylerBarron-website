@@ -1,0 +1,54 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: 'Berkeley';
+  src: url('./assets/fonts/berkeley-mono-variable-2.woff2') format('woff2'),
+    url('./assets/fonts/berkeley-mono-variable-2.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.home-link {
+  @apply cursor-pointer text-white;
+}
+
+.home-link:hover {
+  box-shadow: inset 0 -4px 0 rgba(242, 242, 242, 0.4);
+}
+
+a {
+  @apply text-red-600;
+}
+
+p {
+  @apply pl-4 pr-4 mx-auto leading-relaxed my-4 text-base text-gray-500;
+}
+
+@media (min-width: 1024px) {
+  p {
+    @apply w-11/12;
+  }
+}
+
+.cg-wrap {
+  background-image: url(./assets/img/chessOpenings/trb2.svg);
+}
+
+
+h1 {
+  @apply text-3xl lg:text-4xl leading-normal text-gray-dark p-4 border-b border-gray-500 w-full font-body;
+}
+
+h2 {
+  @apply text-2xl lg:text-3xl text-red-clear p-4 font-body;
+}
+
+h6 {
+  @apply text-center font-body;
+}
+
+hr {
+  @apply py-8;
+}

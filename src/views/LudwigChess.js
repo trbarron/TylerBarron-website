@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import analytics from '../components/Analytics.js'
 
 import Navbar from "../components/Navbar.js";
 import Footer from "../components/Footer.js";
@@ -21,7 +20,7 @@ import { useParams } from "react-router";
 
 export default function ChessOpenings() {
 
-  const [chess, setChess] = useState(new Chess());
+  const [chess, _setChess] = useState(new Chess());
   const [fen, setFen] = useState("");
   const [lastMove, setLastMove] = useState();
   const [gameOver, setGameOver] = useState("");
