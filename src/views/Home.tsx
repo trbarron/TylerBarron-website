@@ -1,24 +1,27 @@
 import React from "react";
 import Footer from "../components/Footer.js";
-import bckgrndImg from '../assets/img/background.jpg';
 import '../index.css';
 
 export default function Home() {
   return (
     <>
-      <main className="profile-page h-screen">
-        <section className="relative block h-screen">
-          <div className="absolute top-0 w-full h-full bg-no-repeat bg-cover bg-center bg-fixed" style={{ backgroundImage: `url(${bckgrndImg})` }} />
-        </section>
-        <section className="absolute w-screen justify-center h-1/5 bg-gradient-to-blue-gray z-0 grid auto-cols-auto items-center top-0 lg:w-1/2 lg:bottom-0 lg:top-auto">
+      <main className="h-screen bg-black relative">
+        
+        {/* Dark Gray Section with Transparent Text */}
+        <section className="absolute w-full h-1/5 top-0 z-10 flex items-center justify-center">
           <div className="">
-            <div className='text-3xl text-gray-light text-center md:text-left xl:text-4xl'>Barron Wasteland</div>
-            <div className='text-md text-red-light lg:text-lg xl:text-2xl'>Food for thought&ensp;//&ensp;Ideas for eating</div>
+            <div className="text-3xl text-center md:text-left xl:text-4xl text-white">
+              Barron Wasteland
+            </div>
+            <div className="text-md text-transparent bg-clip-text bg-background lg:text-lg xl:text-2xl">
+              Food for thought // Ideas for eating
+            </div>
           </div>
         </section>
 
-        <section className="absolute top-1/4 h-1/2 w-screen inset-y-0 right-0 z-10 bg-gradient-to-red-clear flex items-center justify-center lg:w-1/2 lg:h-screen lg:top-auto">
-          <ul className="mx-auto text-gray-light h-5/6 text-xl leading-normal lg:leading-relaxed md:text-2xl lg:text-3xl" style={{ width: "fit-content", height: "fit-content" }}>
+        {/* Dark Gray Section with Transparent Text for List */}
+        <section className="absolute top-1/4 h-1/2 w-full flex items-center justify-center z-10 bg-white">
+          <ul className="mx-auto h-5/6 text-xl leading-normal lg:leading-relaxed md:text-2xl lg:text-2xl text-transparent bg-clip-text bg-background" style={{ width: "fit-content", height: "fit-content" }}>
             <li><a href="/TheRiddler" className="py-1 home-link">FiveThirtyEight's The Riddler</a></li>
             <li><a href="/LudwigChess/Join" className="py-1 home-link">Ludwig Chess</a></li>
             <li><a href="/CamelUpCup" className="py-1 home-link">Camel Up Cup</a></li>
@@ -32,6 +35,7 @@ export default function Home() {
             <li><a href="/SwiftneyGame" className="py-1 home-link">The Swiftney Game</a></li>
           </ul>
         </section>
+
 
         <div className="invisible lg:visible absolute bottom-0 right-0 pb-12 pr-40 z-20">
           <a href="/Profile" className=" text-gray-light text-lg">

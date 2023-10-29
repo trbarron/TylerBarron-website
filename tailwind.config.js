@@ -10,12 +10,13 @@ module.exports = {
         xl: "49rem",
         iauto: "0",
       },
+      backgroundImage: {
+        'conic-gradient': 'conic-gradient(at top left, teal 0%, emerald 50%, gray 100%)',
+        'gradient-to-red-clear': 'linear-gradient(to left, #018786DD, black)',
+        'gradient-to-blue-gray': 'linear-gradient(to left, black, black)',
+        'background': 'radial-gradient(circle at bottom left, #0F7676, #047857, #9CA3AF)',
 
-      backgroundImage: theme => ({
-        'background': "url('./assets/img/background.jpg')",
-        'gradient-to-red-clear': 'linear-gradient(to left, white, #018786DD)',
-        'gradient-to-blue-gray': 'linear-gradient(to left, #018786DD, #018786DD)',
-      }),
+      },
       maxHeight: {
         '0': '0',
         '1/4': '25%',

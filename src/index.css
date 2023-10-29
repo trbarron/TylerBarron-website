@@ -11,15 +11,15 @@
 }
 
 .home-link {
-  @apply cursor-pointer text-white;
+  @apply cursor-pointer text-transparent bg-clip-text;
 }
 
 .home-link:hover {
-  box-shadow: inset 0 -4px 0 rgba(242, 242, 242, 0.4);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.4);
 }
 
 a {
-  @apply text-red-600;
+  @apply text-green-800;
 }
 
 p {
