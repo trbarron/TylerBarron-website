@@ -1,19 +1,15 @@
-import React, { ReactNode } from 'react';
+import React, { DetailedHTMLProps, AnchorHTMLAttributes, ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 
+// Assuming a simplified structure; you need to replace this.
 interface ImageMappings {
-  // Add your imageMappings type definition here
+  [key: string]: string;
 }
 
 interface MarkdownProps {
   markdownFile: string;
   imageMappings: ImageMappings;
-}
-
-interface HeadingProps {
-  level: number;
-  children: ReactNode;
 }
 
 interface ImageProps {
@@ -22,8 +18,7 @@ interface ImageProps {
   title?: string;
 }
 
-interface LinkProps {
-  href: string;
+interface LinkProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
   children: ReactNode;
 }
 
@@ -90,8 +85,7 @@ const Markdown: React.FC<MarkdownProps> = ({ markdownFile }) => {
           <div className="mt-4">
             <ReactMarkdown
               children={markdownFile}
-              components={components}
-              allowDangerousHtml
+              components={components as any}
             />
           </div>
         </div>
