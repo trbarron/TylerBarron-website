@@ -8,14 +8,14 @@ const Footer: React.FC = () => {
     <>
       <footer className="relative bg-offWhite pb-12 pt-8">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center md:justify-between justify-center">
-            <div className="w-full md:w-4/12 px-4 mx-auto text-center">
+          <div className="flex flex-wrap items-center justify-center">
+            <div className="w-full px-4 mx-auto text-center">
               <div className="text-sm text-gray-600">
                 <div className="text-sm">
                   <a href="https://www.tylerbarron.com/" className="text-offBlack text-md">made by Tyler Barron</a>
                 </div>
                 <div className="text-sm pb-4 text-offBlack">
-                  V3.0.2
+                  V3.0.3
                 </div>
                 <div className="mt-0 max-w-full">
                   <a href="mailto: trbbarron@gmail.com"
