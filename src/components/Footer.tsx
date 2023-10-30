@@ -21,19 +21,31 @@ const Footer: React.FC = () => {
                   <a href="mailto: trbbarron@gmail.com"
                     className="bg-white shadow-lg h-8 w-8 md:h-10 md:w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                     type="button">
-                    <img src={email} alt="email" />
+                    <img
+                      src={email}
+                      alt="email"
+                      className="max-w-8 max-h-8"
+                      />
                   </a>
 
                   <a href="https://github.com/trbarron"
                     className="bg-white shadow-lg h-8 w-8 md:h-10 md:w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                     type="button">
-                    <img src={git} alt="github" />
+                    <img
+                      src={git}
+                      alt="github"
+                      className="max-w-8 max-h-8"
+                      />
                   </a>
 
                   <a href="https://www.linkedin.com/in/tyler-barron-61972855/"
                     className="bg-white shadow-lg h-8 w-8 md:h-10 md:w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-2"
                     type="button">
-                    <img src={lin} alt="linkedin" />
+                    <img
+                      src={lin}
+                      alt="linkedin"
+                      className="max-w-8 max-h-8"
+                    />
                   </a>
                 </div>
               </div>
