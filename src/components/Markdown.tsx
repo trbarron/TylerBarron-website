@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, AnchorHTMLAttributes, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 
@@ -18,12 +18,8 @@ interface ImageProps {
   title?: string;
 }
 
-interface LinkProps extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
-  children: ReactNode;
-}
-
 const LinkComponent: React.FC<{ href: string, title?: string, children: ReactNode }> = ({ href, title, children }) => {
-  const youtubeRegex = /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)/;
+  const youtubeRegex = /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/;
   const match = href.match(youtubeRegex);
 
   if (match) {

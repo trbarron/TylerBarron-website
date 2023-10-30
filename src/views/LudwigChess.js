@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar.js";
-import Footer from "../components/Footer.tsx";
+import Footer from "../components/Footer";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Chessground from 'react-chessground'
@@ -20,7 +20,7 @@ import { useParams } from "react-router";
 
 export default function ChessOpenings() {
 
-  const [chess, _setChess] = useState(new Chess());
+  const [chess, _] = useState(new Chess());
   const [fen, setFen] = useState("");
   const [lastMove, setLastMove] = useState();
   const [gameOver, setGameOver] = useState("");

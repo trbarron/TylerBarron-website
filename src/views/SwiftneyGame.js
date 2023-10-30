@@ -2,7 +2,7 @@
 import React from "react";
 
 import Navbar from "../components/Navbar.js";
-import Footer from "../components/Footer.tsx";
+import Footer from "../components/Footer";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Photo from "../components/Photo.js";

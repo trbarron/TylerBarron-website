@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar.js';
-import Footer from '../components/Footer.tsx';
+import Footer from '../components/Footer';
 
 import backgroundImg from '../assets/img/background.jpg';
 import userImg from '../assets/img/me.jpg';

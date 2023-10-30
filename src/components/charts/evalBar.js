@@ -86,7 +86,7 @@ function EvalBar({ data }) {
         }
 
         draw();
-    }, [data, value]);
+    }, [data, value, text]);
 
 
 

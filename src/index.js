@@ -19,8 +19,6 @@ import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
 import LudwigChessAudienceChess from "./views/LudwigChessAudienceLanding";
 
-const reload = () => window.location.reload();
-
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
@@ -78,9 +76,6 @@ ReactDOM.render(
       <Route path="/LudwigChessLanding/">
         <LudwigChessAudienceChess />
       </Route>
-
-      {/* <Route path="%PUBLIC_URL%/.well-known/apple-app-site-association" onEnter={reload} /> */}
-
       <Route path="/">
         <Home />
       </Route>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Navbar from "../components/Navbar.js";
-import Footer from "../components/Footer.tsx";
+import Footer from "../components/Footer";
 import Subarticle from "../components/Subarticle.js";
 import Article from "../components/Article.js";
 import Chessground from 'react-chessground'
@@ -326,7 +326,7 @@ export default function ChessOpenings() {
 
           </div>
           <div className="pb-8"></div>
-          <div className="text-center w-full" onClick={onShowMore}><a href="#">FAQ, todo list, contact</a></div>
+          <div className="text-center w-full" onClick={onShowMore}>FAQ</div>
 
         </Subarticle>
 

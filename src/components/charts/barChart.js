@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 
 function BarChart({ data }) {
     const ref = useRef();
 
     const margin = { top: 0, right: 0, bottom: 0, left: 0 }
+    const { bottom, left } = margin;
 
     useEffect(() => {
         const width = ref.current.parentElement.offsetWidth;
@@ -14,14 +15,10 @@ function BarChart({ data }) {
             .attr("width", width)
             .attr("height", height)
         svg.append("glob")
-            .attr("transform", `translate(${margin.left},${margin.bottom})`);
-    }, []);
+            .attr("transform", `translate(${left},${bottom})`);
+    }, [bottom, left]);
 
-    useEffect(() => {
-        draw();
-    }, [data]);
-
-    const draw = () => {
+    const draw = useCallback(() => {
 
         const width = ref.current.parentElement.offsetWidth;
         const height = ref.current.parentElement.offsetHeight;
@@ -84,8 +81,11 @@ function BarChart({ data }) {
             .attr("height", 0)
             .remove()
 
-    }
+    }, [data])
 
+    useEffect(() => {
+        draw();
+    }, [data, draw]);
 
     return (
         <div className="chart">
