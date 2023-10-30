@@ -6,7 +6,7 @@ const modifiedClassName = "relative flex flex-col min-w-0 break-words bg-gray-li
 
 return (
     <>
-        <section className={"relative container mx-auto px-4 my-12"}>
+        <section className={"relative container mx-auto px-4 my-12 font-body"}>
             <div className={modifiedClassName}>
                 <div className="mt-4">
                     <h3 className="text-3xl lg:text-4xl leading-normal text-gray-dark ">

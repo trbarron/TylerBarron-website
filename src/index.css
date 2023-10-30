@@ -19,11 +19,11 @@
 }
 
 a {
-  @apply text-green-800;
+  @apply text-green-800 font-body;
 }
 
 p {
-  @apply pl-4 pr-4 mx-auto leading-relaxed my-4 text-base text-gray-500;
+  @apply pl-4 pr-4 mx-auto leading-relaxed my-4 font-body text-gray-500;
 }
 
 @media (min-width: 1024px) {
@@ -51,4 +51,8 @@ h6 {
 
 hr {
   @apply py-8;
+}
+
+blockquote {
+  @apply pl-1 border-l-4 border-gray-300 italic;
 }

@@ -24,7 +24,7 @@
 .field.active input + label {
   top: 4px;
   opacity: 1;
-  color: #b10000;
+  @apply text-red-clear
 }
 
 .field.locked {
@@ -51,16 +51,16 @@
 }
 
 .field input::-webkit-input-placeholder {
-  color: rgba(192, 0, 0, 0.8);
+  @apply text-red-clear
 }
 .field input::-moz-placeholder {
-  color: rgba(192, 0, 0, 0.8);
+  @apply text-red-clear
 }
 .field input:-ms-input-placeholder {
-  color: rgba(192, 0, 0, 0.8);
+  @apply text-red-clear
 }
 .field input:-moz-placeholder {
-  color: rgba(192, 0, 0, 0.8);
+  @apply text-red-clear
 }
 
 .field input + label {

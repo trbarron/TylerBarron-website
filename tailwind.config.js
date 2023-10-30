@@ -11,11 +11,8 @@ module.exports = {
         iauto: "0",
       },
       backgroundImage: {
-        'conic-gradient': 'conic-gradient(at top left, teal 0%, emerald 50%, gray 100%)',
-        'gradient-to-red-clear': 'linear-gradient(to left, #018786DD, black)',
-        'gradient-to-blue-gray': 'linear-gradient(to left, black, black)',
-        'background': 'radial-gradient(circle at bottom left, #0F7676, #047857, #9CA3AF)',
-
+        'background': 'radial-gradient(circle at bottom left, #F2F0E5, #FFFFFF, #9CA3AF)',
+        'text-bg': 'radial-gradient(circle at bottom left, #4385BE, #24837B, #4385BE)',
       },
       maxHeight: {
         '0': '0',
@@ -35,10 +32,18 @@ module.exports = {
 
       colors: {
         red: {
-          light: '#A4A4A4',
-          DEFAULT: '#03DAC6',
-          dark: '#018786',
+          light: '#059669',
+          DEFAULT: '#059669',
+          dark: '#059669',
           clear: "#018786DD",
+        },
+
+        offWhite: {
+          DEFAULT: '#F2F0E5'
+        },
+
+        offBlack: {
+          DEFAULT: '#1C1B1A'
         },
 
         gray: {

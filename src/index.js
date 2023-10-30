@@ -13,11 +13,11 @@ import Set from "./views/Set.tsx"
 import SSBM from "./views/SSBM.tsx"
 import SwiftneyGame from "./views/SwiftneyGame.js"
 import ChessOpenings from "./views/ChessOpenings.js"
-import MarchMadnessFAQ from "./views/MarchMadnessFAQ.tsx"
 import RiddlerWarfare from "./views/RiddlerWarfare.tsx"
 import LudwigChess from "./views/LudwigChess.js"
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
+import LudwigChessAudienceChess from "./views/LudwigChessAudienceLanding";
 
 const reload = () => window.location.reload();
 
@@ -60,10 +60,6 @@ ReactDOM.render(
         <ChessOpenings />
       </Route>
 
-      <Route path="/MarchMadnessFAQ">
-        <MarchMadnessFAQ />
-      </Route>
-
       <Route path="/RiddlerWarfare">
         <RiddlerWarfare />
       </Route>
@@ -78,6 +74,9 @@ ReactDOM.render(
 
       <Route path="/LudwigChess/">
         <LudwigChessHostLanding />
+      </Route>
+      <Route path="/LudwigChessLanding/">
+        <LudwigChessAudienceChess />
       </Route>
 
       {/* <Route path="%PUBLIC_URL%/.well-known/apple-app-site-association" onEnter={reload} /> */}

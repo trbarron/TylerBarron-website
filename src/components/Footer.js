@@ -6,7 +6,7 @@ import lin from '../assets/img/in.svg';
 export default function Footer() {
   return (
     <>
-      <footer className="relative bg-black pb-12 pt-8">
+      <footer className="relative bg-offWhite pb-12 pt-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap">
             <div className="w-full lg:w-6/12 px-4">
@@ -17,9 +17,9 @@ export default function Footer() {
             <div className="w-full md:w-4/12 px-4 mx-auto text-center">
               <div className="text-sm text-gray-600">
               <div className="text-sm">
-                  <a href="https://www.tylerbarron.com/" className="text-gray-light text-md">made by Tyler Barron</a>
+                  <a href="https://www.tylerbarron.com/" className="text-offBlack text-md">made by Tyler Barron</a>
               </div>
-              <div className="text-sm  pb-4 text-white">
+              <div className="text-sm  pb-4 text-offBlack">
                   V3.0.0
               </div>
               <div className="mt-0">

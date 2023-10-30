@@ -60,7 +60,7 @@ export default function LudwigChessHostLanding() {
                     <Subarticle
                         subtitle=""
                     >
-
+                        <p className="text-center"> Create a game to continue </p>
                         <div className="w-2/4 mx-auto h-16 pb-4">
                             <Input
                                 id={"Name"}

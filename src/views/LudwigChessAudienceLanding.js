@@ -26,17 +26,17 @@ export default function LudwigChessAudienceChess() {
             section.push(
                 <tr class={"border-b w-full " + rowClassname}>
                     <td class="p-1 w-1/6 sm:py-3 sm:px-3 lg:px-5">
-                        <a href={link} className="text-black">
+                        <a href={"/LudwigChess/" + link}>
                             {i}
                         </a>
                     </td>
                     <td class="p-1 w-2/4 sm:py-3 sm:px-3 lg:px-5">
-                        <a href={link} className="text-black">
+                        <a href={"/LudwigChess/" + link}>
                             {name}
                         </a>
                     </td>
                     <td class="p-1 w-1/4 font-bold sm:py-3 sm:px-3 lg:px-5">
-                        <a href={link}>
+                        <a href={"/LudwigChess/" + link}>
                             Join Game
                         </a>
                     </td>

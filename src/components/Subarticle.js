@@ -17,7 +17,7 @@ export default function Subarticle(props) {
     function formatChild(child) {
         if (typeof(child) === "string") {
             return(
-                <div className="w-full lg:w-11/12 px-4 my-4 text-md mx-auto leading-relaxed text-gray">
+                <div className="w-full lg:w-11/12 px-4 my-4 text-md mx-auto leading-relaxed text-gray font-body">
                     {child}
                 </div>
             )
