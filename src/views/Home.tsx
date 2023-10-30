@@ -22,7 +22,7 @@ export default function Home() {
         <section className="w-full flex items-center justify-center bg-white pt-8 pb-12">
           <div className="flex flex-col items-center w-full">
             <h2 className="ml-4 text-offBlack"> Projects </h2>
-            <ul className="mx-auto h-5/6 text-xl leading-normal lg:leading-relaxed md:text-2xl lg:text-2xl text-transparent bg-clip-text bg-text-bg" style={{ width: "fit-content", height: "fit-content" }}>
+            <ul className="mx-auto pl-6 pr-4 h-5/6 text-xl leading-normal lg:leading-relaxed md:text-2xl lg:text-2xl text-transparent bg-clip-text bg-text-bg" style={{ width: "fit-content", height: "fit-content" }}>
               <li>
                 <a href="/TheRiddler" className="py-1 home-link">FiveThirtyEight's The Riddler</a>
                 <div className="ml-6 text-sm text-gray-600 pb-2">Math puzzles and problems</div>
