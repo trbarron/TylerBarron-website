@@ -1,9 +1,9 @@
-import Navbar from '../components/Navbar.js';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import Subarticle from '../components/Subarticle.js';
-import Article from '../components/Article.js';
+import Subarticle from '../components/Subarticle';
+import Article from '../components/Article';
 import Video from '../components/Video.js';
-import Photo from '../components/Photo.js';
+import Photo from '../components/Photo';
 
 import setBoard from '../assets/img/Set/setBoard.jpg';
 import setAnswers from '../assets/img/Set/setAnswers.jpg';
@@ -19,9 +19,9 @@ export default function Set() {
           subtitle=""
         >
           <Subarticle
-            subtitle="The Family Game of Visual Perception"
+            subtitle=""
           >
-            <p>During quarantine, I found myself playing a lot of Set—a card game where you try to find sets of three cards that fit certain constraints.</p>
+            <p>During quarantine, I found myself playing a lot of Set — a card game where you try to find sets of three cards that fit certain constraints.</p>
 
             <Photo
               src={setBoard}
@@ -45,16 +45,16 @@ export default function Set() {
               caption="Hardware setup"
             />
 
-            <p>Using the Kinect as an (annoying to work with) RGB camera, I was able to capture images and process them in OpenCV and Python. The program looks at an image of the board, labels the cards, finds sets, and reports them with a refresh rate of 0.25s on my 2018 ultrabook.</p>
+            <p>Using the Kinect as an RGB camera, I was able to capture images and process them in OpenCV and Python. The program looks at an image of the board, labels the cards, finds sets, and reports them with a refresh rate of 0.25s on low powered laptop.</p>
 
-            <p>Here's a video demonstrating it:</p>
+            <p>Here's a demo:</p>
 
             <Video
               src="https://www.youtube.com/embed/U1rkMZI7B4M"
-              caption="Demoing it at the gym"
+              caption="Demoing the product"
             />
 
-            <p>I was very happy with what I was able to create in one weekend during my first hackathon. I'd definitely participate in another one in the future.</p>
+            <p>I was very happy with what I was able to create in one weekend and ended up taking first in the hackathon.</p>
           </Subarticle>
         </Article>
       </main>

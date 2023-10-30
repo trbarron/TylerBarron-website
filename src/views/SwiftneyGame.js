@@ -1,11 +1,11 @@
 
 import React from "react";
 
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Subarticle from "../components/Subarticle.js";
-import Article from "../components/Article.js";
-import Photo from "../components/Photo.js";
+import Subarticle from "../components/Subarticle";
+import Article from "../components/Article";
+import Photo from "../components/Photo";
 import Video from "../components/Video.js";
 
 import exampleProblem from "../assets/img/SwiftneyGame/exampleProblem.png"
@@ -20,8 +20,6 @@ export default function SwiftneyGame() {
     <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar/>
       <main className="flex-grow">
-
-        {/* <BottomStripe/> */}
           
         <Article
           title="The Swiftney Game" 

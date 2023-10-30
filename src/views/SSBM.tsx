@@ -1,11 +1,11 @@
 import React from "react";
 
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Subarticle from "../components/Subarticle.js";
-import Article from "../components/Article.js";
+import Subarticle from "../components/Subarticle";
+import Article from "../components/Article";
 import Video from "../components/Video.js";
-import Photo from "../components/Photo.js";
+import Photo from "../components/Photo";
 
 import falco1 from "../assets/img/SSBM/falco1.png"
 import falco2 from "../assets/img/SSBM/falco2.png"

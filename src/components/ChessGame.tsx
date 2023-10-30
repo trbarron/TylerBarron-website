@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const { firebase, Chess, ChessBoard } = window;
+declare global {
+  interface Window {
+    firebase: any;
+    Chess: any;
+    ChessBoard: any;
+  }
+}
+
+interface GameProps {
+  match: {
+    params: {
+      token: string;
+    };
+  };
+}
+
+interface GameState {
+  token: string;
+  moves?: string[];
+  p1_token?: string;
+  p2_token?: string;
+  turnText?: string;
+  statusText?: string;
+}
 
 const INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
-export default class Game extends React.Component {
+export default class Game extends Component<GameProps, GameState> {
 
-  constructor({ match: { params: { token } } }) {
-    super();
-    this.state = { token };
-    this.engine = new Chess();
+  private engine: any;
+  private board?: any;
+
+  constructor(props: GameProps) {
+    super(props);
+    this.state = { token: props.match.params.token };
+    this.engine = new window.Chess();
   }
 
   render() {
@@ -33,14 +59,14 @@ export default class Game extends React.Component {
     );
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     listenForUpdates(this.state.token, (id, game) => {
       this._updateBoard(id, game);
       this._updateInfo(game);
     });
   }
 
-  _updateInfo(game) {
+  private _updateInfo(game: any): void {
     const engine = this.engine;
     const playerNum = figurePlayer(this.state.token, game);
     this.setState({
@@ -52,7 +78,7 @@ export default class Game extends React.Component {
     });
   }
 
-  _updateBoard(id, game) {
+  private _updateBoard(id: string, game: any): void {
     const playerNum = figurePlayer(this.state.token, game);
     this.engine.load(game.fen || INITIAL_FEN);
 
@@ -64,7 +90,7 @@ export default class Game extends React.Component {
     }
   }
 
-  _initBoard(id, game) {
+  private _initBoard(id: string, game: any): any {
     const token = this.state.token;
     const engine = this.engine;
     const playerNum = figurePlayer(token, game);
@@ -76,19 +102,19 @@ export default class Game extends React.Component {
       onSnapEnd: onSnapEnd
     };
 
-    const board = ChessBoard('game-board', config);
+    const board = window.ChessBoard('game-board', config);
     if (playerNum === 2) {
       board.orientation('black');
     }
     return board;
 
-    function onDragStart(source, piece) {
+    function onDragStart(source: string, piece: string) {
       return !engine.game_over() &&
         isMyTurn(playerNum, engine.turn()) &&
         allowMove(engine.turn(), piece);
     }
 
-    function onDrop(source, target) {
+    function onDrop(source: string, target: string) {
       const m = engine.move({
         from: source,
         to: target,
@@ -108,15 +134,15 @@ export default class Game extends React.Component {
   }
 }
 
-function history(moves = []) {
+function history(moves: string[] = []): JSX.Element[] {
   return moves.map((m, idx) => <span key={m}>{idx + 1}) {m}</span>);
 }
 
-function listenForUpdates(token, cb) {
-  const db = firebase.database().ref("/games");
+function listenForUpdates(token: string, cb: (id: string, game: any) => void): void {
+  const db = window.firebase.database().ref("/games");
   ["p1_token", "p2_token"].forEach((name) => {
     const ref = db.orderByChild(name).equalTo(token);
-    ref.on('value', (ref) => {
+    ref.on('value', (ref: any) => {
       const [id, game] = parse(ref.val());
       if (!id) return;
       cb(id, game);
@@ -124,21 +150,21 @@ function listenForUpdates(token, cb) {
   });
 }
 
-function parse(tree) {
-  if (!tree) return [];
+function parse(tree: any): [string, any] {
+  if (!tree) return ["", {}];
   const keys = Object.keys(tree);
   const id = keys[0];
   const game = tree[id];
   return [id, game];
 }
 
-function games(id) {
-  return firebase
+function games(id: string) {
+  return window.firebase
     .database()
     .ref(`/games/${id}`);
 }
 
-function domain() {
+function domain(): string {
   const { hostname, port } = window.location;
   if (port) {
     return `http://${hostname}:${port}`;
@@ -147,7 +173,7 @@ function domain() {
   }
 }
 
-function pushMove(moves, move) {
+function pushMove(moves: string, move: string): string {
   if (!moves) {
     return [move].join(",");
   } else {
@@ -156,15 +182,21 @@ function pushMove(moves, move) {
   }
 }
 
-function isMyTurn(playerNum, turn) {
+function isMyTurn(playerNum: number, turn: string): boolean {
   return (playerNum === 1 && turn === 'w') || (playerNum === 2 && turn === 'b');
 }
 
-function allowMove(turn, piece) {
-  return !(turn === 'w' && piece.search(/^b/) !== -1) || (turn === 'b' && piece.search(/^w/) !== -1);
+function allowMove(turn: string, piece: string): boolean {
+  if (turn === 'w' && piece.search(/^b/) !== -1) {
+    return false;
+  } 
+  if (turn === 'b' && piece.search(/^w/) !== -1) {
+    return false;
+  }
+  return true;
 }
 
-function figurePlayer(token, { p1_token, p2_token }) {
+function figurePlayer(token: string, { p1_token, p2_token }: any): number {
   if (token === p1_token) {
     return 1;
   } else if (token === p2_token) {
@@ -174,7 +206,7 @@ function figurePlayer(token, { p1_token, p2_token }) {
   }
 }
 
-function turnText(playerNum, isMyTurn) {
+function turnText(playerNum: number, isMyTurn: boolean): string {
   if (playerNum > 0) {
     if (isMyTurn) {
       return "Your Turn";
@@ -184,11 +216,10 @@ function turnText(playerNum, isMyTurn) {
   } else {
     return "View Only";
   }
-
 }
 
-function statusText(turn, in_mate, in_draw, in_check) {
-  const moveColor = turn === 'b' ? "Black" : "White";
+function statusText(turn: string, in_mate: boolean, in_draw: boolean, in_check: boolean) {
+  const moveColor: string = turn === 'b' ? "Black" : "White";
   if (in_mate)
     return `Game Over, ${moveColor} is in checkmate`;
   else if (in_draw)

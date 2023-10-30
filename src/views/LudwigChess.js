@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Subarticle from "../components/Subarticle.js";
-import Article from "../components/Article.js";
+import Subarticle from "../components/Subarticle";
+import Article from "../components/Article";
 import Chessground from 'react-chessground'
 import Chess from "chess.js"
 import Modal from 'react-modal';
@@ -12,13 +12,13 @@ import Modal from 'react-modal';
 import { db } from '../assets/tools/firebaseConn';
 import { ref, update, onValue } from "firebase/database";
 
-import StockFish from "../components/Stockfish.js";
+import StockFish from "../components/Stockfish";
 
 import 'react-chessground/dist/styles/chessground.css'
 import EvalBar from "../components/charts/evalBar.js";
 import { useParams } from "react-router";
 
-export default function ChessOpenings() {
+export default function LudwigChess() {
 
   const [chess, _] = useState(new Chess());
   const [fen, setFen] = useState("");

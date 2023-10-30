@@ -3,17 +3,17 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch} from "react-router-dom";
 import './index.css';
 
-import Profile from "./views/Profile.tsx";
-import Home from "./views/Home.tsx";
+import Profile from "./views/Profile";
+import Home from "./views/Home";
 import TheRiddler from "./views/TheRiddler.js";
-import CamelUpCup from "./views/CamelUpCup.js";
-import GenerativeArt from "./views/GenerativeArt.js"
-import BoulderingTracker from "./views/BoulderingTracker.js"
-import Set from "./views/Set.tsx"
-import SSBM from "./views/SSBM.tsx"
+import CamelUpCup from "./views/CamelUpCup";
+import GenerativeArt from "./views/GenerativeArt"
+import BoulderingTracker from "./views/BoulderingTracker"
+import Set from "./views/Set"
+import SSBM from "./views/SSBM"
 import SwiftneyGame from "./views/SwiftneyGame.js"
 import ChessOpenings from "./views/ChessOpenings.js"
-import RiddlerWarfare from "./views/RiddlerWarfare.tsx"
+import RiddlerWarfare from "./views/RiddlerWarfare"
 import LudwigChess from "./views/LudwigChess.js"
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";

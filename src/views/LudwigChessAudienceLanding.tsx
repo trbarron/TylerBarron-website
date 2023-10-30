@@ -1,41 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactNode } from "react";
 
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Subarticle from "../components/Subarticle.js";
-import Article from "../components/Article.js";
+import Subarticle from "../components/Subarticle";
+import Article from "../components/Article";
 
 import { db } from '../assets/tools/firebaseConn';
 import { ref, onValue } from "firebase/database";
 
-export default function LudwigChessAudienceChess() {
+interface Game {
+    whiteSeat: string;
+    gameType: string;
+    blackSeat?: any;
+    gameOver?: any;
+}
 
-    const [games, setGames] = useState();
-    const formattedGames = (games) => {
-        let section = [];
+export default function LudwigChessAudienceChess(): ReactNode {
+
+    const [games, setGames] = useState<[string, string][] | undefined>(undefined);
+
+    const formattedGames = (games: [string, string][] | undefined): ReactNode[] => {
+        let section: ReactNode[] = [];
         let i = 0;
 
-        if (!games) { return }
+        if (!games) { return section; }
 
         games.forEach(game => {
             const link = game[1];
             const name = game[0];
-            const rowClassname = (i % 2 === 0) ? "bg-gray-100" : "bg-white"
+            const rowClassname = (i % 2 === 0) ? "bg-gray-100" : "bg-white";
             i++;
 
             section.push(
-                <tr class={"border-b w-full " + rowClassname}>
-                    <td class="p-1 w-1/6 sm:py-3 sm:px-3 lg:px-5">
+                <tr className={"border-b w-full " + rowClassname} key={i}>
+                    <td className="p-1 w-1/6 sm:py-3 sm:px-3 lg:px-5">
                         <a href={"/LudwigChess/" + link}>
                             {i}
                         </a>
                     </td>
-                    <td class="p-1 w-2/4 sm:py-3 sm:px-3 lg:px-5">
+                    <td className="p-1 w-2/4 sm:py-3 sm:px-3 lg:px-5">
                         <a href={"/LudwigChess/" + link}>
                             {name}
                         </a>
                     </td>
-                    <td class="p-1 w-1/4 font-bold sm:py-3 sm:px-3 lg:px-5">
+                    <td className="p-1 w-1/4 font-bold sm:py-3 sm:px-3 lg:px-5">
                         <a href={"/LudwigChess/" + link}>
                             Join Game
                         </a>
@@ -44,7 +52,7 @@ export default function LudwigChessAudienceChess() {
             );
         });
 
-        return section
+        return section;
     }
 
     useEffect(() => {
@@ -52,28 +60,24 @@ export default function LudwigChessAudienceChess() {
         const starCountRef = ref(db2, "games/");
 
         onValue(starCountRef, (snapshot) => {
-            const data = snapshot.val();
-            const availableGames = [];
+            const data = snapshot.val() as Record<string, Game>;
+            const availableGames: [string, string][] = [];
 
             for (const [key, value] of Object.entries(data)) {
-                if ((data[key].whiteSeat) && (data[key].gameType === "Public") && (!data[key].blackSeat) && (!data[key].gameOver)) {
-                    availableGames.push(
-                        [value.whiteSeat, key]
-                    )
+                if (value.whiteSeat && value.gameType === "Public" && !value.blackSeat && !value.gameOver) {
+                    availableGames.push([value.whiteSeat, key]);
                 }
             }
+
             setGames(availableGames);
         });
 
-    }, [])
-
+    }, []);
 
     return (
-
         <div className="bg-background bg-fixed min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-grow">
-
                 <Article
                     title="What is Ludwig Chess?"
                     subtitle=""
@@ -93,26 +97,23 @@ export default function LudwigChessAudienceChess() {
                     <Subarticle
                         subtitle="Play a Game"
                     >
-                        <div class="py-4 flex justify-center w-full">
-                            <table class="text-sm sm:text-md lg:text-lg bg-white shadow rounded mb-4 text-center w-full p-3">
+                        <div className="py-4 flex justify-center w-full">
+                            <table className="text-sm sm:text-md lg:text-lg bg-white shadow rounded mb-4 text-center w-full p-3">
                                 <tbody>
-                                    <tr class="border-b text-center">
-                                        <td class="p-1 w-1/6 sm:py-3 sm:px-3 lg:px-5">ID</td>
-                                        <td class="p-1 w-2/4 sm:py-3 sm:px-3 lg:px-5">Name</td>
-                                        <td class="p-1 w-1/4 font-bold sm:py-3 sm:px-3 lg:px-5">Link</td>
+                                    <tr className="border-b text-center">
+                                        <td className="p-1 w-1/6 sm:py-3 sm:px-3 lg:px-5">ID</td>
+                                        <td className="p-1 w-2/4 sm:py-3 sm:px-3 lg:px-5">Name</td>
+                                        <td className="p-1 w-1/4 font-bold sm:py-3 sm:px-3 lg:px-5">Link</td>
                                     </tr>
                                     {formattedGames(games)}
                                 </tbody>
                             </table>
                         </div>
-
-
                         <a href="/LudwigChess">
                             <div className="w-3/4 lg:w-2/4 mx-auto h-20 mb-4 bg-red rounded cursor-pointer">
                                 <button type="submit" className="w-full h-full text-center text-lg text-white place-self-center pt-2">No games? Create one!</button>
                             </div>
                         </a>
-
                     </Subarticle>
                 </Article>
             </main>

@@ -7,7 +7,6 @@ export default function Home() {
     <>
       <main className="h-screen bg-offWhite relative font-body">
 
-        {/* Dark Gray Section with Transparent Text */}
         <section className="w-full h-1/5 top-0 z-10 flex items-center justify-center">
           <div className="">
             <div className="text-3xl text-center md:text-left xl:text-4xl text-offBlack">

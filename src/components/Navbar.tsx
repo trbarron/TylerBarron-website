@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FC } from "react";
 
-export default function Navbar() {
+const Navbar: FC = () => {
   return (
     <>
       <nav
@@ -22,3 +22,5 @@ export default function Navbar() {
     </>
   );
 }
+
+export default Navbar;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from 'react-router-dom';
 
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Subarticle from "../components/Subarticle.js";
-import Article from "../components/Article.js";
+import Subarticle from "../components/Subarticle";
+import Article from "../components/Article";
 import Input from "../components/TextInput.js";
 
 import { db } from '../assets/tools/firebaseConn';

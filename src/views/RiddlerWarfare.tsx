@@ -6,10 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Castle from "../components/Castle";
 
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Article from "../components/Article.js";
-import Radiobutton from "../components/RadioButton.js";
+import Article from "../components/Article";
+import Radiobutton from "../components/RadioButton";
 import Input from "../components/TextInput.js";
 import BarChart from "../components/charts/barChart.js"
 import Axios from "axios";

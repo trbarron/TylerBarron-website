@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-import Markdown from "../components/Markdown.tsx"
+import Markdown from "../components/Markdown"
 
 const intro = `
 # FiveThirtyEight's The Riddler
