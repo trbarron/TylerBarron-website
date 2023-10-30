@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Castle from "../components/Castle";
 
 import Navbar from "../components/Navbar.js";
-import Footer from "../components/Footer.js";
+import Footer from "../components/Footer.tsx";
 import Article from "../components/Article.js";
 import Radiobutton from "../components/RadioButton.js";
 import Input from "../components/TextInput.js";

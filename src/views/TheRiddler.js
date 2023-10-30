@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar.js";
-import Footer from "../components/Footer.js";
+import Footer from "../components/Footer.tsx";
 
 import Markdown from "../components/Markdown.tsx"
 

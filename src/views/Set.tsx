@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar.js';
-import Footer from '../components/Footer.js';
+import Footer from '../components/Footer.tsx';
 import Subarticle from '../components/Subarticle.js';
 import Article from '../components/Article.js';
 import Video from '../components/Video.js';
