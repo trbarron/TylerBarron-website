@@ -87,7 +87,6 @@ export default function ChesserGuesser() {
     const c = new Chess();
     if (lockedSaveState) {
       c.load(savedFEN)
-      // setTimeout(() => getNextMove(c, []), 500);
     }
 
     return
@@ -117,15 +116,27 @@ export default function ChesserGuesser() {
                   height={"0"}
                   style={{ paddingTop: "100%" }}
                 />
+              <div class="gap-2 flex w-full mt-4 rounded">
+                <img src={whiteKingImage} alt="White King" class="w-12 h-12 flex-none" />
+                <input
+                  type="range"
+                  min="-400"
+                  max="400"
+                  value={sliderValue}
+                  onChange={handleSliderChange}
+                  className="range flex-auto cursor-pointer appearance-none bg-gradient-to-r from-gray-300 to-gray-700 h-2 my-auto rounded-lg"
+                  />
+                <img src={blackKingImage} alt="Black King" class="w-12 h-12 flex-none" />
+              </div>
               </div>
 
               <div className="justify-center text-center grid gap-y-3 h-full grid-cols-2 md:grid-cols-1 w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0">
 
-                <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
-                  <div className="w-full  text-gray border-b-2 border-green-500 py-1 md:py-2 inline-flex items-center justify-center font-bold text-md md:text-lg">
-                    Opening:
+              <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1">
+                  <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
+                    % Occurance:
                   </div>
-                  <div className="flex items-center justify-between px-4 py-2 bg-gray text-gray-light text-md h-12 md:h-32 overflow-y-auto ">
+                  <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg h-8 md:h-12 overflow-y-hidden ">
                   </div>
                 </div>
 
@@ -155,18 +166,7 @@ export default function ChesserGuesser() {
                 </button>
               </div>
             </div>
-            <div class="gap-2 flex -ml-2 w-4/5 mt-4 rounded">
-              <img src={whiteKingImage} alt="White King" class="w-12 h-12 flex-none" />
-              <input
-                type="range"
-                min="-400"
-                max="400"
-                value={sliderValue}
-                onChange={handleSliderChange}
-                className="range flex-auto cursor-pointer appearance-none bg-gradient-to-r from-gray-300 to-gray-800 h-2 my-auto rounded-lg"
-                />
-              <img src={blackKingImage} alt="Black King" class="w-12 h-12 flex-none" />
-            </div>
+
             <div className="pb-8"></div>
             <div className="text-center w-full" onClick={onShowMore}>FAQ</div>
           </Subarticle>
