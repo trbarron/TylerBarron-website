@@ -68,8 +68,8 @@ export default function ChesserGuesser() {
     const params = {
       TableName: "chesserGuesser",
       KeyConditionExpression: "#cg = :cgValue",
-      ExpressionAttributeNames: {"#cg": "cg"},
-      ExpressionAttributeValues: {":cgValue": randomCgValue}
+      ExpressionAttributeNames: { "#cg": "cg" },
+      ExpressionAttributeValues: { ":cgValue": randomCgValue }
     };
 
     try {
@@ -169,8 +169,8 @@ export default function ChesserGuesser() {
               </div>
 
               <div className="justify-center text-center grid gap-y-3 h-full grid-cols-2 md:grid-cols-1 w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0">
-                
-              <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 h-min	">
+
+                <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 h-min	">
                   <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
                     Streak:
                   </div>
@@ -220,15 +220,11 @@ export default function ChesserGuesser() {
               subtitle=""
             >
               <p>
-                Welcome to the ultimate challenge where your chess intuition meets the precision of computer analysis! In this game, you'll be presented with various chess positions, and your task is to guess the computer's evaluation of these positions.
+                Challenge yourself to guess the computer's evaluation of chess positions. Your goal is to estimate the position's value as accurately as possible, within 0.2 pawns of the computer's analysis.
               </p>
               <p>
-                Just like a grandmaster assesses a board, you'll analyze the given position. But instead of deciding on a move, you'll predict how a computer engine evaluates the position in terms of pawn units. If your guess is within 0.2 pawns of the engine's evaluation, you keep your streak alive!
+                Each correct guess extends your streak. See how long you can maintain it by matching or closely approximating the computer's precision. It's a test of your chess judgment against the engine's calculations. Keep your streak going and sharpen your evaluative skills!
               </p>
-              <p>
-                Test your skills and see how long you can maintain your streak. Are you able to think like a machine and match the precision of computer evaluations? Remember, the closer your guess to the engine's evaluation, the higher your score. Good luck, and may your chess insight be as sharp as a computer's analysis!
-              </p>
-
             </Subarticle>
           </Article>
         </div>
