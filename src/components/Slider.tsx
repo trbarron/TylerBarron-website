@@ -24,7 +24,6 @@ const VerticalSlider: React.FC<SliderProps> = ({ min, max, step = 1 }) => {
         step={step}
         className="bg-green-800 w-fit h-1 cursor-pointer slider-thumb z-10"
         onChange={handleChange}
-        orient="vertical"
       />
       <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-between">
         {Array.from({ length: (max - min) / step + 1 }, (_, i) => min + i * step).map((num) => (
