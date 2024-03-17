@@ -22,6 +22,8 @@ export default function ChesserGuesser() {
   const [streak, setStreak] = useState(0);
   const [lastSlider, setLastSlider] = useState(0);
   const [lastEval, setLastEval] = useState(0);
+  const [positiveMessage, setPositiveMessage] = useState("");
+  const [negativeMessage, setNegativeMessage] = useState("");
 
   const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
@@ -56,6 +58,45 @@ export default function ChesserGuesser() {
     return
   }
 
+  function getPositiveMessage() {
+    const messages = [
+      "Keep it up!",
+      "Nice!",
+      "Good job!",
+      "You're on a roll!",
+      "You're doing great!",
+      "You're on fire!",
+      "You're killing it!",
+      "You're unstoppable!",
+      "You're a genius!",
+      "You're a master!",
+      "You're a legend!",
+      "You're a god!",
+      "You're a beast!",
+      "You're a monster!",
+      "Lets go!",
+      "Correct!!"
+    ]
+    return messages[Math.floor(Math.random() * messages.length)] + " 👍";
+  }
+  function getNegativeMessage() {
+    const messages = [
+      "Keep trying!",
+      "Next time!",
+      "Good effort!",
+      "You'll get it!",
+      "You're close!",
+      "You're almost there!",
+      "You're getting warmer!",
+      "Close, but no cigar!",
+      "Oomph! Next time!",
+      "You're so close!",
+      "Maybe next time!",
+    ]
+    return messages[Math.floor(Math.random() * messages.length)]  + " 😓";
+  }
+
+
   const fetchRandomFEN = async (retryCount = 0) => {
     AWS.config.update({
       accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
@@ -81,6 +122,8 @@ export default function ChesserGuesser() {
       setEvalScore(data.Items[0].eval);
       setCurrentTurn(getCurrentPlayer(data.Items[0].fen));
       setFen(data.Items[0].fen);
+      setPositiveMessage(getPositiveMessage());
+      setNegativeMessage(getNegativeMessage());
 
     } catch (error) {
       console.error("Error fetching FEN from DynamoDB with cg:", randomCgValue, error);
@@ -184,7 +227,7 @@ export default function ChesserGuesser() {
                     Last Round:
                   </div>
                   <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-xs md:text-xs h-full overflow-y-hidden ">
-                    Eval: {lastEval} Diff: {lastEval - lastSlider}
+                    Eval: {lastEval} <br/> Guess: {lastSlider} <br/><br/> Diff: {lastEval - lastSlider} <br/><br/> {lastEval === 0 ? "" : (streak > 0 ? positiveMessage : negativeMessage)}
                   </div>
                 </div>
 
