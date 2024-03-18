@@ -103,7 +103,7 @@ export default function ChesserGuesserUnlimited() {
     });
 
     const dynamoDb = new AWS.DynamoDB.DocumentClient();
-    const randomCgValue = Math.floor(Math.random() * 250).toString(); // Since the range is 0-300
+    const randomCgValue = Math.floor(Math.random() * 400).toString();
     const params = {
       TableName: "chesserGuesser",
       KeyConditionExpression: "#cg = :cgValue",
