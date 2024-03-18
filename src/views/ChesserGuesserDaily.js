@@ -79,6 +79,7 @@ export default function ChesserGuesserDaily() {
       setCurrentTurn(getCurrentPlayer(data.Items[0].fen));
       setFen(data.Items[0].fen);
       setBoardOrientation(getCurrentPlayer(data.Items[0].fen).toLowerCase())
+      setSliderValue(0);
     } catch (error) {
       console.error("Error fetching FEN from DynamoDB with puzzleIindex:", puzzleIindex, error);
     }

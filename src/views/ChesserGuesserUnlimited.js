@@ -124,6 +124,8 @@ export default function ChesserGuesserUnlimited() {
       setPositiveMessage(getPositiveMessage());
       setNegativeMessage(getNegativeMessage());
       setBoardOrientation(getCurrentPlayer(data.Items[0].fen).toLowerCase())
+      setSliderValue(0);
+
 
     } catch (error) {
       console.error("Error fetching FEN from DynamoDB with cg:", randomCgValue, error);
