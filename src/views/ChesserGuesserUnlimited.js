@@ -9,7 +9,6 @@ import AWS from 'aws-sdk';
 import 'react-chessground/dist/styles/chessground.css'
 import whiteKingImage from '../assets/img/ChesserGuesser/whiteKing.png';
 import blackKingImage from '../assets/img/ChesserGuesser/blackKing.png';
-import retryImage from '../assets/img/ChesserGuesser/retry.png';
 
 export default function ChesserGuesserUnlimited() {
 
@@ -184,8 +183,8 @@ export default function ChesserGuesserUnlimited() {
                   height={"0"}
                   style={{ paddingTop: "100%" }}
                 />
-                <div class="gap-2 flex w-full mt-4 rounded">
-                  <img src={blackKingImage} alt="Black King" class="w-12 h-12 flex-none" />
+                <div className="gap-2 flex w-full mt-4 rounded">
+                  <img src={blackKingImage} alt="Black King" className="w-12 h-12 flex-none" />
                   <input
                     type="range"
                     min="-400"
@@ -194,7 +193,7 @@ export default function ChesserGuesserUnlimited() {
                     onChange={handleSliderChange}
                     className="range flex-auto cursor-pointer appearance-none bg-gradient-to-r to-gray-300 from-gray-700 h-2 my-auto rounded-lg"
                   />
-                  <img src={whiteKingImage} alt="White King" class="w-12 h-12 flex-none" />
+                  <img src={whiteKingImage} alt="White King" className="w-12 h-12 flex-none" />
                 </div>
 
                 <button
