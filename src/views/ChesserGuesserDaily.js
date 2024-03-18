@@ -78,7 +78,7 @@ export default function ChesserGuesserDaily() {
       setEvalScore(data.Items[0].eval);
       setCurrentTurn(getCurrentPlayer(data.Items[0].fen));
       setFen(data.Items[0].fen);
-
+      setBoardOrientation(getCurrentPlayer(data.Items[0].fen).toLowerCase())
     } catch (error) {
       console.error("Error fetching FEN from DynamoDB with puzzleIindex:", puzzleIindex, error);
     }
@@ -331,7 +331,7 @@ export default function ChesserGuesserDaily() {
               <div className="text-lg font-semibold text-gray-900 mt-4">Top 3 Scores:</div>
               <ol className="list-decimal list-inside">
                 {scoresData.topScores.map((score, index) => (
-                  <li key={index} className="text-base text-gray-600">{score.userName} - {(score.score).toFixed(2)}</li>
+                  <li key={index} className="text-base text-gray-600">{score.userName} : {(score.score).toFixed(2)}</li>
                 ))}
               </ol>
             </div>
