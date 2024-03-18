@@ -92,7 +92,7 @@ export default function ChesserGuesserUnlimited() {
       "You're so close!",
       "Maybe next time!",
     ]
-    return messages[Math.floor(Math.random() * messages.length)]  + " 😓";
+    return messages[Math.floor(Math.random() * messages.length)] + " 😓";
   }
 
 
@@ -156,8 +156,8 @@ export default function ChesserGuesserUnlimited() {
       <Navbar />
       <main className="flex-grow">
         <Article
-          title="Chesser Guesser"
-          subtitle="Geoguesser for Chess"
+          title="Chesser Guesser Unlimited"
+          subtitle=""
         >
           <Subarticle>
             <div className="mx-auto grid gap-x-4 grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "80% 20%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
@@ -210,40 +210,40 @@ export default function ChesserGuesserUnlimited() {
                 </button>
               </div>
 
-              <div className="justify-center text-center grid gap-y-3 h-full grid-cols-2 md:grid-cols-1 w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0">
+              <div className="justify-center text-center grid gap-y-3 h-80 md:h-full md:grid-cols-1	w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0 ">
 
-                <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 h-min	">
-                  <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
-                    Streak:
-                  </div>
-                  <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg overflow-y-hidden">
-                    {streak}
-                  </div>
-                </div>
-
-                <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1 h-60">
+                <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1 md:h-60 h-36 ">
                   <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
                     Last Round:
                   </div>
                   <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-xs md:text-xs h-full overflow-y-hidden ">
-                    Eval: {lastEval.toFixed(2)} <br/> Guess: {lastSlider.toFixed(2)} <br/><br/> Diff: {(lastEval - lastSlider).toFixed(2)} <br/><br/> {lastEval === 0 ? "" : (streak > 0 ? positiveMessage : negativeMessage)}
+                    Answer: {lastEval.toFixed(2)} <br /> Guess: {lastSlider.toFixed(2)} <br /><br /> Difference: {(lastEval - lastSlider).toFixed(2)} <br /><br /> {lastEval === 0 ? "" : (streak > 0 ? positiveMessage : negativeMessage)}
                   </div>
                 </div>
 
-                <div className={`shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1 border h-auto ${currentTurn === 'White' ? 'bg-white border-black' : 'bg-black border-white'}`}>
-                  <div className={`w-full py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md ${currentTurn === 'White' ? 'text-black' : 'text-white'}`}>
-                    Current Turn: {currentTurn}
+                <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 ">
+                  <div className="w-full text-gray border-b-2 z-30 bg-white border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
+                    Streak:
+                  </div>
+                  <div className="h-full flex items-center justify-center px-4 pb-0 -mt-3 z-10 md:pb-4 bg-gray text-gray-light text-md md:text-lg overflow-y-hidden">
+                    {streak}
                   </div>
                 </div>
 
-                <button
+                <div className={`shadow rounded-lg overflow-hidden w-full col-span-1 md:col-span-1 border ${currentTurn === 'White' ? 'bg-white border-black' : 'bg-black border-white'}`}>
+                  <div className={`w-full py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md my-auto h-full ${currentTurn === 'White' ? 'text-black' : 'text-white'}`}>
+                    {currentTurn} to move
+                  </div>
+                </div>
+
+                {/* <button
                   className="w-full bg-white text-gray-800 rounded border-b-2 border-green-500 hover:border-green-500 hover:bg-green-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center "
                   onClick={resetBoard}
                 >
                   <div className="flex w-6 h-6 mx-auto my-auto">
                     <img src={retryImage} alt="retry" className="flex-none" />
                   </div>
-                </button>
+                </button> */}
 
                 <button className="w-full bg-white text-gray-800 rounded border-b-2 border-green-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center " onClick={flipBoard}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
@@ -262,7 +262,7 @@ export default function ChesserGuesserUnlimited() {
               subtitle=""
             >
               <p>
-                Challenge yourself to guess the computer's evaluation of chess positions. Your goal is to estimate the position's value as accurately as possible -- extending your streak if you correctly guess the player ahead (or are within 0.2 pawns of the computer's analysis if its near even).
+                Challenge yourself to guess the computer's evaluation of chess positions. Your goal is to estimate the position's value as accurately as possible -- extending your streak if you correctly guess the player ahead.
               </p>
               <p>
                 Each correct guess extends your streak. See how long you can maintain it by matching or closely approximating the computer's precision. It's a test of your chess judgment against the engine's calculations. Keep your streak going and sharpen your evaluative skills!

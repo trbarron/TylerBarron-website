@@ -27,7 +27,7 @@ export default function ChesserGuesserDaily() {
   const [lastEval, setLastEval] = useState(0);
   const [lastSlider, setLastSlider] = useState(0);
   const [loadingScores, setLoadingScores] = useState(false);
-  const [scoresData, setScoresData] = useState({ userScore: null, userRank: null, topScores: [] });
+  const [scoresData, setScoresData] = useState({ userScore: null, userRank: null, totalUsers: null, topScores: [] });
 
   const { name } = useParams();
 
@@ -89,13 +89,13 @@ export default function ChesserGuesserDaily() {
     // Additional logic to handle slider value change
   };
 
-  const submitGuess = () => {
+  const submitGuess = async () => {
     const difference = Math.abs(evalScore - sliderValue) / 100;
     setTotalDifference(prevTotal => prevTotal + difference);
 
     if (turnIndex >= 5) { // Adjust based on zero indexing
-      saveUserScore();
-      setShowRankModal(true);
+      await saveUserScore(); // Ensure the score is saved before proceeding
+      setShowRankModal(true); // Show the rank modal after the score has been saved
     } else {
       setTurnIndex(prevIndex => prevIndex + 1);
       // Fetch the next puzzle based on the new turnIndex
@@ -104,10 +104,9 @@ export default function ChesserGuesserDaily() {
       fetchPuzzle(puzzleIndexBase * 5 + turnIndex + 1);
     }
 
-    setLastEval(evalScore);
-    setLastSlider(sliderValue);
+    setLastEval(evalScore / 100);
+    setLastSlider(sliderValue / 100);
   };
-
 
   function flipBoard() {
     const or = (boardOrientation === "white") ? "black" : "white"
@@ -181,13 +180,15 @@ export default function ChesserGuesserDaily() {
       const userIndex = scores.findIndex(item => item.userName === userName);
       const userScore = scores[userIndex];
       const userRank = userIndex + 1; // Adding 1 because array indexes start at 0
+      const totalUsers = scores.length;
 
       // Get top 3 scores
       const topScores = scores.slice(0, 3);
 
       return {
-        userScore: userScore ? userScore.score : null,
+        userScore: userScore ? userScore.score.toFixed(2) : null,
         userRank,
+        totalUsers,
         topScores
       };
 
@@ -216,8 +217,8 @@ export default function ChesserGuesserDaily() {
       <Navbar />
       <main className="flex-grow">
         <Article
-          title="Chesser Guesser"
-          subtitle="Geoguesser for Chess"
+          title="Chesser Guesser Daily"
+          subtitle=""
         >
           <Subarticle>
             <div className="mx-auto grid gap-x-4 grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 md:ml-iauto" style={{ gridTemplateColumns: "80% 20%", marginLeft: "-0.5rem", marginRight: "0.5rem" }}>
@@ -269,40 +270,31 @@ export default function ChesserGuesserDaily() {
                 </button>
               </div>
 
-              <div className="justify-center text-center grid gap-y-3 h-full grid-cols-2 md:grid-cols-1 w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0">
+              <div className="justify-center text-center grid gap-y-3 h-80 md:h-full md:grid-cols-1	w-full grid-cols-3 col-span-2 md:col-span-1 gap-x-4 py-2 md:py-0 ">
 
-                <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 h-min	">
-                  <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
+                <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1 md:h-60 h-36 ">
+                  <div className="w-full text-gray border-b-2 z-30 bg-white border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
+                    Last Round:
+                  </div>
+                  <div className="flex items-center justify-center px-4 pb-0 -mt-3 z-10 md:py-2 bg-gray text-gray-light text-xs md:text-xs h-full overflow-y-hidden ">
+                    Answer: {lastEval.toFixed(2)} <br /> Guess: {lastSlider.toFixed(2)} <br /><br /> Difference: {(lastEval - lastSlider).toFixed(2)}
+                  </div>
+                </div>
+
+                <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 ">
+                  <div className="w-full text-gray border-b-2 z-30 bg-white border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
                     Turn:
                   </div>
-                  <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg overflow-y-hidden">
+                  <div className="h-full flex items-center justify-center px-4 pb-0 -mt-3 z-10 md:pb-4 bg-gray text-gray-light text-md md:text-lg overflow-y-hidden">
                     {(turnIndex > 5 ? 5 : turnIndex)}
                   </div>
                 </div>
 
-                <div className="bg-white shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1 h-60">
-                  <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
-                    Last Round:
-                  </div>
-                  <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-xs md:text-xs h-full overflow-y-hidden ">
-                    Eval: {lastEval} <br /> Guess: {lastSlider} <br /><br /> Diff: {lastEval - lastSlider}
+                <div className={`shadow rounded-lg overflow-hidden w-full col-span-1 md:col-span-1 border ${currentTurn === 'White' ? 'bg-white border-black' : 'bg-black border-white'}`}>
+                  <div className={`w-full py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md my-auto h-full ${currentTurn === 'White' ? 'text-black' : 'text-white'}`}>
+                    {currentTurn} to move
                   </div>
                 </div>
-
-                <div className={`shadow rounded-lg overflow-hidden w-full col-span-3 md:col-span-1 border h-auto ${currentTurn === 'White' ? 'bg-white border-black' : 'bg-black border-white'}`}>
-                  <div className={`w-full py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md ${currentTurn === 'White' ? 'text-black' : 'text-white'}`}>
-                    Current Turn: {currentTurn}
-                  </div>
-                </div>
-
-                <button
-                  className="w-full bg-white text-gray-800 rounded border-b-2 border-green-500 hover:border-green-500 hover:bg-green-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center "
-                  onClick={() => { }}
-                >
-                  <div className="flex w-6 h-6 mx-auto my-auto">
-                    <img src={retryImage} alt="retry" className="flex-none" />
-                  </div>
-                </button>
 
                 <button className="w-full bg-white text-gray-800 rounded border-b-2 border-green-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center " onClick={flipBoard}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 mx-auto">
@@ -321,10 +313,7 @@ export default function ChesserGuesserDaily() {
               subtitle=""
             >
               <p>
-                Challenge yourself to guess the computer's evaluation of chess positions. Your goal is to estimate the position's value as accurately as possible -- extending your streak if you correctly guess the player ahead (or are within 0.2 pawns of the computer's analysis if its near even).
-              </p>
-              <p>
-                Each correct guess extends your streak. See how long you can maintain it by matching or closely approximating the computer's precision. It's a test of your chess judgment against the engine's calculations. Keep your streak going and sharpen your evaluative skills!
+                Challenge yourself to guess the computer's evaluation of chess positions. Your goal is to estimate the position's value as accurately as possible -- the best guessers of the 5 daily positions can find themselves on the highscore list!
               </p>
             </Subarticle>
           </Article>
@@ -338,11 +327,11 @@ export default function ChesserGuesserDaily() {
           ) : (
             <div>
               <div className="text-base font-normal text-gray-700">Your score: {scoresData.userScore}</div>
-              <div className="text-base font-normal text-gray-700">Your rank: {scoresData.userRank}</div>
+              <div className="text-base font-normal text-gray-700">Your rank: {scoresData.userRank} of {scoresData.totalUsers}</div>
               <div className="text-lg font-semibold text-gray-900 mt-4">Top 3 Scores:</div>
               <ol className="list-decimal list-inside">
                 {scoresData.topScores.map((score, index) => (
-                  <li key={index} className="text-base text-gray-600">{score.userName} - {score.score}</li>
+                  <li key={index} className="text-base text-gray-600">{score.userName} - {(score.score).toFixed(2)}</li>
                 ))}
               </ol>
             </div>
