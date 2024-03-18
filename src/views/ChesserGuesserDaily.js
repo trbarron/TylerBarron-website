@@ -183,7 +183,7 @@ export default function ChesserGuesserDaily() {
       const totalUsers = scores.length;
 
       // Get top 3 scores
-      const topScores = scores.slice(0, 3);
+      const topScores = scores.slice(0, 5);
 
       return {
         userScore: userScore ? userScore.score.toFixed(2) : null,
@@ -328,7 +328,7 @@ export default function ChesserGuesserDaily() {
             <div>
               <div className="text-base font-normal text-gray-700">Your score: {scoresData.userScore}</div>
               <div className="text-base font-normal text-gray-700">Your rank: {scoresData.userRank} of {scoresData.totalUsers}</div>
-              <div className="text-lg font-semibold text-gray-900 mt-4">Top 3 Scores:</div>
+              <div className="text-lg font-semibold text-gray-900 mt-4">Top 5 Scores:</div>
               <ol className="list-decimal list-inside">
                 {scoresData.topScores.map((score, index) => (
                   <li key={index} className="text-base text-gray-600">{score.userName} : {(score.score).toFixed(2)}</li>
