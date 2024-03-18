@@ -10,8 +10,10 @@ import 'react-chessground/dist/styles/chessground.css'
 import whiteKingImage from '../assets/img/ChesserGuesser/whiteKing.png';
 import blackKingImage from '../assets/img/ChesserGuesser/blackKing.png';
 import retryImage from '../assets/img/ChesserGuesser/retry.png';
+import { useParams } from 'react-router-dom';
+import Modal from '../components/Modal';
 
-export default function ChesserGuesser() {
+export default function ChesserGuesserDaily() {
 
   const [chess, setChess] = useState(new Chess())
   const [fen, setFen] = useState("")
@@ -19,85 +21,36 @@ export default function ChesserGuesser() {
   const [evalScore, setEvalScore] = useState(0);
   const [sliderValue, setSliderValue] = useState(0);
   const [currentTurn, setCurrentTurn] = useState(chess.turn() === 'w' ? 'White' : 'Black');
-  const [streak, setStreak] = useState(0);
-  const [lastSlider, setLastSlider] = useState(0);
+  const [turnIndex, setTurnIndex] = useState(0);
+  const [totalDifference, setTotalDifference] = useState(0);
+  const [showRankModal, setShowRankModal] = useState(false);
   const [lastEval, setLastEval] = useState(0);
-  const [positiveMessage, setPositiveMessage] = useState("");
-  const [negativeMessage, setNegativeMessage] = useState("");
+  const [lastSlider, setLastSlider] = useState(0);
+  const [loadingScores, setLoadingScores] = useState(false);
+  const [scoresData, setScoresData] = useState({ userScore: null, userRank: null, topScores: [] });
 
-  const handleSliderChange = (event) => {
-    setSliderValue(event.target.value);
-    // Additional logic to handle slider value change
-  };
+  const { name } = useParams();
 
-  function submitGuess() {
-    let difference = Math.abs(evalScore - sliderValue);
-    console.log("Difference:", difference);
-    let correctSide = false;
-    if (evalScore > 0.2 && sliderValue > 0) {
-      correctSide = true;
-    } else if (evalScore < -0.2 && sliderValue < 0) {
-      correctSide = true;
-    } else if (evalScore < 0.2 && evalScore > -0.2 && sliderValue < 0.2 && sliderValue > -0.2) {
-      correctSide = true;
+  useEffect(() => {
+    const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+    const puzzleIndexBase = dayOfYear % 80;
+
+    fetchPuzzle(puzzleIndexBase * 5);
+
+
+  }, [name]);
+
+  useEffect(() => {
+    if (showRankModal) {
+      setLoadingScores(true);
+      getScores(name).then(scoresData => {
+        setScoresData(scoresData);
+        setLoadingScores(false);
+      });
     }
-    if (correctSide) {
-      setStreak(streak + 1);
-    } else {
-      setStreak(0);
-    }
-    setLastEval(evalScore);
-    setLastSlider(sliderValue);
+  }, [showRankModal, name]);
 
-    return difference;
-  }
-
-  function flipBoard() {
-    const or = (boardOrientation === "white") ? "black" : "white"
-    setBoardOrientation(or);
-    return
-  }
-
-  function getPositiveMessage() {
-    const messages = [
-      "Keep it up!",
-      "Nice!",
-      "Good job!",
-      "You're on a roll!",
-      "You're doing great!",
-      "You're on fire!",
-      "You're killing it!",
-      "You're unstoppable!",
-      "You're a genius!",
-      "You're a master!",
-      "You're a legend!",
-      "You're a god!",
-      "You're a beast!",
-      "You're a monster!",
-      "Lets go!",
-      "Correct!!"
-    ]
-    return messages[Math.floor(Math.random() * messages.length)] + " 👍";
-  }
-  function getNegativeMessage() {
-    const messages = [
-      "Keep trying!",
-      "Next time!",
-      "Good effort!",
-      "You'll get it!",
-      "You're close!",
-      "You're almost there!",
-      "You're getting warmer!",
-      "Close, but no cigar!",
-      "Oomph! Next time!",
-      "You're so close!",
-      "Maybe next time!",
-    ]
-    return messages[Math.floor(Math.random() * messages.length)]  + " 😓";
-  }
-
-
-  const fetchRandomFEN = async (retryCount = 0) => {
+  const fetchPuzzle = async (puzzleIindex) => {
     AWS.config.update({
       accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
@@ -105,51 +58,157 @@ export default function ChesserGuesser() {
     });
 
     const dynamoDb = new AWS.DynamoDB.DocumentClient();
-    const randomCgValue = Math.floor(Math.random() * 250).toString(); // Since the range is 0-300
+    const cgValue = puzzleIindex.toString();
+
     const params = {
       TableName: "chesserGuesser",
       KeyConditionExpression: "#cg = :cgValue",
       ExpressionAttributeNames: { "#cg": "cg" },
-      ExpressionAttributeValues: { ":cgValue": randomCgValue }
+      ExpressionAttributeValues: { ":cgValue": cgValue }
     };
+
+    setTurnIndex(turnIndex + 1);
 
     try {
       const data = await dynamoDb.query(params).promise();
       if (!data.Items || data.Items.length === 0) {
-        console.log('No data returned for randomCgValue:', randomCgValue, 'retrying...');
-        fetchRandomFEN(retryCount + 1);
+        console.log('No data returned for cgValue:', cgValue, 'retrying...');
+        return 'rnbqkbnr/pppppppp/8/8/8/8/PRPPPPPP/RNBQKBNR b KQkq - 0 0';
       }
       setEvalScore(data.Items[0].eval);
       setCurrentTurn(getCurrentPlayer(data.Items[0].fen));
       setFen(data.Items[0].fen);
-      setPositiveMessage(getPositiveMessage());
-      setNegativeMessage(getNegativeMessage());
 
     } catch (error) {
-      console.error("Error fetching FEN from DynamoDB with cg:", randomCgValue, error);
-      if (retryCount < 2) { // Retry up to 3 times
-        fetchRandomFEN(retryCount + 1);
-      } else {
-        console.error("Failed to fetch FEN after 3 attempts");
-        return 'rnbqkbnr/pppppppp/8/8/8/8/PRPPPPPP/RNBQKBNR b KQkq - 0 0';
-      }
+      console.error("Error fetching FEN from DynamoDB with puzzleIindex:", puzzleIindex, error);
     }
   };
 
-  useEffect(() => {
-    fetchRandomFEN();
-  }, []);
+  const handleSliderChange = (event) => {
+    setSliderValue(event.target.value);
+    // Additional logic to handle slider value change
+  };
+
+  const submitGuess = () => {
+    const difference = Math.abs(evalScore - sliderValue) / 100;
+    setTotalDifference(prevTotal => prevTotal + difference);
+
+    if (turnIndex >= 5) { // Adjust based on zero indexing
+      saveUserScore();
+      setShowRankModal(true);
+    } else {
+      setTurnIndex(prevIndex => prevIndex + 1);
+      // Fetch the next puzzle based on the new turnIndex
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      const puzzleIndexBase = dayOfYear % 80;
+      fetchPuzzle(puzzleIndexBase * 5 + turnIndex + 1);
+    }
+
+    setLastEval(evalScore);
+    setLastSlider(sliderValue);
+  };
+
+
+  function flipBoard() {
+    const or = (boardOrientation === "white") ? "black" : "white"
+    setBoardOrientation(or);
+    return
+  }
+
+  const saveUserScore = async () => {
+    AWS.config.update({
+      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+      region: 'us-west-2',
+    });
+
+    const dynamoDb = new AWS.DynamoDB.DocumentClient();
+
+    const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    const userDateKey = `${name}#${currentDate}`; // Composite key of username and date
+
+    const params = {
+      TableName: "cgUserData",
+      Item: {
+        "userData": userDateKey, // Partition key
+        "score": totalDifference, // Attribute holding the score
+        "date": currentDate.toString(), // Separate attribute for the date if needed for queries
+      }
+    };
+
+    try {
+      await dynamoDb.put(params).promise();
+      console.log("Score saved successfully.");
+    } catch (error) {
+      console.error("Error saving score to DynamoDB:", error);
+    }
+  };
+
+  const getScores = async (userName) => {
+    // Configuration for DynamoDB
+    AWS.config.update({
+      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+      region: 'us-west-2',
+    });
+
+    const dynamoDb = new AWS.DynamoDB.DocumentClient();
+    const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+    const params = {
+      TableName: "cgUserData",
+      FilterExpression: "contains(#date, :dateVal)",
+      ExpressionAttributeNames: {
+        "#date": "date",
+      },
+      ExpressionAttributeValues: {
+        ":dateVal": currentDate,
+      }
+    };
+
+    try {
+      const data = await dynamoDb.scan(params).promise();
+      const scores = data.Items.map(item => ({
+        userName: item.userData.split('#')[0], // Extract userName from userData
+        score: item.score,
+        date: item.date
+      })).filter(item => item.date === currentDate);
+
+      // Sort scores in ascending order (lower is better)
+      scores.sort((a, b) => a.score - b.score);
+
+      // Find user's score and rank
+      const userIndex = scores.findIndex(item => item.userName === userName);
+      const userScore = scores[userIndex];
+      const userRank = userIndex + 1; // Adding 1 because array indexes start at 0
+
+      // Get top 3 scores
+      const topScores = scores.slice(0, 3);
+
+      return {
+        userScore: userScore ? userScore.score : null,
+        userRank,
+        topScores
+      };
+
+    } catch (error) {
+      console.error("Error fetching scores from DynamoDB:", error);
+      return {
+        userScore: null,
+        userRank: null,
+        topScores: []
+      };
+    }
+  };
+
+
+
 
   function getCurrentPlayer(fen) {
     const parts = fen.split(' '); // Split the FEN string by spaces
     const turnIndicator = parts[1]; // 'w' or 'b'
 
     return turnIndicator === 'w' ? 'White' : 'Black';
-  }
-
-  async function resetBoard() {
-    console.log('resetting board')
-    fetchRandomFEN();
   }
 
   return (
@@ -182,7 +241,7 @@ export default function ChesserGuesser() {
                   height={"0"}
                   style={{ paddingTop: "100%" }}
                 />
-                <div class="gap-2 flex w-full mt-4 rounded">
+                <div className="gap-2 flex w-full mt-4 rounded">
                   <img src={blackKingImage} alt="Black King" class="w-12 h-12 flex-none" />
                   <input
                     type="range"
@@ -199,7 +258,6 @@ export default function ChesserGuesser() {
                   className={`w-full rounded border-b-2 border-green-500 hover:border-green-600 hover:text-white shadow-md py-2 px-6 inline-flex flex-col items-center justify-center ${sliderValue === 0 ? 'bg-gray-500 text-black ' : sliderValue > 0 ? 'bg-white  text-black ' : 'bg-black text-white '}`}
                   onClick={() => {
                     submitGuess()
-                    resetBoard()
                   }}
                 >
                   <span className={`text-xs ${sliderValue === 0 ? 'bg-gray-500 text-black ' : sliderValue > 0 ? 'bg-white  text-black ' : 'bg-black text-white '}`}>
@@ -215,10 +273,10 @@ export default function ChesserGuesser() {
 
                 <div className="bg-white shadow rounded-lg overflow-hidden w-full md:col-span-1 h-min	">
                   <div className="w-full text-gray border-b-2 border-green-500 py-0 md:py-2 inline-flex items-center justify-center font-bold text-sm md:text-md">
-                    Streak:
+                    Turn:
                   </div>
                   <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-md md:text-lg overflow-y-hidden">
-                    {streak}
+                    {(turnIndex > 5 ? 5 : turnIndex)}
                   </div>
                 </div>
 
@@ -227,7 +285,7 @@ export default function ChesserGuesser() {
                     Last Round:
                   </div>
                   <div className="flex items-center justify-center px-4 py-0 md:py-2 bg-gray text-gray-light text-xs md:text-xs h-full overflow-y-hidden ">
-                    Eval: {lastEval} <br/> Guess: {lastSlider} <br/><br/> Diff: {lastEval - lastSlider} <br/><br/> {lastEval === 0 ? "" : (streak > 0 ? positiveMessage : negativeMessage)}
+                    Eval: {lastEval} <br /> Guess: {lastSlider} <br /><br /> Diff: {lastEval - lastSlider}
                   </div>
                 </div>
 
@@ -239,7 +297,7 @@ export default function ChesserGuesser() {
 
                 <button
                   className="w-full bg-white text-gray-800 rounded border-b-2 border-green-500 hover:border-green-500 hover:bg-green-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center "
-                  onClick={resetBoard}
+                  onClick={() => { }}
                 >
                   <div className="flex w-6 h-6 mx-auto my-auto">
                     <img src={retryImage} alt="retry" className="flex-none" />
@@ -273,6 +331,24 @@ export default function ChesserGuesser() {
         </div>
       </main>
       <Footer />
+      {showRankModal && (
+        <Modal onClose={() => setShowRankModal(false)}>
+          {loadingScores ? (
+            <p>Loading scores...</p>
+          ) : (
+            <div>
+              <div className="text-base font-normal text-gray-700">Your score: {scoresData.userScore}</div>
+              <div className="text-base font-normal text-gray-700">Your rank: {scoresData.userRank}</div>
+              <div className="text-lg font-semibold text-gray-900 mt-4">Top 3 Scores:</div>
+              <ol className="list-decimal list-inside">
+                {scoresData.topScores.map((score, index) => (
+                  <li key={index} className="text-base text-gray-600">{score.userName} - {score.score}</li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </Modal>
+      )}
     </div>
   );
 }

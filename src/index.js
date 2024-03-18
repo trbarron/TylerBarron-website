@@ -14,7 +14,9 @@ import Set from "./views/Set";
 import SSBM from "./views/SSBM";
 import SwiftneyGame from "./views/SwiftneyGame.js";
 import ChessOpenings from "./views/ChessOpenings.js";
-import ChesserGuesser from "./views/ChesserGuesser.js";
+import ChesserGuesserUnlimited from "./views/ChesserGuesserUnlimited.js";
+import ChesserGuesserDaily from "./views/ChesserGuesserDaily.js";
+import ChesserGuesserLanding from "./views/ChesserGuesserLanding.js";
 import RiddlerWarfare from "./views/RiddlerWarfare";
 import LudwigChess from "./views/LudwigChess.js";
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
@@ -46,7 +48,9 @@ root.render(
           <Route path="/SSBM" component={SSBM} />
           <Route path="/SwiftneyGame" component={SwiftneyGame} />
           <Route path="/ChessOpenings" component={ChessOpenings} />
-          <Route path="/ChesserGuesser" component={ChesserGuesser} />
+          <Route path="/ChesserGuesserDaily/:name" component={ChesserGuesserDaily} />
+          <Route path="/ChesserGuesserLanding" component={ChesserGuesserLanding} />
+          <Route path="/ChesserGuesserUnlimited" component={ChesserGuesserUnlimited} />
           <Route path="/RiddlerWarfare" component={RiddlerWarfare} />
           <Route path="/LudwigChess/:gameID/:name" component={LudwigChess} />
           <Route path="/LudwigChess/:gameID/" component={LudwigChessInviteLanding} />

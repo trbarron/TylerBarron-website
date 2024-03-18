@@ -35,7 +35,7 @@ export default function Home() {
                 <div className="ml-6 text-sm text-gray-600 pb-2">"Bring your own board game playing bot" competition</div>
               </li>
               <li>
-                <a href="/ChesserGuesser" className="py-1 home-link">Chesser Guesser</a>
+                <a href="/ChesserGuesserLanding" className="py-1 home-link">Chesser Guesser</a>
                 <div className="ml-6 text-sm text-gray-600 pb-2">Can you tell who is winning the chess game?</div>
               </li>
               <li>
