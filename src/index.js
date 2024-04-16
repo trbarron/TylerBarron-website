@@ -17,6 +17,7 @@ import SwiftneyGame from "./views/SwiftneyGame.js";
 import ChessOpenings from "./views/ChessOpenings.js";
 import ChesserGuesserUnlimited from "./views/ChesserGuesserUnlimited.js";
 import ChesserGuesserDaily from "./views/ChesserGuesserDaily.js";
+import ChesserGuesserBlog from "./views/ChesserGuesserBlog.tsx";
 import ChesserGuesserLanding from "./views/ChesserGuesserLanding.js";
 import RiddlerWarfare from "./views/RiddlerWarfare";
 import LudwigChess from "./views/LudwigChess.js";
@@ -53,6 +54,7 @@ root.render(
           <Route path="/ChesserGuesserDaily/:name" component={withPageViewTracking(ChesserGuesserDaily)}/>
           <Route path="/ChesserGuesserLanding" component={withPageViewTracking(ChesserGuesserLanding)}/>
           <Route path="/ChesserGuesserUnlimited" component={withPageViewTracking(ChesserGuesserUnlimited)}/>
+          <Route path="/ChesserGuesserBlog" component={withPageViewTracking(ChesserGuesserBlog)}/>
           <Route path="/RiddlerWarfare" component={withPageViewTracking(RiddlerWarfare)}/>
           <Route path="/LudwigChess/:gameID/:name" component={withPageViewTracking(LudwigChess)}/>
           <Route path="/LudwigChess/:gameID/" component={withPageViewTracking(LudwigChessInviteLanding)}/>

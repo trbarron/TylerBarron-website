@@ -43,6 +43,15 @@ export default function ChesserGuesserLandingPage() {
               </div>
             </div>
           </Subarticle>
+          <Subarticle subtitle="">
+            <div className="w-full max-w-md p-8 space-y-4 bg-white shadow-md rounded-lg">
+              <div>
+                <h2 className="text-2xl font-semibold">Blog</h2>
+                <p className="text-gray-600">Recap post on how this was created, learnings and experiences in releasing it.</p>
+                <Link to="/ChesserGuesserBlog" className="mt-4 inline-block bg-gray-300 text-offBlack font-bold py-2 px-4 rounded hover:bg-gray-400 w-full text-center">Read</Link>
+              </div>
+            </div>
+          </Subarticle>
         </div>
       </main>
       <Footer />
