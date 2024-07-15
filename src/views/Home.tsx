@@ -47,6 +47,10 @@ export default function Home() {
                 <div className="ml-6 text-sm text-gray-600 pb-2">Blotto style game-theory challenge</div>
               </li>
               <li>
+                <a href="/CatTracker/Live" className="py-1 home-link">Cat Work Tracker</a>
+                <div className="ml-6 text-sm text-gray-600 pb-2">Measuring Checo's work output</div>
+              </li>
+              <li>
                 <a href="/GenerativeArt" className="py-1 home-link">Generative Art</a>
                 <div className="ml-6 text-sm text-gray-600 pb-2">Dive into plotters and generative art</div>
               </li>

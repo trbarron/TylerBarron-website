@@ -24,6 +24,8 @@ import LudwigChess from "./views/LudwigChess.js";
 import LudwigChessHostLanding from "./views/LudwigChessHostLanding";
 import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
 import LudwigChessAudienceChess from "./views/LudwigChessAudienceLanding";
+import CatTrackerBlog from "./views/CatTrackerBlog";
+import CatTrackerLive from "./views/CatTrackerLive";
 
 // Import PostHog
 import { PostHogProvider } from 'posthog-js/react';
@@ -56,6 +58,8 @@ root.render(
           <Route path="/ChesserGuesserUnlimited" component={withPageViewTracking(ChesserGuesserUnlimited)}/>
           <Route path="/ChesserGuesserBlog" component={withPageViewTracking(ChesserGuesserBlog)}/>
           <Route path="/RiddlerWarfare" component={withPageViewTracking(RiddlerWarfare)}/>
+          <Route path="/CatTracker/Blog" component={withPageViewTracking(CatTrackerBlog)}/>
+          <Route path="/CatTracker/Live" component={withPageViewTracking(CatTrackerLive)}/>
           <Route path="/LudwigChess/:gameID/:name" component={withPageViewTracking(LudwigChess)}/>
           <Route path="/LudwigChess/:gameID/" component={withPageViewTracking(LudwigChessInviteLanding)}/>
           <Route path="/LudwigChess/" component={withPageViewTracking(LudwigChessHostLanding)}/>
