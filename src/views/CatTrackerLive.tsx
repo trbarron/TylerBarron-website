@@ -28,7 +28,7 @@ export default function ChecoLiveTracker(): JSX.Element {
         const fetchData = async () => {
             try {
                 const response = await axios.get<ApiResponse>(
-                    "https://nj3ho46btl.execute-api.us-west-2.amazonaws.com/default/checoRestEndpoint"
+                    "https://nj3ho46btl.execute-api.us-west-2.amazonaws.com/checoStage/checoRestEndpoint"
                 );
                 const data: ResponseData = JSON.parse(response.data.body);
                 setWorkTime(data.work_time);
