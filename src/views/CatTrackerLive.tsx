@@ -74,7 +74,7 @@ export default function ChecoLiveTracker(): JSX.Element {
                         <h2 className={`text-4xl font-bold ${isPresent ? "text-green-500" : "text-red-500"}`}>
                             {isPresent ? "Actively Working" : "Not Actively Working"}
                         </h2>
-                        <p className="text-3xl mt-4 mb-20">Work Time: {workTime}</p>
+                        <p className="text-3xl mt-4 mb-20">Time Worked Today: {workTime}</p>
                         <a href="/CatTracker/Blog" className="pb-8">
                             Learn more about the Cat Tracker project
                         </a>
