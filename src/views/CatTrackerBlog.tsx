@@ -21,7 +21,7 @@ export default function CatTrackerBlog() {
           <Subarticle
             subtitle=""
           >
-            <p>A familiar theme for me is having an idea and then later finding myself fully committed to it. That's what happened here with my cat, Checo.</p>
+            <p>A familiar theme for me is having an idea and then later finding myself committed to the bit too hard. That's what happened here with my cat, Checo.</p>
               
             <p>It all started with a simple curiosity: just how much does Checo work next to me? He seemed to always be there, clocking in hours by sleeping in his circle next to my desk. With a free weekend, I decided to turn this into a project to track his effort.</p>
 
@@ -32,7 +32,7 @@ export default function CatTrackerBlog() {
             />
 
             <p>To measure Checo's presence, I built a system using a Raspberry Pi W Zero 2 and a Pycam 3</p>
-            <p>The software stack includes using DynamoDB, MobileNet CNN, Lambda functions and python. </p>
+            <p>The software stack includes using DynamoDB, MobileNet CNN, API Gateway and Python in Lambda functions and on the RPi. </p>
 
             <Photo
               src={checoWorking}
@@ -41,8 +41,8 @@ export default function CatTrackerBlog() {
             />
 
             <p>The camera captures photos at regular intervals, which are then processed to determine if there's a cat in the image.</p>
-            <p>After each picture is taken the image is run through the CNN. If a cat is found (with a confidence of 0.20 or higher) then it adds to the DynamoDB</p>
-            <p>Using API Gateway we hit a lambda that calculates the time worked that day and if one entry was recent it sets his working status to "Active"</p>
+            <p>After each picture is taken the image is run through the MobileNet, a convolutional neural net design designed for image classification on low powered devices. If a cat is found (with a confidence of 0.20 or higher) then it adds an entry to our database (DynamoDB)</p>
+            <p>When a user visits the website we use API Gateway to hit a Lambda that calculates the time worked based on the total database entries on that day and determines if he is currently working based on if the most recent entry was added in the last 3 minutes.</p>
 
             <Photo
               src={vestaboard}
@@ -50,7 +50,7 @@ export default function CatTrackerBlog() {
               caption="Work time displayed on a Vestaboard"
             />
 
-            <p>It's a fun way to keep my manager, the cat, on task!</p>
+            <p>It's a fun way to keep my manager, the Checman, on task!</p>
 
             <p>See Checo's current status here: <Link to="/CatTracker/Live">Checo Live</Link></p>
           </Subarticle>
