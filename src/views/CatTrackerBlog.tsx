@@ -21,9 +21,9 @@ export default function CatTrackerBlog() {
           <Subarticle
             subtitle=""
           >
-            <p>It all started with a simple curiosity from my coworkers: just how much does my cat, Checo, work next to me?</p>
+            <p>A familiar theme for me is having an idea and then later finding myself fully committed to it. That's what happened here with my cat, Checo.</p>
               
-            <p>He seemed to always be there, clocking in hours. I decided to turn this into a side project to track his effort</p>
+            <p>It all started with a simple curiosity: just how much does Checo work next to me? He seemed to always be there, clocking in hours by sleeping in his circle next to my desk. With a free weekend, I decided to turn this into a project to track his effort.</p>
 
             <Photo
               src={checoSetup}
@@ -31,7 +31,8 @@ export default function CatTrackerBlog() {
               caption="Hardware setup for tracking Checo"
             />
 
-            <p>To measure Checo's presence, I built a system using a Raspberry Pi W Zero 2 and a Pycam 3. The camera captures photos at regular intervals, which are then processed using a MobileNet CNN to determine if there's a cat in the image </p>
+            <p>To measure Checo's presence, I built a system using a Raspberry Pi W Zero 2 and a Pycam 3</p>
+            <p>The software stack includes using DynamoDB, MobileNet CNN, Lambda functions and python. </p>
 
             <Photo
               src={checoWorking}
@@ -39,7 +40,9 @@ export default function CatTrackerBlog() {
               caption="Checo hard at work, seen from camera"
             />
 
-            <p>Whenever the model detects Checo in the image, an entry is made in a DynamoDB database. To calculate Checo's total "work time," I created an API that triggers a Lambda function which retrieves the number of entries and from that calculates the duration of Checo's work</p>
+            <p>The camera captures photos at regular intervals, which are then processed to determine if there's a cat in the image.</p>
+            <p>After each picture is taken the image is run through the CNN. If a cat is found (with a confidence of 0.20 or higher) then it adds to the DynamoDB</p>
+            <p>Using API Gateway we hit a lambda that calculates the time worked that day and if one entry was recent it sets his working status to "Active"</p>
 
             <Photo
               src={vestaboard}
@@ -47,10 +50,9 @@ export default function CatTrackerBlog() {
               caption="Work time displayed on a Vestaboard"
             />
 
-            <p>Fun way to keep my cat working! See his current status here: </p>
-            <p>
-              <a href="/CatTracker/Live">Checo Live</a>
-            </p>
+            <p>It's a fun way to keep my manager, the cat, on task!</p>
+
+            <p>See Checo's current status here: <Link to="/CatTracker/Live">Checo Live</Link></p>
           </Subarticle>
         </Article>
       </main>
