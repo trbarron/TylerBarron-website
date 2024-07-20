@@ -50,7 +50,7 @@ export default function CatTrackerBlog() {
               alt="Checo in Action"
               caption="Checo in action"
             />
-            
+            <p/>
             <Photo
               src={vestaboard}
               alt="Checo's Work Log"
