@@ -7,6 +7,7 @@ import Photo from '../components/Photo';
 import checoSetup from '../assets/img/Checo/checoSetup.png';
 import checoWorking from '../assets/img/Checo/checoWorking.jpg';
 import vestaboard from '../assets/img/Checo/vestaboard.png';
+import inAction from '../assets/img/Checo/inAction.png';
 import { Link } from "react-router-dom";
 
 export default function CatTrackerBlog() {
@@ -44,6 +45,12 @@ export default function CatTrackerBlog() {
             <p>After each picture is taken, the image is run through MobileNet, a convolutional neural net designed for image classification on low-powered devices. If a cat is found (with a confidence of 0.20 or higher), then it adds an entry to our database (DynamoDB).</p>
             <p>When a user visits the website, we use API Gateway to hit a Lambda that calculates the time worked based on the total database entries on that day and determines if he is currently working based on whether the most recent entry was added in the last 3 minutes.</p>
 
+            <Photo
+              src={inAction}
+              alt="Checo in Action"
+              caption="Checo in action"
+            />
+            
             <Photo
               src={vestaboard}
               alt="Checo's Work Log"
