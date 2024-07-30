@@ -23,6 +23,7 @@ interface ResponseData {
 export default function ChecoLiveTracker(): JSX.Element {
     const [workTime, setWorkTime] = useState<string>("0:00:00");
     const [isPresent, setIsPresent] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,8 +34,10 @@ export default function ChecoLiveTracker(): JSX.Element {
                 const data: ResponseData = JSON.parse(response.data.body);
                 setWorkTime(data.work_time);
                 setIsPresent(data.is_present);
+                setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
+                setIsLoading(false);
             }
         };
 
@@ -71,10 +74,16 @@ export default function ChecoLiveTracker(): JSX.Element {
                 <Article title="" subtitle="">
                     <div className="text-center">
                         <h2 className="text-3xl font-bold text-black">Checo Work Tracker</h2>
-                        <h2 className={`text-4xl font-bold ${isPresent ? "text-green-500" : "text-red-500"}`}>
-                            {isPresent ? "Actively Working" : "Not Actively Working"}
-                        </h2>
-                        <p className="text-3xl mt-4 mb-20">Time Worked Today: {workTime}</p>
+                        {isLoading ? (
+                            <h2 className="text-4xl font-bold text-gray-500">Loading...</h2>
+                        ) : (
+                            <>
+                                <h2 className={`text-4xl font-bold ${isPresent ? "text-green-500" : "text-red-500"}`}>
+                                    {isPresent ? "Actively Working" : "Not Actively Working"}
+                                </h2>
+                                <p className="text-3xl mt-4 mb-20">Time Worked Today: {workTime}</p>
+                            </>
+                        )}
                         <a href="/CatTracker/Blog" className="pb-8">
                             Learn more about the Cat Tracker project
                         </a>
