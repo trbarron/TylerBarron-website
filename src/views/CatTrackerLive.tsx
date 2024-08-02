@@ -32,6 +32,7 @@ export default function ChecoLiveTracker(): JSX.Element {
     const [detailedData, setDetailedData] = useState<DetailedResponseData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [showDetails, setShowDetails] = useState<boolean>(false);
+    const [isDetailedLoading, setIsDetailedLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchBasicData = async () => {
@@ -59,6 +60,7 @@ export default function ChecoLiveTracker(): JSX.Element {
     useEffect(() => {
         if (showDetails && !detailedData) {
             const fetchDetailedData = async () => {
+                setIsDetailedLoading(true);
                 try {
                     const response = await axios.get<ApiResponse>(
                         "https://nj3ho46btl.execute-api.us-west-2.amazonaws.com/checoStage/checoRestEndpoint/details"
@@ -67,9 +69,11 @@ export default function ChecoLiveTracker(): JSX.Element {
                     setDetailedData(data);
                 } catch (error) {
                     console.error("Error fetching detailed data:", error);
+                } finally {
+                    setIsDetailedLoading(false);
                 }
             };
-
+    
             fetchDetailedData();
         }
     }, [showDetails, detailedData]);
@@ -79,9 +83,8 @@ export default function ChecoLiveTracker(): JSX.Element {
     };
 
     const formatHour = (hour: number) => {
-        const adjustedHour = (hour + 5) % 24;
-        const ampm = adjustedHour >= 12 ? 'PM' : 'AM';
-        const hour12 = adjustedHour % 12 || 12;
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12;
         return `${hour12}${ampm}`;
     };
 
@@ -108,14 +111,18 @@ export default function ChecoLiveTracker(): JSX.Element {
                                     {showDetails ? "Hide Details" : "Show Details"}
                                 </button>
 
-                                {showDetails && detailedData && (
+                                {showDetails && (
                                     <div className="mt-8">
-                                        <p className="text-2xl mt-2">Last Week: {detailedData.last_week_work_time.toFixed(2)} hours</p>
-                                        <p className="text-2xl mt-2">Last 30 Days: {detailedData.thirty_days_work_time.toFixed(2)} hours</p>
-                                        <p className="text-2xl mt-2 mb-8">Lifetime: {detailedData.lifetime_work_time.toFixed(2)} hours</p>
-                                        
-                                        <h3 className="text-2xl font-bold mt-8 mb-4">Work Time Distribution (Last 30 Days)</h3>
-                                        <ResponsiveContainer width="100%" height={400}>
+                                        {isDetailedLoading ? (
+                                            <h2 className="text-2xl font-bold text-gray-500">loading details</h2>
+                                        ) : detailedData ? (
+                                            <>
+                                                <p className="text-2xl mt-2">Last Week: {detailedData.last_week_work_time.toFixed(2)} hours</p>
+                                                <p className="text-2xl mt-2">Last 30 Days: {detailedData.thirty_days_work_time.toFixed(2)} hours</p>
+                                                <p className="text-2xl mt-2 mb-8">Lifetime: {detailedData.lifetime_work_time.toFixed(2)} hours</p>
+                                                
+                                                <h3 className="text-2xl font-bold mt-8 mb-4">Work Time Distribution (Last 30 Days)</h3>
+                                                <ResponsiveContainer width="100%" height={400}>
                                         <BarChart 
                                             data={detailedData.work_time_histogram}
                                             margin={{ top: 20, right: 0, left: 0, bottom: 20 }}
@@ -137,9 +144,13 @@ export default function ChecoLiveTracker(): JSX.Element {
                                             />
                                             <Bar dataKey="count" name="Work Sessions" fill="#2E3532" />
                                         </BarChart>
-                                    </ResponsiveContainer>
-                                    </div>
-                                )}
+                                        </ResponsiveContainer>
+                                        </>
+                                    ) : (
+                                        <h2 className="text-2xl font-bold text-red-500">Error loading detailed data</h2>
+                                    )}
+                                </div>
+                            )}
                             </>
                         ) : (
                             <h2 className="text-4xl font-bold text-red-500">Error loading data</h2>
