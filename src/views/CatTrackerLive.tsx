@@ -50,7 +50,7 @@ export default function ChecoLiveTracker(): JSX.Element {
         };
 
         fetchBasicData();
-        const fetchInterval = setInterval(fetchBasicData, 1000 * 60 * 5); // Refresh every 5 minutes
+        const fetchInterval = setInterval(fetchBasicData, 1000 * 60 * 5);
 
         return () => {
             clearInterval(fetchInterval);
@@ -138,11 +138,11 @@ export default function ChecoLiveTracker(): JSX.Element {
                                                 tick={{ fontSize: 10 }}
                                             />
                                             <Tooltip 
-                                                formatter={(value) => [`${value} sessions`]}
+                                                formatter={(value) => [`${value} minutes`]}
                                                 labelFormatter={formatHour}
                                                 contentStyle={{ fontSize: 12 }}
                                             />
-                                            <Bar dataKey="count" name="Work Sessions" fill="#2E3532" />
+                                            <Bar dataKey="count" name="Work Time" fill="#2E3532" />
                                         </BarChart>
                                         </ResponsiveContainer>
                                         </>
