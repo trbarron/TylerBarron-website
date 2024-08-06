@@ -36,23 +36,6 @@ export default function ChecoLiveTracker(): JSX.Element {
     const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
 
     useEffect(() => {
-        let timer: NodeJS.Timeout | null = null;
-    
-        if (basicData && basicData.is_present) {
-            // Start the timer when the cat is actively working
-            timer = setInterval(() => {
-                setElapsedSeconds((prevSeconds) => prevSeconds + 1);
-            }, 1000);
-        } else {
-            setElapsedSeconds(0);
-        }
-    
-        return () => {
-            if (timer) clearInterval(timer);
-        };
-    }, [basicData]);
-
-    useEffect(() => {
         const fetchBasicData = async () => {
             try {
                 const response = await axios.get<ApiResponse>(
@@ -75,6 +58,40 @@ export default function ChecoLiveTracker(): JSX.Element {
             clearInterval(fetchInterval);
         };
     }, []);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout | null = null;
+
+        if (basicData && basicData.is_present) {
+            // Start the timer when the cat is actively working
+            timer = setInterval(() => {
+                setElapsedSeconds((prevSeconds) => prevSeconds + 1);
+            }, 1000);
+        } else {
+            // Reset the timer when the cat is not working
+            setElapsedSeconds(0);
+        }
+
+        // Cleanup function to clear the interval
+        return () => {
+            if (timer) clearInterval(timer);
+        };
+    }, [basicData]);
+
+    const formatTime = (totalSeconds: number): string => {
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    const getTotalWorkTime = (): string => {
+        if (!basicData) return "00:00:00";
+
+        const [hours, minutes, seconds] = basicData.work_time.split(':').map(Number);
+        const totalSeconds = hours * 3600 + minutes * 60 + seconds + elapsedSeconds;
+        return formatTime(totalSeconds);
+    };
 
     useEffect(() => {
         if (showDetails && !detailedData) {
@@ -122,14 +139,7 @@ export default function ChecoLiveTracker(): JSX.Element {
                                     {basicData.is_present ? "Actively Working" : "Not Actively Working"}
                                 </h2>
                                 <p className="text-3xl mt-4 mb-8">
-                                    Time Worked Today: {basicData.work_time}
-                                    {basicData.is_present && (
-                                        <span className="ml-2">
-                                            ({Math.floor(elapsedSeconds / 3600).toString().padStart(2, '0')}:
-                                            {Math.floor((elapsedSeconds % 3600) / 60).toString().padStart(2, '0')}:
-                                            {(elapsedSeconds % 60).toString().padStart(2, '0')})
-                                        </span>
-                                    )}
+                                    Time Worked Today: {getTotalWorkTime()}
                                 </p>
                                 
                                 <button
