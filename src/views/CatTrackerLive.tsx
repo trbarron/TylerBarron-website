@@ -33,6 +33,24 @@ export default function ChecoLiveTracker(): JSX.Element {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [isDetailedLoading, setIsDetailedLoading] = useState<boolean>(false);
+    const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout | null = null;
+    
+        if (basicData && basicData.is_present) {
+            // Start the timer when the cat is actively working
+            timer = setInterval(() => {
+                setElapsedSeconds((prevSeconds) => prevSeconds + 1);
+            }, 1000);
+        } else {
+            setElapsedSeconds(0);
+        }
+    
+        return () => {
+            if (timer) clearInterval(timer);
+        };
+    }, [basicData]);
 
     useEffect(() => {
         const fetchBasicData = async () => {
@@ -42,6 +60,7 @@ export default function ChecoLiveTracker(): JSX.Element {
                 );
                 const data: BasicResponseData = JSON.parse(response.data.body);
                 setBasicData(data);
+                setElapsedSeconds(0);
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -102,7 +121,16 @@ export default function ChecoLiveTracker(): JSX.Element {
                                 <h2 className={`text-4xl font-bold ${basicData.is_present ? "text-green-500" : "text-red-500"}`}>
                                     {basicData.is_present ? "Actively Working" : "Not Actively Working"}
                                 </h2>
-                                <p className="text-3xl mt-4 mb-8">Time Worked Today: {basicData.work_time}</p>
+                                <p className="text-3xl mt-4 mb-8">
+                                    Time Worked Today: {basicData.work_time}
+                                    {basicData.is_present && (
+                                        <span className="ml-2">
+                                            ({Math.floor(elapsedSeconds / 3600).toString().padStart(2, '0')}:
+                                            {Math.floor((elapsedSeconds % 3600) / 60).toString().padStart(2, '0')}:
+                                            {(elapsedSeconds % 60).toString().padStart(2, '0')})
+                                        </span>
+                                    )}
+                                </p>
                                 
                                 <button
                                     onClick={toggleDetails}
