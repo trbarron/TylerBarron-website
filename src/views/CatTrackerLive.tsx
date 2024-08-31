@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } fro
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Article from "../components/Article";
+import ImageDisplay from "../components/CatImage";
 
 interface ApiResponse {
     statusCode: number;
@@ -141,6 +142,8 @@ export default function ChecoLiveTracker(): JSX.Element {
                                 <p className="text-3xl mt-4 mb-8">
                                     Time Worked Today: {getTotalWorkTime()}
                                 </p>
+
+                                <ImageDisplay />
                                 
                                 <button
                                     onClick={toggleDetails}
