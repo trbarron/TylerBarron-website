@@ -131,12 +131,12 @@ export default function ChecoLiveTracker(): JSX.Element {
             <main className="flex-grow">
                 <Article title="" subtitle="">
                     <div className="text-center">
-                        <h2 className="text-3xl font-bold text-black">Checo Work Tracker</h2>
+                        <h2 className="text-3xl font-bold text-black">Cat Work Tracker</h2>
                         {isLoading ? (
                             <h2 className="text-4xl font-bold text-gray-500">Loading...</h2>
                         ) : basicData ? (
                             <>
-                                <h2 className={`text-4xl font-bold ${basicData.is_present ? "text-green-500" : "text-red-500"}`}>
+                                <h2 className={`text-4xl ${basicData.is_present ? "text-green-500" : "text-red-500"}`}>
                                     {basicData.is_present ? "Actively Working" : "Not Actively Working"}
                                 </h2>
                                 <p className="text-3xl mt-4 mb-8">
