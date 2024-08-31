@@ -131,9 +131,9 @@ export default function ChecoLiveTracker(): JSX.Element {
             <main className="flex-grow">
                 <Article title="" subtitle="">
                     <div className="text-center">
-                        <h2 className="text-3xl font-bold text-black">Cat Work Tracker</h2>
+                        <h2 className="text-3xl text-black">Cat Work Tracker</h2>
                         {isLoading ? (
-                            <h2 className="text-4xl font-bold text-gray-500">Loading...</h2>
+                            <h2 className="text-4xl text-gray-500">Loading...</h2>
                         ) : basicData ? (
                             <>
                                 <h2 className={`text-4xl ${basicData.is_present ? "text-green-500" : "text-red-500"}`}>
