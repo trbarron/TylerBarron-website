@@ -55,6 +55,10 @@ export default function Home() {
                 <div className="ml-6 text-sm text-gray-600 pb-2">Dive into plotters and generative art</div>
               </li>
               <li>
+                <a href="https://trbarron.itch.io/spheroid-zero" className="py-1 home-link">Spheroid Zero</a>
+                <div className="ml-6 text-sm text-gray-600 pb-2">A Godot game, a game jam submission</div>
+              </li>
+              <li>
                 <a href="/Set" className="py-1 home-link">Set</a>
                 <div className="ml-6 text-sm text-gray-600 pb-2">Using computer vision to play a board game</div>
               </li>
