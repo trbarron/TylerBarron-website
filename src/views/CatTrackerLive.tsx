@@ -19,6 +19,7 @@ interface ApiResponse {
 interface BasicResponseData {
     work_time: string;
     is_present: boolean;
+    cat: string;
 }
 
 interface DetailedResponseData extends BasicResponseData {
@@ -141,6 +142,17 @@ export default function ChecoLiveTracker(): JSX.Element {
                                 </h2>
                                 <p className="text-3xl mt-4 mb-8">
                                     Time Worked Today: {getTotalWorkTime()}
+                                </p>
+                                <p 
+                                className={`text-3xl mt-4 mb-8 px-4 py-2 rounded ${
+                                    basicData.cat === "Tuni" 
+                                    ? "text-gray-600 bg-gray-100" 
+                                    : basicData.cat === "Checo" 
+                                        ? "text-gray-300 bg-black" 
+                                        : ""
+                                }`}
+                                >
+                                    Cat Currently Working: {basicData.cat}
                                 </p>
 
                                 <ImageDisplay />
