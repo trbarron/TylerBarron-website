@@ -149,7 +149,7 @@ export default function ChecoLiveTracker(): JSX.Element {
                                     ? "text-gray-600 bg-gray-100" 
                                     : basicData.cat === "Checo" 
                                         ? "text-gray-300 bg-black" 
-                                        : ""
+                                        : "invisible"
                                 }`}
                                 >
                                     Cat Currently Working: {basicData.cat}
