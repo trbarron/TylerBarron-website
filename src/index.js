@@ -26,6 +26,8 @@ import LudwigChessInviteLanding from "./views/LudwigChessInviteLanding";
 import LudwigChessAudienceChess from "./views/LudwigChessAudienceLanding";
 import CatTrackerBlog from "./views/CatTrackerBlog";
 import CatTrackerLive from "./views/CatTrackerLive";
+import CollaborativeCheckmate from "./views/collaborative_checkmate/CollaborativeCheckmate";
+
 
 // Import PostHog
 import { PostHogProvider } from 'posthog-js/react';
@@ -64,6 +66,9 @@ root.render(
           <Route path="/LudwigChess/:gameID/" component={withPageViewTracking(LudwigChessInviteLanding)}/>
           <Route path="/LudwigChess/" component={withPageViewTracking(LudwigChessHostLanding)}/>
           <Route path="/LudwigChessLanding/" component={withPageViewTracking(LudwigChessAudienceChess)}/>
+          
+          <Route path="/CollaborativeCheckmate/:gameID/:name" component={withPageViewTracking(CollaborativeCheckmate)}/>
+          
           <Route path="/" component={withPageViewTracking(Home)}/>
         </Switch>
       </BrowserRouter>

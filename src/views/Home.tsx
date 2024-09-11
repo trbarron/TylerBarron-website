@@ -70,6 +70,10 @@ export default function Home() {
                 <a href="/SSBM" className="py-1 home-link">Super Smash Bros. Melee Mods</a>
                 <div className="ml-6 text-sm text-gray-600 pb-2">Collection of hardware and software mods</div>
               </li>
+              {/* <li>
+                <a href="/CollaborativeCheckmate/1/a" className="py-1 home-link">Collaborative Checkmate</a>
+                <div className="ml-6 text-sm text-gray-600 pb-2">2v2 chess :)</div>
+              </li> */}
             </ul>
           </div>
         </section>
