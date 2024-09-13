@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import './index.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { initGA, withPageViewTracking } from './analytics';
+import './index.css';
 
 // Import your views
 import Profile from "./views/Profile";
@@ -28,54 +28,38 @@ import CatTrackerBlog from "./views/CatTrackerBlog";
 import CatTrackerLive from "./views/CatTrackerLive";
 import CollaborativeCheckmate from "./views/collaborative_checkmate/CollaborativeCheckmate";
 
-
-// Import PostHog
-import { PostHogProvider } from 'posthog-js/react';
-
-const options = {
-  api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
-};
+// Initialize Google Analytics on page load
+initGA();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <PostHogProvider 
-      apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY}
-      options={options}
-    >
       <BrowserRouter>
-        <Switch>
-          <Route path="/profile" component={withPageViewTracking(Profile)}/>
-          <Route path="/TheRiddler" component={withPageViewTracking(TheRiddler)}/>
-          <Route path="/CamelUpCup" component={withPageViewTracking(CamelUpCup)}/>
-          <Route path="/GenerativeArt" component={withPageViewTracking(GenerativeArt)}/>
-          <Route path="/BoulderingTracker" component={withPageViewTracking(BoulderingTracker)}/>
-          <Route path="/Set" component={withPageViewTracking(Set)}/>
-          <Route path="/SSBM" component={withPageViewTracking(SSBM)}/>
-          <Route path="/SwiftneyGame" component={withPageViewTracking(SwiftneyGame)}/>
-          <Route path="/ChessOpenings" component={withPageViewTracking(ChessOpenings)}/>
-          <Route path="/ChesserGuesserDaily/:name" component={withPageViewTracking(ChesserGuesserDaily)}/>
-          <Route path="/ChesserGuesserLanding" component={withPageViewTracking(ChesserGuesserLanding)}/>
-          <Route path="/ChesserGuesserUnlimited" component={withPageViewTracking(ChesserGuesserUnlimited)}/>
-          <Route path="/ChesserGuesserBlog" component={withPageViewTracking(ChesserGuesserBlog)}/>
-          <Route path="/RiddlerWarfare" component={withPageViewTracking(RiddlerWarfare)}/>
-          <Route path="/CatTracker/Blog" component={withPageViewTracking(CatTrackerBlog)}/>
-          <Route path="/CatTracker/Live" component={withPageViewTracking(CatTrackerLive)}/>
-          <Route path="/LudwigChess/:gameID/:name" component={withPageViewTracking(LudwigChess)}/>
-          <Route path="/LudwigChess/:gameID/" component={withPageViewTracking(LudwigChessInviteLanding)}/>
-          <Route path="/LudwigChess/" component={withPageViewTracking(LudwigChessHostLanding)}/>
-          <Route path="/LudwigChessLanding/" component={withPageViewTracking(LudwigChessAudienceChess)}/>
-          
-          <Route path="/CollaborativeCheckmate/:gameID/:name" component={withPageViewTracking(CollaborativeCheckmate)}/>
-          
-          <Route path="/" component={withPageViewTracking(Home)}/>
-        </Switch>
+        <Routes>
+          <Route path="/profile" element={withPageViewTracking(Profile)} />
+          <Route path="/TheRiddler" element={withPageViewTracking(TheRiddler)} />
+          <Route path="/CamelUpCup" element={withPageViewTracking(CamelUpCup)} />
+          <Route path="/GenerativeArt" element={withPageViewTracking(GenerativeArt)} />
+          <Route path="/BoulderingTracker" element={withPageViewTracking(BoulderingTracker)} />
+          <Route path="/Set" element={withPageViewTracking(Set)} />
+          <Route path="/SSBM" element={withPageViewTracking(SSBM)} />
+          <Route path="/SwiftneyGame" element={withPageViewTracking(SwiftneyGame)} />
+          <Route path="/ChessOpenings" element={withPageViewTracking(ChessOpenings)} />
+          <Route path="/ChesserGuesserDaily/:name" element={withPageViewTracking(ChesserGuesserDaily)} />
+          <Route path="/ChesserGuesserLanding" element={withPageViewTracking(ChesserGuesserLanding)} />
+          <Route path="/ChesserGuesserUnlimited" element={withPageViewTracking(ChesserGuesserUnlimited)} />
+          <Route path="/ChesserGuesserBlog" element={withPageViewTracking(ChesserGuesserBlog)} />
+          <Route path="/RiddlerWarfare" element={withPageViewTracking(RiddlerWarfare)} />
+          <Route path="/CatTracker/Blog" element={withPageViewTracking(CatTrackerBlog)} />
+          <Route path="/CatTracker/Live" element={withPageViewTracking(CatTrackerLive)} />
+          <Route path="/LudwigChess/:gameID/:name" element={withPageViewTracking(LudwigChess)} />
+          <Route path="/LudwigChess/:gameID" element={withPageViewTracking(LudwigChessInviteLanding)} />
+          <Route path="/LudwigChess" element={withPageViewTracking(LudwigChessHostLanding)} />
+          <Route path="/LudwigChessLanding" element={withPageViewTracking(LudwigChessAudienceChess)} />
+          <Route path="/CollaborativeCheckmate/:gameID/:name" element={withPageViewTracking(CollaborativeCheckmate)} />
+          <Route path="/" element={withPageViewTracking(Home)} />
+        </Routes>
       </BrowserRouter>
-    </PostHogProvider>
   </React.StrictMode>
 );
-
-
-// Initialize Google Analytics on page load
-initGA();

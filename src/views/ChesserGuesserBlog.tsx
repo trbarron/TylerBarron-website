@@ -1,14 +1,35 @@
+import React from 'react';
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css";
+
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Subarticle from '../components/Subarticle';
 import Article from '../components/Article';
-import Photo from '../components/Photo';
 
 import chessBoard from '../assets/img/ChesserGuesser/screenshot.png';
 import fen from '../assets/img/ChesserGuesser/fen.png';
-import communityInteraction from '../assets/img/Chess/communityInteraction.jpg';
+import communityInteraction from '../assets/img/ChesserGuesser/fen.png';
 
 export default function ChessBlog() {
+  const images = [
+    {
+      original: chessBoard,
+      thumbnail: chessBoard,
+      description: "A sample chess position from Chesser Guesser"
+    },
+    {
+      original: fen,
+      thumbnail: fen,
+      description: "How FEN Notation is used to represent a chess position"
+    },
+    {
+      original: communityInteraction,
+      thumbnail: communityInteraction,
+      description: "Community interaction with Chesser Guesser"
+    }
+  ];
+
   return (
     <div className="bg-background bg-fixed min-h-screen flex flex-col">
       <Navbar />
@@ -22,16 +43,11 @@ export default function ChessBlog() {
           >
             <p>Inspired by GeoGuessr, Chesser Guesser challenges players to estimate the computer's evaluation of chess positions. Players try to estimate the value of specific chess positions as accurately as possible, matching or closely approximating the engine's evaluation to extend their streak. The goal is to sharpen your evaluative skills by understanding why certain positions are deemed advantageous or disadvantageous by the computer.</p>
 
-            <Photo
-              src={chessBoard}
-              alt="Chess Board Analysis"
-              caption="A sample chess position from Chesser Guesser"
-            />
+            <ImageGallery items={images} />
 
           </Subarticle>
-
-      </Article>
-      <Article
+        </Article>
+        <Article
           title=""
           subtitle=""
         >
@@ -40,19 +56,11 @@ export default function ChessBlog() {
           >
             <p>The game integrates with the <a href='https://lichess.org/@/lichess/blog/thousands-of-stockfish-analysers/WN-gLzAA'>Lichess Cloud Analysis</a> to fetch position evaluations at scale, giving access to all the positions and their evaluations without me having to do any work. Having this resource made the tough part of this project incredibly easy.</p>
             
-            <Photo
-              src={fen}
-              alt="FEN Notation Example"
-              caption="How FEN Notation is used to represent a chess position"
-            />
-
             <p>Chesser Guesser uses Python connected to several Amazon DynamoDB instances for data storage. Lichess gives us a huge number of analyzed positions – we get to parse those down and only insert the interesting ones for our game. The criteria used was: </p>
             <p className='pl-8'>- The evaluation is not above 400 centipawns (a centipawn is a unit of advantage, with 100 ~= 1 pawn's advantage) in either direction or between -50 and 50 centipawns</p>
             <p className='pl-8'>- The same number of entries must be given for both the black and white side</p>
             <p className='pl-8'>- There are less than 5 pawns on any rank, to remove most analysis being on openings</p>
             <p>A total of 400 evaluations were added, although thousands meet the criteria and there are over a million with saved analysis</p>
-            
-
           </Subarticle>
           <Subarticle
             subtitle="The User Generated Content"

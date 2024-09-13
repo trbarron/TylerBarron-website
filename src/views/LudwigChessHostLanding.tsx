@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -19,7 +19,7 @@ export default function LudwigChessHostLanding(): JSX.Element {
     
     if (gameID) {
         let urlName = name || "AnonymousUser";
-        return <Redirect to={`/ludwigchess/${gameID}/${urlName}`} />;
+        return <Navigate to={`/ludwigchess/${gameID}/${urlName}`} replace />;
     }
 
     const createGame = (e: FormEvent<HTMLFormElement>): void => {

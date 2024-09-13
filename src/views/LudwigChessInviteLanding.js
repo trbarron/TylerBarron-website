@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -10,20 +10,15 @@ import Input from "../components/TextInput.js";
 import { db } from '../assets/tools/firebaseConn';
 import { ref, onValue } from "firebase/database";
 
-import { useParams } from "react-router";
-
 export default function LudwigChessInviteLanding() {
-    const [joinGame, setJoinGame] = useState(false);
-    const [name, setName] = useState(false);
-    const [otherPlayers, setOtherPlayers] = useState();
+    const [name, setName] = useState("");
+    const [otherPlayers, setOtherPlayers] = useState("");
 
-    const { gameID } = useParams()
-
+    const { gameID } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const db2 = db;
-        const starCountRef = ref(db2, "games/" + gameID);
-
+        const starCountRef = ref(db, "games/" + gameID);
 
         onValue(starCountRef, (snapshot) => {
             const data = snapshot.val();
@@ -43,63 +38,45 @@ export default function LudwigChessInviteLanding() {
         }, {
             onlyOnce: true
         });
-
-
-
-
     }, [gameID])
 
-    if (joinGame) {
-        let urlName = name;
-        if (!urlName) {
-            urlName = "secret user"
-        }
-        return <Redirect to={"/ludwigchess/" + gameID + "/" + urlName} />
-    }
-
-
-    function handleJoinGame() {
-        setJoinGame(true);
+    function handleJoinGame(e) {
+        e.preventDefault();
+        const urlName = name || "secret user";
+        navigate(`/ludwigchess/${gameID}/${urlName}`);
     }
 
     return (
-
-
         <div className="bg-background bg-fixed min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-grow">
-
                 <Article
                     title="Ludwig Chess"
                     subtitle=""
                 >
-
                     <Subarticle
                         subtitle=""
                     >
-
                         <div className="text-center pb-4">
-                            {(otherPlayers) ? "Join a game with " + otherPlayers : ""}
+                            {otherPlayers ? `Join a game with ${otherPlayers}` : ""}
                         </div>
 
                         <div className="w-2/4 mx-auto h-16 pb-4">
                             <Input
-                                id={"Name"}
-                                label={"Name"}
+                                id="Name"
+                                label="Name"
                                 handleChange={(e) => setName(e)}
                                 tabIndex={0}
-                                autoComplete={false}
+                                autoComplete="off"
                             />
                         </div>
-                        <form onSubmit={(e) => handleJoinGame()} action='#'>
+                        <form onSubmit={handleJoinGame}>
                             <div className="w-1/4 mx-auto h-12 mb-4 bg-white rounded cursor-pointer">
                                 <button type="submit" className="w-full h-full text-center text-lg place-self-center pt-2">Join Game</button>
                             </div>
                         </form>
-
                     </Subarticle>
                 </Article>
-
             </main>
             <Footer />
         </div>

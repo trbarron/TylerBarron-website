@@ -16,7 +16,7 @@ Deno.serve(async (req) => {
   
   const { gameID, color } = await req.json()
 
-  if (!gameID || !color || (color !== 'white' && color !== 'black')) {
+  if (!gameID || !color || (color !== 'w' && color !== 'b')) {
     return new Response(JSON.stringify({ error: 'Invalid input parameters' }), {
       status: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
       .from('move_selections')
       .select('*')
       .eq('game_id', gameID)
-      .in('player_name', color === 'white' ? ['w_1', 'w_2'] : ['b_1', 'b_2'])
+      .in('player_name', color === 'w' ? ['w_one', 'w_two'] : ['b_one', 'b_two'])
 
     if (moveSelectionsError) throw moveSelectionsError
 
@@ -58,8 +58,8 @@ Deno.serve(async (req) => {
       .from('games')
       .update({
         fen: selectedMove.suggested_fen,
-        current_team: color === 'white' ? 'black' : 'white',
-        last_move_time: new Date().toISOString(),
+        current_team: color === 'w' ? 'b' : 'w',
+        updated_at: new Date().toISOString(),
       })
       .eq('game_id', gameID)
 

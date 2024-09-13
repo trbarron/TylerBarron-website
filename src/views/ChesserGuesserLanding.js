@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Subarticle from "../components/Subarticle";
@@ -8,7 +8,7 @@ import Modal from '../components/Modal'; // Import your Modal component
 export default function ChesserGuesserLandingPage() {
   const [showModal, setShowModal] = useState(false);
   const [username, setUsername] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -19,7 +19,7 @@ export default function ChesserGuesserLandingPage() {
   };
 
   const handleSubmitUsername = () => {
-    history.push(`/ChesserGuesserDaily/${username}`);
+    navigate(`/ChesserGuesserDaily/${username}`);
   };
 
   return (

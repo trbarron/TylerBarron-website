@@ -1,0 +1,56 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { isPlayerTurn } from '../../utils/chessHelpers';
+
+const useGameTimer = (turnDuration, chess, playerRole, gameOver, submitMove) => {
+  const [timeRemaining, setTimeRemaining] = useState(turnDuration);
+  const [gamePhase, setGamePhase] = useState('Waiting');
+  const timerRef = useRef(null);
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const startTimer = useCallback(() => {
+    clearTimer();
+    setTimeRemaining(turnDuration);
+    setGamePhase(isPlayerTurn(playerRole, chess) ? 'Your Turn' : 'Opponent\'s Turn');
+
+    timerRef.current = setInterval(() => {
+      setTimeRemaining((prevTime) => {
+        if (prevTime <= 1) {
+          clearTimer();
+          if (isPlayerTurn(playerRole, chess)) {
+            submitMove();
+            setGamePhase('Move Evaluation');
+          } else {
+            setGamePhase('Opponent\'s Move Evaluation');
+          }
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+  }, [turnDuration, chess, playerRole, clearTimer, submitMove]);
+
+  useEffect(() => {
+    if (gameOver) {
+      clearTimer();
+      setGamePhase('Game Over');
+    } else if (chess.turn() === 'w' || chess.turn() === 'b') {
+      startTimer();
+    }
+
+    return clearTimer;
+  }, [chess, gameOver, clearTimer, startTimer]);
+
+  return {
+    timeRemaining,
+    gamePhase,
+    startTimer
+  };
+};
+
+export default useGameTimer;

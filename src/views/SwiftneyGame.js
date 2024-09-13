@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Subarticle from "../components/Subarticle";
 import Article from "../components/Article";
-import Photo from "../components/Photo";
 import Video from "../components/Video.js";
 
 import exampleProblem from "../assets/img/SwiftneyGame/exampleProblem.png"

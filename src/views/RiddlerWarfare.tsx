@@ -112,7 +112,7 @@ export default function RiddlerWarfare() {
             <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{name}</td>
             <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{armyWins}</td>
             <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{armyGamesPlayed - armyWins}</td>
-            <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{(Math.round(armyWins * 1000 / armyGamesPlayed) / 1000).toString}</td>
+            {/* <td className="p-1 sm:py-3 sm:px-3 lg:px-5">{(Math.round(armyWins * 1000 / armyGamesPlayed) / 1000).toString}</td> */}
           </tr>
         );
       }

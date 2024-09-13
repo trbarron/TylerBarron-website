@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import Subarticle from "../components/Subarticle";
 import Article from "../components/Article";
 import Chessground from 'react-chessground'
-import Chess from "chess.js"
+import { Chess } from 'chess.js';
 import Modal from 'react-modal';
 
 

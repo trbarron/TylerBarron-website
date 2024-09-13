@@ -1,10 +1,12 @@
 module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html",
+  ],
   theme: {
-
     fontFamily: {
       body: ['Berkeley', 'system-ui']
     },
-
     extend: {
       spacing: {
         xl: "49rem",
@@ -21,7 +23,6 @@ module.exports = {
         '3/4': '75%',
         'full': '100%',
       },
-
       maxWidth: {
         '0': '0',
         '1/4': '25%',
@@ -29,7 +30,6 @@ module.exports = {
         '3/4': '75%',
         'full': '100%',
       },
-
       colors: {
         red: {
           light: '#059669',
@@ -37,15 +37,12 @@ module.exports = {
           dark: '#059669',
           clear: "#018786DD",
         },
-
         offWhite: {
           DEFAULT: '#F2F0E5'
         },
-
         offBlack: {
           DEFAULT: '#1C1B1A'
         },
-
         gray: {
           light: '#f2f2f2',
           DEFAULT: '#2E3532',
@@ -54,10 +51,6 @@ module.exports = {
         },
       },
     }
-
-  },
-  variants: {
-
   },
   plugins: [],
 }
